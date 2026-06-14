@@ -9,6 +9,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { PlayerTrack } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -184,3 +185,23 @@ export function PlayerShellExpanded({
     </SEIPanel>
   );
 }
+
+export default memo(PlayerShellExpanded, (prevProps, nextProps) => {
+  // Custom comparison for PlayerTrack object
+  if (prevProps.track !== nextProps.track) {
+    // Deep compare track properties that affect rendering
+    return (
+      prevProps.track.title === nextProps.track.title &&
+      prevProps.track.artist === nextProps.track.artist &&
+      prevProps.track.project === nextProps.track.project &&
+      prevProps.track.progress === nextProps.track.progress &&
+      prevProps.track.duration === nextProps.track.duration &&
+      JSON.stringify(prevProps.track.queue) === JSON.stringify(nextProps.track.queue) &&
+      JSON.stringify(prevProps.track.metadata) === JSON.stringify(nextProps.track.metadata)
+    );
+  }
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

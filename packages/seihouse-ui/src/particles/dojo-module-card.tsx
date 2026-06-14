@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, CheckCircle2, GraduationCap, Layers3 } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { DojoModule } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -115,3 +116,22 @@ export function DojoModuleCard({ module, variant = "default", className }: DojoM
     </SEICard>
   );
 }
+
+export default memo(DojoModuleCard, (prevProps, nextProps) => {
+  // Custom comparison for DojoModule object
+  if (prevProps.module !== nextProps.module) {
+    // Deep compare module properties that affect rendering
+    return (
+      prevProps.module.title === nextProps.module.title &&
+      prevProps.module.description === nextProps.module.description &&
+      prevProps.module.difficulty === nextProps.module.difficulty &&
+      prevProps.module.category === nextProps.module.category &&
+      prevProps.module.status === nextProps.module.status &&
+      prevProps.module.progress === nextProps.module.progress
+    );
+  }
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

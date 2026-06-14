@@ -7,35 +7,20 @@ export { SEICard, type SEICardProps } from "./primitives/sei-card";
 export { SEIPanel, type SEIPanelProps } from "./primitives/sei-panel";
 export { SEISection, type SEISectionProps } from "./primitives/sei-section";
 
-export {
-  ActionStrip,
-  type ActionStripAction,
-  type ActionStripProps,
-} from "./particles/action-strip";
-export { AlbumCard, type AlbumCardProps } from "./particles/album-card";
-export { ArtistCard, type ArtistCardProps } from "./particles/artist-card";
-export { DojoModuleCard, type DojoModuleCardProps } from "./particles/dojo-module-card";
-export { MediaCard, type MediaCardProps } from "./particles/media-card";
-export { MetricCard, type MetricCardProps } from "./particles/metric-card";
-export {
-  PlayerShellExpanded,
-  type PlayerShellExpandedProps,
-} from "./particles/player-shell-expanded";
-export { PlayerShellPreview, type PlayerShellPreviewProps } from "./particles/player-shell-preview";
-export {
-  PluginSlotPreview,
-  type PluginSlotKind,
-  type PluginSlotPreviewProps,
-} from "./particles/plugin-slot-preview";
-export { RegistryPanel, type RegistryPanelProps } from "./particles/registry-panel";
-export {
-  RegistrySeal,
-  type RegistrySealProps,
-  type RegistryStatus,
-} from "./particles/registry-seal";
-export { ShowcaseBlock, type ShowcaseBlockProps } from "./particles/showcase-block";
-export { ShowcaseHero, type ShowcaseHeroProps } from "./particles/showcase-hero";
-export { VaultFragmentCard, type VaultFragmentCardProps } from "./particles/vault-fragment-card";
+export { default as ActionStrip, type ActionStripAction, type ActionStripProps } from "./particles/action-strip";
+export { default as AlbumCard, type AlbumCardProps } from "./particles/album-card";
+export { default as ArtistCard, type ArtistCardProps } from "./particles/artist-card";
+export { default as DojoModuleCard, type DojoModuleCardProps } from "./particles/dojo-module-card";
+export { default as MediaCard, type MediaCardProps } from "./particles/media-card";
+export { default as MetricCard, type MetricCardProps } from "./particles/metric-card";
+export { default as PlayerShellExpanded, type PlayerShellExpandedProps } from "./particles/player-shell-expanded";
+export { default as PlayerShellPreview, type PlayerShellPreviewProps } from "./particles/player-shell-preview";
+export { default as PluginSlotPreview, type PluginSlotKind, type PluginSlotPreviewProps } from "./particles/plugin-slot-preview";
+export { default as RegistryPanel, type RegistryPanelProps } from "./particles/registry-panel";
+export { default as RegistrySeal, type RegistrySealProps, type RegistryStatus } from "./particles/registry-seal";
+export { default as ShowcaseBlock, type ShowcaseBlockProps } from "./particles/showcase-block";
+export { default as ShowcaseHero, type ShowcaseHeroProps } from "./particles/showcase-hero";
+export { default as VaultFragmentCard, type VaultFragmentCardProps } from "./particles/vault-fragment-card";
 
 export {
   SEIDialog,
@@ -264,10 +249,14 @@ export {
 // --- Scroll / overflow (Phase 6) ---
 export {
   SEIScrollArea,
+  SEIVirtualScrollArea,
   SEIScrollLane,
+  getVirtualRange,
   getScrollShadows,
   type SEIScrollAreaProps,
+  type SEIVirtualScrollAreaProps,
   type SEIScrollLaneProps,
+  type VirtualRange,
 } from "./scroll";
 
 // --- Media primitives (Phase 6) ---

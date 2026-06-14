@@ -1,5 +1,6 @@
 import { Archive, ArrowRight, Clock3, FileArchive, Sparkles } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { VaultFragment } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -119,3 +120,23 @@ export function VaultFragmentCard({
     </SEICard>
   );
 }
+
+export default memo(VaultFragmentCard, (prevProps, nextProps) => {
+  // Custom comparison for VaultFragment object
+  if (prevProps.fragment !== nextProps.fragment) {
+    // Deep compare fragment properties that affect rendering
+    return (
+      prevProps.fragment.title === nextProps.fragment.title &&
+      prevProps.fragment.context === nextProps.fragment.context &&
+      prevProps.fragment.date === nextProps.fragment.date &&
+      prevProps.fragment.duration === nextProps.fragment.duration &&
+      prevProps.fragment.type === nextProps.fragment.type &&
+      prevProps.fragment.status === nextProps.fragment.status &&
+      JSON.stringify(prevProps.fragment.tags) === JSON.stringify(nextProps.fragment.tags)
+    );
+  }
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

@@ -1,5 +1,6 @@
 import { ArrowRight, Disc3, Library, Tag } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { Album } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -145,3 +146,23 @@ export function AlbumCard({ album, variant = "default", className }: AlbumCardPr
     />
   );
 }
+
+export default memo(AlbumCard, (prevProps, nextProps) => {
+  // Custom comparison for Album object
+  if (prevProps.album !== nextProps.album) {
+    // Deep compare album properties that affect rendering
+    return (
+      prevProps.album.title === nextProps.album.title &&
+      prevProps.album.artist === nextProps.album.artist &&
+      prevProps.album.year === nextProps.album.year &&
+      prevProps.album.description === nextProps.album.description &&
+      prevProps.album.releaseType === nextProps.album.releaseType &&
+      prevProps.album.status === nextProps.album.status &&
+      JSON.stringify(prevProps.album.tags) === JSON.stringify(nextProps.album.tags)
+    );
+  }
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

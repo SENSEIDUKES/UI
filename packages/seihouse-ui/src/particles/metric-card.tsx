@@ -1,5 +1,6 @@
 import { ArrowUpRight, Minus, TrendingUp } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import { SEIBadge } from "../primitives/sei-badge";
 import { SEICard } from "../primitives/sei-card";
@@ -82,3 +83,16 @@ export function MetricCard({
     </SEICard>
   );
 }
+
+export default memo(MetricCard, (prevProps, nextProps) => {
+  // Simple prop comparison for scalar values
+  return (
+    prevProps.label === nextProps.label &&
+    prevProps.value === nextProps.value &&
+    prevProps.helper === nextProps.helper &&
+    prevProps.trend === nextProps.trend &&
+    prevProps.status === nextProps.status &&
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});
