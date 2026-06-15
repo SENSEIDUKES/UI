@@ -11,6 +11,8 @@
     "dev": "pnpm --dir apps/workbench dev",
     "build": "pnpm --dir apps/workbench build",
     "start": "pnpm --dir apps/workbench start",
+    "storybook": "pnpm --dir apps/storybook storybook",
+    "build:storybook": "pnpm --dir apps/storybook build-storybook",
     "lint": "eslint .",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
