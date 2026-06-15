@@ -125,7 +125,7 @@ export default memo(VaultFragmentCard, (prevProps, nextProps) => {
   // Custom comparison for VaultFragment object
   if (prevProps.fragment !== nextProps.fragment) {
     // Deep compare fragment properties that affect rendering
-    return (
+    const fragmentEqual = (
       prevProps.fragment.title === nextProps.fragment.title &&
       prevProps.fragment.context === nextProps.fragment.context &&
       prevProps.fragment.date === nextProps.fragment.date &&
@@ -134,7 +134,12 @@ export default memo(VaultFragmentCard, (prevProps, nextProps) => {
       prevProps.fragment.status === nextProps.fragment.status &&
       JSON.stringify(prevProps.fragment.tags) === JSON.stringify(nextProps.fragment.tags)
     );
+    // Even if fragment content is the same, check variant and className
+    return fragmentEqual &&
+      prevProps.variant === nextProps.variant &&
+      prevProps.className === nextProps.className;
   }
+  // Fragment reference is same, check variant and className
   return (
     prevProps.variant === nextProps.variant &&
     prevProps.className === nextProps.className

@@ -1,0 +1,322 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { SEIPanel } from "@seihouse/ui";
+
+const meta = {
+  title: "Primitives/SEIPanel",
+  component: SEIPanel,
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component: `
+## SEIPanel
+
+A container component for grouping content with consistent styling and optional interactivity.
+
+### Accessibility Features
+- **Flexible Semantics**: Can render as \`div\`, \`section\`, \`article\`, \`aside\`, \`header\`, or \`footer\`
+- **ARIA Support**: Passes through all ARIA attributes for proper screen reader context
+- **Interactive States**: Optional hover effects for interactive panels
+- **Focus Management**: Visible focus ring for keyboard navigation
+
+### Usage Guidelines
+- Use \`variant="default"\` for standard content panels
+- Use \`interactive={true}\` for hoverable panels (e.g., clickable containers)
+- Use \`as="section"\` for semantic sectioning with landmark roles
+- Use \`padding\` to control internal spacing based on content density
+        `,
+      },
+    },
+    a11y: {
+      config: {
+        rules: [{ id: "color-contrast", enabled: true }],
+      },
+    },
+  },
+  tags: ["autodocs"],
+  argTypes: {
+    variant: {
+      control: "select",
+      options: [
+        "default",
+        "soft",
+        "outline",
+        "ghost",
+        "solid",
+        "dark",
+        "light",
+        "glass-test",
+        "media-test",
+      ],
+      description: "Visual style variant of the panel",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "default" },
+      },
+    },
+    padding: {
+      control: "select",
+      options: ["none", "sm", "md", "lg"],
+      description: "Internal padding of the panel",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "md" },
+      },
+    },
+    interactive: {
+      control: "boolean",
+      description: "Enables hover lift effect for interactive panels",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    as: {
+      control: "select",
+      options: ["div", "section", "article", "aside", "header", "footer"],
+      description: "HTML element to render",
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "div" },
+      },
+    },
+    children: {
+      control: "text",
+      description: "Panel content",
+    },
+  },
+} satisfies Meta<typeof SEIPanel>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Variant Stories
+export const Default: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Default Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This is a default panel with standard styling.
+        </p>
+      </div>
+    ),
+    variant: "default",
+  },
+};
+
+export const Soft: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Soft Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the soft variant with a subtle blue tint.
+        </p>
+      </div>
+    ),
+    variant: "soft",
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Outline Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the outline variant with a transparent background.
+        </p>
+      </div>
+    ),
+    variant: "outline",
+  },
+};
+
+export const Ghost: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Ghost Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the ghost variant with no border or shadow.
+        </p>
+      </div>
+    ),
+    variant: "ghost",
+  },
+};
+
+export const Solid: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Solid Panel</p>
+        <p className="text-white/80">This panel uses the solid variant with a blue background.</p>
+      </div>
+    ),
+    variant: "solid",
+  },
+};
+
+export const Dark: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Dark Panel</p>
+        <p className="text-white/80">This panel uses the dark variant.</p>
+      </div>
+    ),
+    variant: "dark",
+  },
+};
+
+export const Light: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium text-[#111318]">Light Panel</p>
+        <p className="text-[#111318]/70">This panel uses the light variant.</p>
+      </div>
+    ),
+    variant: "light",
+  },
+};
+
+// Padding Stories
+export const NoPadding: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">No Padding</p>
+        <p className="text-[var(--sh-color-cloud)]">Panel with no internal padding.</p>
+      </div>
+    ),
+    padding: "none",
+  },
+};
+
+export const SmallPadding: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Small Padding</p>
+        <p className="text-[var(--sh-color-cloud)]">Panel with small internal padding.</p>
+      </div>
+    ),
+    padding: "sm",
+  },
+};
+
+export const MediumPadding: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Medium Padding</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Panel with medium internal padding (default).
+        </p>
+      </div>
+    ),
+    padding: "md",
+  },
+};
+
+export const LargePadding: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Large Padding</p>
+        <p className="text-[var(--sh-color-cloud)]">Panel with large internal padding.</p>
+      </div>
+    ),
+    padding: "lg",
+  },
+};
+
+// Interactive Story
+export const Interactive: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Interactive Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">This panel has hover effects enabled.</p>
+      </div>
+    ),
+    interactive: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Interactive panels have a hover lift effect. Use for clickable containers.",
+      },
+    },
+  },
+};
+
+// Semantic Element Stories
+export const AsSection: Story = {
+  args: {
+    as: "section",
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Section Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Renders as a {"<section>"} element for semantic landmark.
+        </p>
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Using `as="section"` creates a landmark region for screen readers.',
+      },
+    },
+  },
+};
+
+export const AsAside: Story = {
+  args: {
+    as: "aside",
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Aside Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Renders as an {"<aside>"} element for tangential content.
+        </p>
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Using `as="aside"` indicates content tangentially related to the main content.',
+      },
+    },
+  },
+};
+
+// Interactive Playground
+export const Playground: Story = {
+  args: {
+    children: (
+      <div className="text-sm">
+        <p className="font-medium">Playground Panel</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Use the controls panel to experiment with different prop combinations.
+        </p>
+      </div>
+    ),
+    variant: "default",
+    padding: "md",
+    interactive: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Use the controls panel to experiment with different prop combinations.",
+      },
+    },
+  },
+};

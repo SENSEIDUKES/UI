@@ -190,7 +190,7 @@ export default memo(PlayerShellExpanded, (prevProps, nextProps) => {
   // Custom comparison for PlayerTrack object
   if (prevProps.track !== nextProps.track) {
     // Deep compare track properties that affect rendering
-    return (
+    const trackEqual = (
       prevProps.track.title === nextProps.track.title &&
       prevProps.track.artist === nextProps.track.artist &&
       prevProps.track.project === nextProps.track.project &&
@@ -199,7 +199,12 @@ export default memo(PlayerShellExpanded, (prevProps, nextProps) => {
       JSON.stringify(prevProps.track.queue) === JSON.stringify(nextProps.track.queue) &&
       JSON.stringify(prevProps.track.metadata) === JSON.stringify(nextProps.track.metadata)
     );
+    // Even if track content is the same, check variant and className
+    return trackEqual &&
+      prevProps.variant === nextProps.variant &&
+      prevProps.className === nextProps.className;
   }
+  // Track reference is same, check variant and className
   return (
     prevProps.variant === nextProps.variant &&
     prevProps.className === nextProps.className

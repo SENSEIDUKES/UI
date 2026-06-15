@@ -121,7 +121,7 @@ export default memo(RegistryPanel, (prevProps, nextProps) => {
   // Custom comparison for RegistryItem object
   if (prevProps.item !== nextProps.item) {
     // Deep compare registry item properties that affect rendering
-    return (
+    const itemEqual = (
       prevProps.item.title === nextProps.item.title &&
       prevProps.item.type === nextProps.item.type &&
       prevProps.item.verification === nextProps.item.verification &&
@@ -130,7 +130,12 @@ export default memo(RegistryPanel, (prevProps, nextProps) => {
       JSON.stringify(prevProps.item.seals) === JSON.stringify(nextProps.item.seals) &&
       prevProps.item.state === nextProps.item.state
     );
+    // Even if item content is the same, check state and className
+    return itemEqual &&
+      prevProps.state === nextProps.state &&
+      prevProps.className === nextProps.className;
   }
+  // Item reference is same, check state and className
   return (
     prevProps.state === nextProps.state &&
     prevProps.className === nextProps.className

@@ -77,20 +77,41 @@ export function ActionStrip({
 
 export default memo(ActionStrip, (prevProps, nextProps) => {
   // Custom comparison for complex props
-  const primaryEqual = (!prevProps.primary && !nextProps.primary) ||
-    Boolean(prevProps.primary && nextProps.primary &&
+  const primaryEqual =
+    (!prevProps.primary && !nextProps.primary) ||
+    Boolean(
+      prevProps.primary &&
+      nextProps.primary &&
       prevProps.primary.label === nextProps.primary.label &&
       prevProps.primary.icon === nextProps.primary.icon &&
-      prevProps.primary.ariaLabel === nextProps.primary.ariaLabel);
-  
-  const secondaryEqual = (!prevProps.secondary && !nextProps.secondary) ||
-    Boolean(prevProps.secondary && nextProps.secondary &&
+      prevProps.primary.ariaLabel === nextProps.primary.ariaLabel,
+    );
+
+  const secondaryEqual =
+    (!prevProps.secondary && !nextProps.secondary) ||
+    Boolean(
+      prevProps.secondary &&
+      nextProps.secondary &&
       prevProps.secondary.label === nextProps.secondary.label &&
       prevProps.secondary.icon === nextProps.secondary.icon &&
-      prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel);
-  
-  const iconActionsEqual = JSON.stringify(prevProps.iconActions) === JSON.stringify(nextProps.iconActions);
-  
+      prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel,
+    );
+
+  const prevActions = prevProps.iconActions ?? [];
+  const nextActions = nextProps.iconActions ?? [];
+  const iconActionsEqual =
+    prevActions === nextActions ||
+    (prevActions.length === nextActions.length &&
+      prevActions.every((action, index) => {
+        const nextAction = nextActions[index];
+        return (
+          nextAction &&
+          action.label === nextAction.label &&
+          action.icon === nextAction.icon &&
+          action.ariaLabel === nextAction.ariaLabel
+        );
+      }));
+
   return (
     primaryEqual &&
     secondaryEqual &&

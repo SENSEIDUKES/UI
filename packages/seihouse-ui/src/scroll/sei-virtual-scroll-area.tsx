@@ -152,7 +152,11 @@ export function SEIVirtualScrollArea<T>({
   }, [range.totalHeight, recomputeShadows]);
 
   const handleScroll = (event: UIEvent<HTMLDivElement>) => {
-    setScrollTop(event.currentTarget.scrollTop);
+    const el = event.currentTarget;
+    // Clamp scrollTop to valid range to handle dynamic list shrinking and fast scrolling
+    const maxScrollTop = Math.max(0, el.scrollHeight - el.clientHeight);
+    const clampedScrollTop = Math.min(Math.max(0, el.scrollTop), maxScrollTop);
+    setScrollTop(clampedScrollTop);
     recomputeShadows();
     onScroll?.(event);
   };

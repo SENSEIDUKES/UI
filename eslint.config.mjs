@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import tseslint from "typescript-eslint";
 
@@ -8,6 +11,7 @@ export default [
       "**/node_modules/**",
       "**/out/**",
       "**/dist/**",
+      "**/storybook-static/**",
       "**/coverage/**",
       "**/playwright-report/**",
       "**/test-results/**",
@@ -29,4 +33,5 @@ export default [
       "react/no-unescaped-entities": "off",
     },
   },
+  ...storybook.configs["flat/recommended"],
 ];

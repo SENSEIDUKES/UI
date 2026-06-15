@@ -174,6 +174,7 @@ export default memo(ShowcaseHero, (prevProps, nextProps) => {
     badgesEqual &&
     prevProps.primaryAction === nextProps.primaryAction &&
     prevProps.secondaryAction === nextProps.secondaryAction &&
+    prevProps.preview === nextProps.preview &&
     prevProps.variant === nextProps.variant &&
     prevProps.className === nextProps.className
   );
