@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SEICard } from "@seihouse/ui";
 import { SEIButton } from "@seihouse/ui";
 import { MoreHorizontal, ExternalLink } from "lucide-react";
@@ -212,7 +212,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Interactive cards have a hover lift effect. Use for clickable cards that navigate or trigger actions.",
+        story:
+          "Interactive cards have a hover lift effect. Use for clickable cards that navigate or trigger actions.",
       },
     },
   },
@@ -272,7 +273,8 @@ export const CompleteExample: Story = {
     eyebrow: "Featured",
     metadata: "New",
     title: "Complete Card Example",
-    description: "This card demonstrates all available features including eyebrow, metadata, actions, and footer.",
+    description:
+      "This card demonstrates all available features including eyebrow, metadata, actions, and footer.",
     interactive: true,
     actions: (
       <div className="flex gap-2">

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import { expect, within } from "storybook/test";
 import { SEIButton } from "@seihouse/ui";
 import { Plus, ArrowRight, Mail } from "lucide-react";
 
@@ -119,7 +119,8 @@ export const Primary: Story = {
     children: "Default Button",
     variant: "default",
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: /default button/i });
     await expect(button).toBeVisible();
     // Verify aria-busy is not set when not loading
@@ -212,7 +213,8 @@ export const Disabled: Story = {
     children: "Disabled Button",
     disabled: true,
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: /disabled button/i });
     await expect(button).toBeDisabled();
   },
@@ -223,7 +225,8 @@ export const Loading: Story = {
     children: "Loading Button",
     loading: true,
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: /loading button/i });
     // Loading state sets aria-busy="true"
     await expect(button).toHaveAttribute("aria-busy", "true");
@@ -274,7 +277,8 @@ export const CssCheck: Story = {
     children: "CSS Check",
     variant: "solid",
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: /css check/i });
     // Solid variant uses bg-[var(--sh-color-sea)] which is #007aff
     await expect(getComputedStyle(button).backgroundColor).toBe("rgb(0, 122, 255)");

@@ -77,29 +77,41 @@ export function ActionStrip({
 
 export default memo(ActionStrip, (prevProps, nextProps) => {
   // Custom comparison for complex props
-  const primaryEqual = (!prevProps.primary && !nextProps.primary) ||
-    Boolean(prevProps.primary && nextProps.primary &&
+  const primaryEqual =
+    (!prevProps.primary && !nextProps.primary) ||
+    Boolean(
+      prevProps.primary &&
+      nextProps.primary &&
       prevProps.primary.label === nextProps.primary.label &&
       prevProps.primary.icon === nextProps.primary.icon &&
-      prevProps.primary.ariaLabel === nextProps.primary.ariaLabel);
-  
-  const secondaryEqual = (!prevProps.secondary && !nextProps.secondary) ||
-    Boolean(prevProps.secondary && nextProps.secondary &&
+      prevProps.primary.ariaLabel === nextProps.primary.ariaLabel,
+    );
+
+  const secondaryEqual =
+    (!prevProps.secondary && !nextProps.secondary) ||
+    Boolean(
+      prevProps.secondary &&
+      nextProps.secondary &&
       prevProps.secondary.label === nextProps.secondary.label &&
       prevProps.secondary.icon === nextProps.secondary.icon &&
-      prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel);
-  
-  // Compare iconActions by reference first, then by content if both exist
-  const iconActionsEqual = prevProps.iconActions === nextProps.iconActions ||
-    Boolean(prevProps.iconActions && nextProps.iconActions &&
-      prevProps.iconActions.length === nextProps.iconActions.length &&
-      prevProps.iconActions.every((action, index) => {
-        const nextAction = nextProps.iconActions?.[index];
-        return nextAction && action.label === nextAction.label &&
+      prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel,
+    );
+
+  const prevActions = prevProps.iconActions ?? [];
+  const nextActions = nextProps.iconActions ?? [];
+  const iconActionsEqual =
+    prevActions === nextActions ||
+    (prevActions.length === nextActions.length &&
+      prevActions.every((action, index) => {
+        const nextAction = nextActions[index];
+        return (
+          nextAction &&
+          action.label === nextAction.label &&
           action.icon === nextAction.icon &&
-          action.ariaLabel === nextAction.ariaLabel;
+          action.ariaLabel === nextAction.ariaLabel
+        );
       }));
-  
+
   return (
     primaryEqual &&
     secondaryEqual &&

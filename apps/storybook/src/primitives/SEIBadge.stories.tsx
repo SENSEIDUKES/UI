@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import { expect, within } from "storybook/test";
 import { SEIBadge } from "@seihouse/ui";
 import { Check, AlertTriangle, XCircle, Info } from "lucide-react";
 
@@ -92,7 +92,8 @@ export const Primary: Story = {
     children: "Default",
     variant: "default",
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const badge = canvas.getByText("Default");
     await expect(badge).toBeVisible();
     await expect(badge.tagName).toBe("SPAN");

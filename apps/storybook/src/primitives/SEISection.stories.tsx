@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import { expect, within } from "storybook/test";
 import { SEISection } from "@seihouse/ui";
 import { SEIButton } from "@seihouse/ui";
 
@@ -75,13 +75,10 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     title: "Default Section",
-    children: (
-      <div className="text-sm text-[var(--sh-color-cloud)]">
-        Section content area.
-      </div>
-    ),
+    children: <div className="text-sm text-[var(--sh-color-cloud)]">Section content area.</div>,
   },
-  play: async ({ canvas }) => {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     const heading = canvas.getByRole("heading", { name: /default section/i });
     await expect(heading).toBeVisible();
     await expect(heading.tagName).toBe("H2");
@@ -95,9 +92,7 @@ export const SmallSpacing: Story = {
     description: "Section with small vertical padding.",
     spacing: "sm",
     children: (
-      <div className="text-sm text-[var(--sh-color-cloud)]">
-        Content area with small spacing.
-      </div>
+      <div className="text-sm text-[var(--sh-color-cloud)]">Content area with small spacing.</div>
     ),
   },
 };
@@ -108,9 +103,7 @@ export const MediumSpacing: Story = {
     description: "Section with medium vertical padding.",
     spacing: "md",
     children: (
-      <div className="text-sm text-[var(--sh-color-cloud)]">
-        Content area with medium spacing.
-      </div>
+      <div className="text-sm text-[var(--sh-color-cloud)]">Content area with medium spacing.</div>
     ),
   },
 };
@@ -121,9 +114,7 @@ export const LargeSpacing: Story = {
     description: "Section with large vertical padding (default).",
     spacing: "lg",
     children: (
-      <div className="text-sm text-[var(--sh-color-cloud)]">
-        Content area with large spacing.
-      </div>
+      <div className="text-sm text-[var(--sh-color-cloud)]">Content area with large spacing.</div>
     ),
   },
 };
@@ -191,10 +182,7 @@ export const WithRichContent: Story = {
     children: (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
-          >
+          <div key={i} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
             <div className="mb-2 font-medium">Card {i}</div>
             <div className="text-sm text-[var(--sh-color-cloud)]">
               Example content card within the section.

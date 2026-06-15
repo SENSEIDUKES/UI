@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SEIPanel } from "@seihouse/ui";
 
 const meta = {
@@ -96,7 +96,9 @@ export const Default: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Default Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">This is a default panel with standard styling.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This is a default panel with standard styling.
+        </p>
       </div>
     ),
     variant: "default",
@@ -108,7 +110,9 @@ export const Soft: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Soft Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">This panel uses the soft variant with a subtle blue tint.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the soft variant with a subtle blue tint.
+        </p>
       </div>
     ),
     variant: "soft",
@@ -120,7 +124,9 @@ export const Outline: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Outline Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">This panel uses the outline variant with a transparent background.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the outline variant with a transparent background.
+        </p>
       </div>
     ),
     variant: "outline",
@@ -132,7 +138,9 @@ export const Ghost: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Ghost Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">This panel uses the ghost variant with no border or shadow.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          This panel uses the ghost variant with no border or shadow.
+        </p>
       </div>
     ),
     variant: "ghost",
@@ -205,7 +213,9 @@ export const MediumPadding: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Medium Padding</p>
-        <p className="text-[var(--sh-color-cloud)]">Panel with medium internal padding (default).</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Panel with medium internal padding (default).
+        </p>
       </div>
     ),
     padding: "md",
@@ -251,14 +261,16 @@ export const AsSection: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Section Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">Renders as a {"<section>"} element for semantic landmark.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Renders as a {"<section>"} element for semantic landmark.
+        </p>
       </div>
     ),
   },
   parameters: {
     docs: {
       description: {
-        story: "Using `as=\"section\"` creates a landmark region for screen readers.",
+        story: 'Using `as="section"` creates a landmark region for screen readers.',
       },
     },
   },
@@ -270,14 +282,16 @@ export const AsAside: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Aside Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">Renders as an {"<aside>"} element for tangential content.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Renders as an {"<aside>"} element for tangential content.
+        </p>
       </div>
     ),
   },
   parameters: {
     docs: {
       description: {
-        story: "Using `as=\"aside\"` indicates content tangentially related to the main content.",
+        story: 'Using `as="aside"` indicates content tangentially related to the main content.',
       },
     },
   },
@@ -289,7 +303,9 @@ export const Playground: Story = {
     children: (
       <div className="text-sm">
         <p className="font-medium">Playground Panel</p>
-        <p className="text-[var(--sh-color-cloud)]">Use the controls panel to experiment with different prop combinations.</p>
+        <p className="text-[var(--sh-color-cloud)]">
+          Use the controls panel to experiment with different prop combinations.
+        </p>
       </div>
     ),
     variant: "default",
