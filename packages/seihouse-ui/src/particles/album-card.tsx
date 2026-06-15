@@ -151,7 +151,7 @@ export default memo(AlbumCard, (prevProps, nextProps) => {
   // Custom comparison for Album object
   if (prevProps.album !== nextProps.album) {
     // Deep compare album properties that affect rendering
-    return (
+    const albumEqual = (
       prevProps.album.title === nextProps.album.title &&
       prevProps.album.artist === nextProps.album.artist &&
       prevProps.album.year === nextProps.album.year &&
@@ -160,7 +160,12 @@ export default memo(AlbumCard, (prevProps, nextProps) => {
       prevProps.album.status === nextProps.album.status &&
       JSON.stringify(prevProps.album.tags) === JSON.stringify(nextProps.album.tags)
     );
+    // Even if album content is the same, check variant and className
+    return albumEqual &&
+      prevProps.variant === nextProps.variant &&
+      prevProps.className === nextProps.className;
   }
+  // Album reference is same, check variant and className
   return (
     prevProps.variant === nextProps.variant &&
     prevProps.className === nextProps.className

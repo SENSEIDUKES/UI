@@ -63,7 +63,7 @@ export function ShowcaseBlock({
 }
 
 export default memo(ShowcaseBlock, (prevProps, nextProps) => {
-  // Simple prop comparison for ReactNode children - reference equality is sufficient for most cases
+  // Compare all props including children and preview
   return (
     prevProps.title === nextProps.title &&
     prevProps.description === nextProps.description &&
@@ -71,7 +71,7 @@ export default memo(ShowcaseBlock, (prevProps, nextProps) => {
     prevProps.actions === nextProps.actions &&
     prevProps.className === nextProps.className &&
     prevProps.contentClassName === nextProps.contentClassName &&
-    // For children, we rely on React's default memo behavior which checks referential equality
+    prevProps.children === nextProps.children &&
     prevProps.variant === nextProps.variant &&
     prevProps.padding === nextProps.padding &&
     prevProps.interactive === nextProps.interactive

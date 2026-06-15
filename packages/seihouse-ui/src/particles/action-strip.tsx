@@ -89,7 +89,16 @@ export default memo(ActionStrip, (prevProps, nextProps) => {
       prevProps.secondary.icon === nextProps.secondary.icon &&
       prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel);
   
-  const iconActionsEqual = JSON.stringify(prevProps.iconActions) === JSON.stringify(nextProps.iconActions);
+  // Compare iconActions by reference first, then by content if both exist
+  const iconActionsEqual = prevProps.iconActions === nextProps.iconActions ||
+    Boolean(prevProps.iconActions && nextProps.iconActions &&
+      prevProps.iconActions.length === nextProps.iconActions.length &&
+      prevProps.iconActions.every((action, index) => {
+        const nextAction = nextProps.iconActions?.[index];
+        return nextAction && action.label === nextAction.label &&
+          action.icon === nextAction.icon &&
+          action.ariaLabel === nextAction.ariaLabel;
+      }));
   
   return (
     primaryEqual &&
