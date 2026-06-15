@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { ShowcaseEntry } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -152,3 +153,28 @@ export function ShowcaseHero({
     </SEIPanel>
   );
 }
+
+export default memo(ShowcaseHero, (prevProps, nextProps) => {
+  // Custom comparison for complex props
+  const entryEqual = (!prevProps.entry && !nextProps.entry) ||
+    Boolean(prevProps.entry && nextProps.entry &&
+      prevProps.entry.eyebrow === nextProps.entry.eyebrow &&
+      prevProps.entry.headline === nextProps.entry.headline &&
+      prevProps.entry.subheadline === nextProps.entry.subheadline &&
+      prevProps.entry.previewLabel === nextProps.entry.previewLabel &&
+      JSON.stringify(prevProps.entry.badges) === JSON.stringify(nextProps.entry.badges));
+  
+  const badgesEqual = JSON.stringify(prevProps.badges) === JSON.stringify(nextProps.badges);
+  
+  return (
+    entryEqual &&
+    prevProps.eyebrow === nextProps.eyebrow &&
+    prevProps.headline === nextProps.headline &&
+    prevProps.subheadline === nextProps.subheadline &&
+    badgesEqual &&
+    prevProps.primaryAction === nextProps.primaryAction &&
+    prevProps.secondaryAction === nextProps.secondaryAction &&
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

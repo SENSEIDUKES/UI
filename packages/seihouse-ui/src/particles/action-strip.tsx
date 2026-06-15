@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ArrowRight, MoreHorizontal } from "lucide-react";
+import { memo } from "react";
 
 import { SEIButton } from "../primitives/sei-button";
 import { cn } from "../styles/cn";
@@ -73,3 +74,28 @@ export function ActionStrip({
     </div>
   );
 }
+
+export default memo(ActionStrip, (prevProps, nextProps) => {
+  // Custom comparison for complex props
+  const primaryEqual = (!prevProps.primary && !nextProps.primary) ||
+    Boolean(prevProps.primary && nextProps.primary &&
+      prevProps.primary.label === nextProps.primary.label &&
+      prevProps.primary.icon === nextProps.primary.icon &&
+      prevProps.primary.ariaLabel === nextProps.primary.ariaLabel);
+  
+  const secondaryEqual = (!prevProps.secondary && !nextProps.secondary) ||
+    Boolean(prevProps.secondary && nextProps.secondary &&
+      prevProps.secondary.label === nextProps.secondary.label &&
+      prevProps.secondary.icon === nextProps.secondary.icon &&
+      prevProps.secondary.ariaLabel === nextProps.secondary.ariaLabel);
+  
+  const iconActionsEqual = JSON.stringify(prevProps.iconActions) === JSON.stringify(nextProps.iconActions);
+  
+  return (
+    primaryEqual &&
+    secondaryEqual &&
+    iconActionsEqual &&
+    prevProps.align === nextProps.align &&
+    prevProps.className === nextProps.className
+  );
+});

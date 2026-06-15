@@ -16,6 +16,17 @@ import {
 
 import { BehaviorShowcase } from "@/components/showcase/behavior-showcase";
 import { BehaviorHardeningShowcase } from "@/components/showcase/behavior-hardening-showcase";
+import {
+  LazyAlbumCard,
+  LazyArtistCard,
+  LazyDojoModuleCard,
+  LazyMetricCard,
+  LazyPlayerShellExpanded,
+  LazyPlayerShellPreview,
+  LazyPluginSlotPreview,
+  LazyRegistryPanel,
+  LazyVaultFragmentCard,
+} from "@/components/showcase/lazy-particles";
 
 import {
   mockAlbums,
@@ -29,18 +40,9 @@ import {
 } from "@/lib/mock-data/examples";
 import {
   ActionStrip,
-  AlbumCard,
-  ArtistCard,
-  DojoModuleCard,
-  MetricCard,
-  PlayerShellExpanded,
-  PlayerShellPreview,
-  PluginSlotPreview,
-  RegistryPanel,
   RegistrySeal,
   ShowcaseBlock,
   ShowcaseHero,
-  VaultFragmentCard,
 } from "@seihouse/ui";
 import { SEIBadge } from "@seihouse/ui";
 import { SEIButton } from "@seihouse/ui";
@@ -211,12 +213,12 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
             entry={mockShowcaseEntries[0]}
             primaryAction="Explore Phase 2"
             secondaryAction="Keep it visual"
-            preview={<PlayerShellExpanded track={mockPlayerTracks[0]} variant="compact" />}
+            preview={<LazyPlayerShellExpanded track={mockPlayerTracks[0]} variant="compact" />}
             className="min-h-[34rem]"
           />
 
           <div className="grid gap-6">
-            <PlayerShellPreview className="max-w-none" progress={52} />
+            <LazyPlayerShellPreview className="max-w-none" progress={52} />
             <ShowcaseBlock
               variant="glass-test"
               title="Phase 2 boundary"
@@ -337,24 +339,24 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
         >
           <div id="music-particles" className="space-y-6">
             <div className="grid gap-5 lg:grid-cols-3">
-              <AlbumCard album={mockAlbums[0]} variant="feature" />
-              <AlbumCard album={mockAlbums[1]} variant="dark" />
-              <AlbumCard album={mockAlbums[2]} variant="light" />
+              <LazyAlbumCard album={mockAlbums[0]} variant="feature" />
+              <LazyAlbumCard album={mockAlbums[1]} variant="dark" />
+              <LazyAlbumCard album={mockAlbums[2]} variant="light" />
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
-              <ArtistCard artist={mockArtists[0]} variant="profile" />
-              <ArtistCard artist={mockArtists[1]} variant="default" />
-              <ArtistCard artist={mockArtists[2]} variant="compact" />
+              <LazyArtistCard artist={mockArtists[0]} variant="profile" />
+              <LazyArtistCard artist={mockArtists[1]} variant="default" />
+              <LazyArtistCard artist={mockArtists[2]} variant="compact" />
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
-              <VaultFragmentCard fragment={mockVaultFragments[0]} variant="recovery" />
-              <VaultFragmentCard fragment={mockVaultFragments[1]} variant="default" />
-              <VaultFragmentCard fragment={mockVaultFragments[2]} variant="archive" />
+              <LazyVaultFragmentCard fragment={mockVaultFragments[0]} variant="recovery" />
+              <LazyVaultFragmentCard fragment={mockVaultFragments[1]} variant="default" />
+              <LazyVaultFragmentCard fragment={mockVaultFragments[2]} variant="archive" />
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
-              <DojoModuleCard module={mockDojoModules[0]} variant="lesson" />
-              <DojoModuleCard module={mockDojoModules[1]} variant="template" />
-              <DojoModuleCard module={mockDojoModules[2]} variant="skill" />
+              <LazyDojoModuleCard module={mockDojoModules[0]} variant="lesson" />
+              <LazyDojoModuleCard module={mockDojoModules[1]} variant="template" />
+              <LazyDojoModuleCard module={mockDojoModules[2]} variant="skill" />
             </div>
           </div>
         </SEISection>
@@ -402,10 +404,10 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
               primaryAction="Preview portal"
               secondaryAction="Map modules"
             />
-            <PlayerShellExpanded track={mockPlayerTracks[1]} variant="expanded" />
+            <LazyPlayerShellExpanded track={mockPlayerTracks[1]} variant="expanded" />
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {pluginSlots.map((slot) => (
-                <PluginSlotPreview key={slot.slotName} {...slot} />
+                <LazyPluginSlotPreview key={slot.slotName} {...slot} />
               ))}
             </div>
           </div>
@@ -424,7 +426,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
           <div id="registry" className="space-y-6">
             <div className="grid gap-5 lg:grid-cols-3">
               {mockRegistryItems.map((item) => (
-                <RegistryPanel key={item.id} item={item} />
+                <LazyRegistryPanel key={item.id} item={item} />
               ))}
             </div>
             <ShowcaseBlock
@@ -454,7 +456,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
           <div id="dashboard" className="space-y-6">
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {mockMetrics.map((metric, index) => (
-                <MetricCard
+                <LazyMetricCard
                   key={metric.label}
                   {...metric}
                   variant={

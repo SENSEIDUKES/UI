@@ -1,5 +1,6 @@
 import { ArrowRight, Fingerprint, History, ShieldCheck } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { RegistryItem } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -115,3 +116,23 @@ export function RegistryPanel({ item, state = item.state, className }: RegistryP
     </SEIPanel>
   );
 }
+
+export default memo(RegistryPanel, (prevProps, nextProps) => {
+  // Custom comparison for RegistryItem object
+  if (prevProps.item !== nextProps.item) {
+    // Deep compare registry item properties that affect rendering
+    return (
+      prevProps.item.title === nextProps.item.title &&
+      prevProps.item.type === nextProps.item.type &&
+      prevProps.item.verification === nextProps.item.verification &&
+      prevProps.item.mockId === nextProps.item.mockId &&
+      prevProps.item.timestamp === nextProps.item.timestamp &&
+      JSON.stringify(prevProps.item.seals) === JSON.stringify(nextProps.item.seals) &&
+      prevProps.item.state === nextProps.item.state
+    );
+  }
+  return (
+    prevProps.state === nextProps.state &&
+    prevProps.className === nextProps.className
+  );
+});

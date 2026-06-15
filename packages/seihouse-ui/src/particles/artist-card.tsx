@@ -1,5 +1,6 @@
 import { ArrowRight, Radio, UserRound } from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
+import { memo } from "react";
 
 import type { Artist } from "../types/music";
 import { SEIBadge } from "../primitives/sei-badge";
@@ -105,3 +106,22 @@ export function ArtistCard({ artist, variant = "default", className }: ArtistCar
     </SEICard>
   );
 }
+
+export default memo(ArtistCard, (prevProps, nextProps) => {
+  // Custom comparison for Artist object
+  if (prevProps.artist !== nextProps.artist) {
+    // Deep compare artist properties that affect rendering
+    return (
+      prevProps.artist.name === nextProps.artist.name &&
+      prevProps.artist.role === nextProps.artist.role &&
+      prevProps.artist.bio === nextProps.artist.bio &&
+      prevProps.artist.status === nextProps.artist.status &&
+      prevProps.artist.avatarTone === nextProps.artist.avatarTone &&
+      JSON.stringify(prevProps.artist.tags) === JSON.stringify(nextProps.artist.tags)
+    );
+  }
+  return (
+    prevProps.variant === nextProps.variant &&
+    prevProps.className === nextProps.className
+  );
+});

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Boxes, Cable, Radio, ShieldCheck, SlidersHorizontal, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { memo } from "react";
 
 import { SEIBadge } from "../primitives/sei-badge";
 import { SEIButton } from "../primitives/sei-button";
@@ -86,3 +87,14 @@ export function PluginSlotPreview({
     </SEIPanel>
   );
 }
+
+export default memo(PluginSlotPreview, (prevProps, nextProps) => {
+  // Simple prop comparison for scalar values and ReactNode placeholders
+  return (
+    prevProps.slotName === nextProps.slotName &&
+    prevProps.description === nextProps.description &&
+    prevProps.status === nextProps.status &&
+    prevProps.placeholder === nextProps.placeholder &&
+    prevProps.className === nextProps.className
+  );
+});
