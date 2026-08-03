@@ -121,22 +121,20 @@ export default memo(DojoModuleCard, (prevProps, nextProps) => {
   // Custom comparison for DojoModule object
   if (prevProps.module !== nextProps.module) {
     // Deep compare module properties that affect rendering
-    const moduleEqual = (
+    const moduleEqual =
       prevProps.module.title === nextProps.module.title &&
       prevProps.module.description === nextProps.module.description &&
       prevProps.module.difficulty === nextProps.module.difficulty &&
       prevProps.module.category === nextProps.module.category &&
       prevProps.module.status === nextProps.module.status &&
-      prevProps.module.progress === nextProps.module.progress
-    );
+      prevProps.module.progress === nextProps.module.progress;
     // Even if module content is the same, check variant and className
-    return moduleEqual &&
+    return (
+      moduleEqual &&
       prevProps.variant === nextProps.variant &&
-      prevProps.className === nextProps.className;
+      prevProps.className === nextProps.className
+    );
   }
   // Module reference is same, check variant and className
-  return (
-    prevProps.variant === nextProps.variant &&
-    prevProps.className === nextProps.className
-  );
+  return prevProps.variant === nextProps.variant && prevProps.className === nextProps.className;
 });

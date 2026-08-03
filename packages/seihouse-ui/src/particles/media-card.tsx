@@ -24,10 +24,8 @@ export interface MediaCardProps extends SEICardVariantProps {
 
 const accentStyles = {
   sea: "from-[rgba(0,122,255,0.42)] via-[rgba(0,122,255,0.14)] to-[rgba(255,255,255,0.04)]",
-  accent:
-    "from-[rgba(255,107,53,0.42)] via-[rgba(255,107,53,0.14)] to-[rgba(255,255,255,0.04)]",
-  success:
-    "from-[rgba(52,199,89,0.32)] via-[rgba(52,199,89,0.12)] to-[rgba(255,255,255,0.04)]",
+  accent: "from-[rgba(255,107,53,0.42)] via-[rgba(255,107,53,0.14)] to-[rgba(255,255,255,0.04)]",
+  success: "from-[rgba(52,199,89,0.32)] via-[rgba(52,199,89,0.12)] to-[rgba(255,255,255,0.04)]",
   neutral:
     "from-[rgba(255,255,255,0.18)] via-[rgba(255,255,255,0.06)] to-[rgba(255,255,255,0.025)]",
 };
@@ -58,17 +56,13 @@ export function MediaCard({
         <div
           className={cn(
             "relative min-h-40 overflow-hidden bg-gradient-to-br p-4",
-            accentStyles[accent]
+            accentStyles[accent],
           )}
         >
           <div className="absolute right-5 top-5 size-24 rounded-full border border-white/18 bg-white/[0.035]" />
           <div className="absolute bottom-5 left-5 right-5 flex items-end gap-2">
             {[34, 58, 42, 76, 48, 64, 38].map((height, index) => (
-              <span
-                key={index}
-                className="w-full rounded-full bg-white/20"
-                style={{ height }}
-              />
+              <span key={index} className="w-full rounded-full bg-white/20" style={{ height }} />
             ))}
           </div>
           <div className="relative z-10 flex size-12 items-center justify-center rounded-2xl border border-white/15 bg-black/20 text-white backdrop-blur-xl">

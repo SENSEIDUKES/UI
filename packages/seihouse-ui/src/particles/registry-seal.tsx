@@ -10,29 +10,17 @@ import {
 import { memo } from "react";
 
 import { cn } from "../styles/cn";
-import {
-  registrySealVariants,
-  type RegistrySealVariantProps,
-} from "../styles/variants";
+import { registrySealVariants, type RegistrySealVariantProps } from "../styles/variants";
 
-export type RegistryStatus =
-  | "draft"
-  | "registered"
-  | "verified"
-  | "archived"
-  | "experimental";
+export type RegistryStatus = "draft" | "registered" | "verified" | "archived" | "experimental";
 
 export interface RegistrySealProps
-  extends HTMLAttributes<HTMLDivElement>,
-    RegistrySealVariantProps {
+  extends HTMLAttributes<HTMLDivElement>, RegistrySealVariantProps {
   label?: string;
   registryId?: string;
 }
 
-const statusMeta: Record<
-  RegistryStatus,
-  { label: string; icon: LucideIcon; dot: string }
-> = {
+const statusMeta: Record<RegistryStatus, { label: string; icon: LucideIcon; dot: string }> = {
   draft: {
     label: "Draft",
     icon: FileText,
