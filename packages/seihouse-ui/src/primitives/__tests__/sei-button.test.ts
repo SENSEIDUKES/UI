@@ -55,8 +55,8 @@ describe("SEIButton contract", () => {
   it("does not render spacing wrappers for conditional icons that resolve to false", () => {
     const markup = renderButton({
       children: "Continue",
-      iconLeft: false,
-      iconRight: false,
+      iconLeft: [false, null, ""],
+      iconRight: [false, null, ""],
     });
 
     expect(markup).not.toContain("inline-flex shrink-0");
@@ -64,7 +64,7 @@ describe("SEIButton contract", () => {
 
   it("retains icon-only sizing when a conditional label is empty", () => {
     const markup = renderButton({
-      children: false,
+      children: [false, null, ""],
       icon: Plus,
       "aria-label": "Add item",
     });

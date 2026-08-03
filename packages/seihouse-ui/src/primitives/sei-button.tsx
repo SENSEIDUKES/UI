@@ -39,7 +39,7 @@ export type SEIButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "chil
   (TextButtonContent | NamedIconButtonContent);
 
 function hasRenderableContent(node: ReactNode): boolean {
-  return node != null && typeof node !== "boolean" && node !== "";
+  return React.Children.toArray(node).some((child) => child !== "");
 }
 
 /**
