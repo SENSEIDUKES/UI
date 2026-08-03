@@ -11,31 +11,30 @@ import { cn } from "../styles/cn";
 const dojoModuleCardStyles = tv({
   slots: {
     card: "h-full",
-    icon: "grid size-12 place-items-center rounded-2xl border border-white/12 bg-white/[0.055] text-white",
-    progressTrack: "h-2 overflow-hidden rounded-full bg-white/10",
-    progressFill: "h-full rounded-full bg-[var(--sh-color-sea)]",
+    icon: "grid size-12 place-items-center rounded-2xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] text-[var(--sh-text-primary)]",
+    progressTrack: "h-2 overflow-hidden rounded-full bg-[var(--sh-progress-track)]",
+    progressFill: "h-full rounded-full bg-[var(--sh-interactive-primary)]",
   },
   variants: {
     variant: {
       default: {},
       lesson: {
-        icon: "border-[rgba(0,122,255,0.22)] bg-[rgba(0,122,255,0.10)] text-[#8fc8ff]",
-        progressFill: "bg-[linear-gradient(90deg,var(--sh-color-sea),#8fc8ff)]",
+        icon: "border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-[var(--sh-interactive-selected-text)]",
+        progressFill: "bg-[var(--sh-interactive-primary)]",
       },
       template: {
-        icon: "border-[rgba(255,159,10,0.25)] bg-[rgba(255,159,10,0.10)] text-[#ffd08a]",
-        progressFill: "bg-[linear-gradient(90deg,#ffd08a,var(--sh-color-accent))]",
+        icon: "border-[var(--sh-status-warning-border)] bg-[var(--sh-status-warning-bg)] text-[var(--sh-status-warning-text)]",
+        progressFill: "bg-[var(--sh-status-warning-text)]",
       },
       skill: {
-        icon: "border-[rgba(52,199,89,0.28)] bg-[rgba(52,199,89,0.10)] text-[#8ff0aa]",
-        progressFill: "bg-[linear-gradient(90deg,#8ff0aa,var(--sh-color-success))]",
+        icon: "border-[var(--sh-status-success-border)] bg-[var(--sh-status-success-bg)] text-[var(--sh-status-success-text)]",
+        progressFill: "bg-[var(--sh-status-success-text)]",
       },
       dark: {
-        icon: "border-white/10 bg-[#050609] text-white",
+        icon: "border-[var(--sh-border)] bg-[#050609] text-[var(--sh-text-primary)]",
       },
       light: {
-        icon: "border-black/10 bg-white text-[#111318]",
-        progressTrack: "bg-black/10",
+        icon: "border-[var(--sh-border)] bg-[var(--sh-surface)] text-[var(--sh-text-primary)]",
       },
     },
   },
@@ -89,13 +88,13 @@ export function DojoModuleCard({ module, variant = "default", className }: DojoM
             </SEIBadge>
           </div>
           <h3 className="text-xl font-semibold tracking-[-0.04em]">{module.title}</h3>
-          <p className="text-sm leading-relaxed text-[var(--sh-color-cloud)]">
+          <p className="text-sm leading-relaxed text-[var(--sh-text-muted)]">
             {module.description}
           </p>
         </div>
 
         <div className="space-y-2">
-          <div className="flex justify-between text-xs font-bold uppercase tracking-[0.12em] text-[var(--sh-color-mist)]">
+          <div className="flex justify-between text-xs font-bold uppercase tracking-[0.12em] text-[var(--sh-text-subtle)]">
             <span>Progress</span>
             <span>{safeProgress}%</span>
           </div>
@@ -104,7 +103,7 @@ export function DojoModuleCard({ module, variant = "default", className }: DojoM
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 border-t border-white/10 pt-4">
+        <div className="flex flex-wrap gap-2 border-t border-[var(--sh-border)] pt-4">
           <SEIButton size="sm" variant="solid" iconRight={<ArrowRight className="size-3.5" />}>
             Start module
           </SEIButton>

@@ -4,18 +4,12 @@ import AxeBuilder from "@axe-core/playwright";
 /**
  * Axe accessibility scans for the one-page lab.
  *
- * We fail only on `critical` / `serious` impact violations so the suite stays a
- * useful safety net without chasing every minor advisory while the visual
- * language is still exploratory.
+ * These legacy smoke scans keep their critical threshold and surface serious
+ * findings in the console. Color contrast is release-blocking through the
+ * dedicated light/dark coverage in theme-contrast.spec.ts.
  */
 
 /**
- * Acceptance criteria require **no critical** axe violations. We assert on
- * critical impact and additionally surface any serious findings as console
- * output (without failing) so they stay visible. Known serious findings while
- * the brand is unlocked: `color-contrast` on the exploratory light/glass style
- * lanes, documented in LAB-NOTES.md.
- *
  * `scrollable-region-focusable` is disabled: React Aria's always-visible
  * command/list menus use roving virtual focus (aria-activedescendant) rather
  * than a tabbable scroll container — a valid composite-widget pattern.

@@ -31,31 +31,31 @@ export function PlayerShellPreview({
           <SEIBadge variant="media-test" size="sm">
             Player shell · visual only
           </SEIBadge>
-          <span className="font-mono text-xs text-[var(--sh-color-mist)]">00:{safeProgress}</span>
+          <span className="font-mono text-xs text-[var(--sh-text-subtle)]">00:{safeProgress}</span>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-[6.5rem_1fr] sm:items-center">
-          <div className="relative aspect-square overflow-hidden rounded-[1.2rem] border border-white/12 bg-[radial-gradient(circle_at_35%_25%,rgba(0,122,255,0.45),transparent_38%),radial-gradient(circle_at_78%_74%,rgba(255,107,53,0.32),transparent_36%),rgba(255,255,255,0.055)]">
-            <div className="absolute inset-4 rounded-full border border-dashed border-white/22" />
+          <div className="relative aspect-square overflow-hidden rounded-[1.2rem] border border-[var(--sh-border)] bg-[radial-gradient(circle_at_35%_25%,rgba(0,104,209,0.45),transparent_38%),radial-gradient(circle_at_78%_74%,rgba(255,107,53,0.32),transparent_36%),var(--sh-interactive-surface)]">
+            <div className="absolute inset-4 rounded-full border border-dashed border-[var(--sh-border-strong)]" />
             <div className="absolute left-1/2 top-1/2 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80" />
           </div>
 
           <div className="min-w-0 space-y-4">
             <div>
-              <h3 className="truncate text-xl font-semibold tracking-[-0.04em] text-white">
+              <h3 className="truncate text-xl font-semibold tracking-[-0.04em] text-[var(--sh-text-primary)]">
                 {title}
               </h3>
-              <p className="mt-1 text-sm text-[var(--sh-color-cloud)]">{artist}</p>
+              <p className="mt-1 text-sm text-[var(--sh-text-muted)]">{artist}</p>
             </div>
 
             <div className="space-y-2">
-              <div className="h-2 overflow-hidden rounded-full bg-white/10">
+              <div className="h-2 overflow-hidden rounded-full bg-[var(--sh-progress-track)]">
                 <div
                   className="h-full rounded-full bg-[linear-gradient(90deg,var(--sh-color-sea),var(--sh-color-accent))]"
                   style={{ width: `${safeProgress}%` }}
                 />
               </div>
-              <div className="flex justify-between font-mono text-[0.68rem] text-[var(--sh-color-mist)]">
+              <div className="flex justify-between font-mono text-[0.68rem] text-[var(--sh-text-subtle)]">
                 <span>01:24</span>
                 <span>03:48</span>
               </div>
@@ -63,7 +63,7 @@ export function PlayerShellPreview({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--sh-border)] pt-4">
           <div className="flex items-center gap-2">
             <SEIButton
               variant="ghost"
@@ -79,11 +79,11 @@ export function PlayerShellPreview({
               aria-label="Next track preview"
             />
           </div>
-          <div className="flex items-center gap-3 text-[var(--sh-color-mist)]">
+          <div className="flex items-center gap-3 text-[var(--sh-text-subtle)]">
             <Pause aria-hidden="true" className="size-4 opacity-60" />
             <Volume2 aria-hidden="true" className="size-4" />
-            <div className="h-1.5 w-20 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full w-2/3 rounded-full bg-white/45" />
+            <div className="h-1.5 w-20 overflow-hidden rounded-full bg-[var(--sh-progress-track)]">
+              <div className="h-full w-2/3 rounded-full bg-[var(--sh-progress-fill-muted)]" />
             </div>
           </div>
         </div>

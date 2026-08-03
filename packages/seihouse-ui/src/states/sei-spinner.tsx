@@ -29,7 +29,7 @@ export function SEISpinner({
       <span
         aria-hidden="true"
         className={cn(
-          "inline-block shrink-0 rounded-full border-current border-t-transparent text-[var(--sh-color-sea)]",
+          "inline-block shrink-0 rounded-full border-current border-t-transparent text-[var(--sh-interactive-text)]",
           "motion-safe:animate-spin",
           sizeMap[size],
         )}

@@ -12,17 +12,17 @@ const vaultFragmentCardStyles = tv({
   slots: {
     card: "h-full",
     header: "flex items-start gap-4",
-    icon: "grid size-12 shrink-0 place-items-center rounded-2xl border border-white/12 bg-white/[0.055] text-white",
-    context: "text-sm leading-relaxed text-[var(--sh-color-cloud)]",
+    icon: "grid size-12 shrink-0 place-items-center rounded-2xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] text-[var(--sh-text-primary)]",
+    context: "text-sm leading-relaxed text-[var(--sh-text-muted)]",
   },
   variants: {
     variant: {
       default: {},
       recovery: {
-        icon: "border-[rgba(52,199,89,0.28)] bg-[rgba(52,199,89,0.10)] text-[#8ff0aa]",
+        icon: "border-[var(--sh-status-success-border)] bg-[var(--sh-status-success-bg)] text-[var(--sh-status-success-text)]",
       },
       archive: {
-        icon: "border-white/10 bg-[#08090d] text-[var(--sh-color-cloud)]",
+        icon: "border-[var(--sh-border)] bg-[var(--sh-surface-elevated)] text-[var(--sh-text-muted)]",
       },
       compact: {
         header: "items-center",
@@ -30,7 +30,7 @@ const vaultFragmentCardStyles = tv({
         context: "line-clamp-2",
       },
       dark: {
-        icon: "border-white/10 bg-[#050609] text-white",
+        icon: "border-[var(--sh-border)] bg-[#050609] text-[var(--sh-text-primary)]",
       },
     },
   },
@@ -99,7 +99,7 @@ export function VaultFragmentCard({
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-sm text-[var(--sh-color-mist)]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--sh-border)] pt-4 text-sm text-[var(--sh-text-subtle)]">
           <div className="flex flex-wrap items-center gap-3">
             <span>{fragment.date}</span>
             <span className="inline-flex items-center gap-1.5 font-mono text-xs">

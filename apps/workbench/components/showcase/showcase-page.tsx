@@ -162,7 +162,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-4 lg:px-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="grid size-10 place-items-center rounded-full border border-dashed border-[rgba(0,122,255,0.62)] bg-[rgba(0,122,255,0.08)] text-xs font-black tracking-[0.14em] text-[var(--sh-color-sea)] shadow-[0_0_28px_rgba(0,122,255,0.16)]">
+              <div className="grid size-10 place-items-center rounded-full border border-dashed border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-xs font-black tracking-[0.14em] text-[var(--sh-interactive-text)] shadow-[0_0_28px_rgba(0,122,255,0.16)]">
                 SEI
               </div>
               <div>

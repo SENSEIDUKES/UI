@@ -49,7 +49,7 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
     <>
       {highlightSegments(text, indices).map((seg, i) =>
         seg.highlight ? (
-          <mark key={i} className="bg-transparent font-semibold text-[var(--sh-color-sea)]">
+          <mark key={i} className="bg-transparent font-semibold text-[var(--sh-interactive-text)]">
             {seg.value}
           </mark>
         ) : (
@@ -185,7 +185,7 @@ export function SEICommandPalette({
       {item.shortcut ? <SEICommandShortcut>{item.shortcut}</SEICommandShortcut> : null}
       <CornerDownLeft
         aria-hidden="true"
-        className="size-3.5 shrink-0 text-[var(--sh-color-sea)] opacity-0 group-data-[focused]/cmd:opacity-100"
+        className="size-3.5 shrink-0 text-[var(--sh-interactive-text)] opacity-0 group-data-[focused]/cmd:opacity-100"
       />
     </SEICommandItem>
   );

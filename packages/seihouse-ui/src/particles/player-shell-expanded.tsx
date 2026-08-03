@@ -22,7 +22,7 @@ const playerShellExpandedStyles = tv({
     panel: "relative overflow-hidden",
     layout: "grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start",
     artwork:
-      "relative aspect-square overflow-hidden rounded-[1.5rem] border border-white/12 bg-[radial-gradient(circle_at_34%_24%,rgba(0,122,255,0.45),transparent_34%),radial-gradient(circle_at_78%_74%,rgba(255,107,53,0.32),transparent_34%),rgba(255,255,255,0.055)]",
+      "relative aspect-square overflow-hidden rounded-[1.5rem] border border-[var(--sh-border)] bg-[radial-gradient(circle_at_34%_24%,rgba(0,104,209,0.45),transparent_34%),radial-gradient(circle_at_78%_74%,rgba(255,107,53,0.32),transparent_34%),var(--sh-interactive-surface)]",
     controls: "flex flex-wrap items-center justify-center gap-2",
     side: "grid gap-4 md:grid-cols-2",
   },
@@ -83,7 +83,7 @@ export function PlayerShellExpanded({
     >
       <div className={styles.layout()}>
         <div className={styles.artwork()}>
-          <div className="absolute inset-6 rounded-full border border-dashed border-white/22" />
+          <div className="absolute inset-6 rounded-full border border-dashed border-[var(--sh-border-strong)]" />
           <div className="absolute left-1/2 top-1/2 size-9 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/80" />
           <SEIBadge className="absolute left-4 top-4" variant="glass-test" size="sm" icon={Radio}>
             SAP preview
@@ -93,11 +93,11 @@ export function PlayerShellExpanded({
         <div className="min-w-0 space-y-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
                 {track.project}
               </p>
               <h3 className="truncate text-2xl font-semibold tracking-[-0.05em]">{track.title}</h3>
-              <p className="mt-1 text-sm text-[var(--sh-color-cloud)]">{track.artist}</p>
+              <p className="mt-1 text-sm text-[var(--sh-text-muted)]">{track.artist}</p>
             </div>
             <SEIBadge variant="warning" size="sm">
               no audio logic
@@ -105,13 +105,13 @@ export function PlayerShellExpanded({
           </div>
 
           <div className="space-y-2">
-            <div className="h-2 overflow-hidden rounded-full bg-white/10">
+            <div className="h-2 overflow-hidden rounded-full bg-[var(--sh-progress-track)]">
               <div
                 className="h-full rounded-full bg-[linear-gradient(90deg,var(--sh-color-sea),var(--sh-color-accent))]"
                 style={{ width: `${safeProgress}%` }}
               />
             </div>
-            <div className="flex justify-between font-mono text-[0.68rem] text-[var(--sh-color-mist)]">
+            <div className="flex justify-between font-mono text-[0.68rem] text-[var(--sh-text-subtle)]">
               <span>01:{String(safeProgress).padStart(2, "0")}</span>
               <span>{track.duration}</span>
             </div>
@@ -132,10 +132,10 @@ export function PlayerShellExpanded({
               icon={SkipForward}
               aria-label="Next track visual"
             />
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-2 text-[var(--sh-color-mist)]">
+            <div className="flex items-center gap-2 rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] px-3 py-2 text-[var(--sh-text-subtle)]">
               <Volume2 aria-hidden="true" className="size-4" />
-              <span className="h-1.5 w-16 rounded-full bg-white/15">
-                <span className="block h-full w-2/3 rounded-full bg-white/45" />
+              <span className="h-1.5 w-16 rounded-full bg-[var(--sh-progress-track)]">
+                <span className="block h-full w-2/3 rounded-full bg-[var(--sh-progress-fill-muted)]" />
               </span>
             </div>
           </div>
@@ -143,23 +143,26 @@ export function PlayerShellExpanded({
 
         {variant !== "compact" && variant !== "docked" ? (
           <div className={styles.side()}>
-            <div className="rounded-[1.1rem] border border-white/10 bg-white/[0.04] p-4">
+            <div className="rounded-[1.1rem] border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] p-4">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-                <ListMusic aria-hidden="true" className="size-4 text-[var(--sh-color-sea)]" />
+                <ListMusic
+                  aria-hidden="true"
+                  className="size-4 text-[var(--sh-interactive-text)]"
+                />
                 Queue
               </div>
-              <div className="space-y-2 text-sm text-[var(--sh-color-cloud)]">
+              <div className="space-y-2 text-sm text-[var(--sh-text-muted)]">
                 {track.queue.map((item) => (
                   <div
                     key={item}
-                    className="rounded-xl border border-white/8 bg-white/[0.035] px-3 py-2"
+                    className="rounded-xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] px-3 py-2"
                   >
                     {item}
                   </div>
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.1rem] border border-white/10 bg-white/[0.04] p-4">
+            <div className="rounded-[1.1rem] border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] p-4">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
                 <SlidersHorizontal
                   aria-hidden="true"
@@ -167,13 +170,13 @@ export function PlayerShellExpanded({
                 />
                 Environment
               </div>
-              <div className="grid gap-2 text-sm text-[var(--sh-color-cloud)]">
+              <div className="grid gap-2 text-sm text-[var(--sh-text-muted)]">
                 {Object.entries(track.metadata).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex justify-between gap-3 rounded-xl bg-white/[0.035] px-3 py-2"
+                    className="flex justify-between gap-3 rounded-xl bg-[var(--sh-interactive-surface)] px-3 py-2"
                   >
-                    <span className="text-[var(--sh-color-mist)]">{key}</span>
+                    <span className="text-[var(--sh-text-subtle)]">{key}</span>
                     <span>{value}</span>
                   </div>
                 ))}

@@ -13,8 +13,8 @@ const artistCardStyles = tv({
     card: "h-full",
     layout: "flex gap-4",
     avatar:
-      "relative grid shrink-0 place-items-center overflow-hidden rounded-full border border-white/12 bg-white/[0.055] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
-    bio: "text-sm leading-relaxed text-[var(--sh-color-cloud)]",
+      "relative grid shrink-0 place-items-center overflow-hidden rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] text-[var(--sh-text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
+    bio: "text-sm leading-relaxed text-[var(--sh-text-muted)]",
   },
   variants: {
     variant: {
@@ -76,7 +76,7 @@ export function ArtistCard({ artist, variant = "default", className }: ArtistCar
         <div className="min-w-0 flex-1 space-y-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
                 {artist.role}
               </p>
               <h3 className="mt-1 text-xl font-semibold tracking-[-0.04em]">{artist.name}</h3>

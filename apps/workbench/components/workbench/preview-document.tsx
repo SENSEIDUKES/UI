@@ -6,7 +6,7 @@ import { cn } from "@seihouse/ui";
 import { getComponentBySlug } from "@/registry/component-registry";
 import { getContextById } from "@/registry/context-registry";
 
-import { canvasStyles, type CanvasOption } from "./preview-config";
+import { canvasStyles, canvasTheme, type CanvasOption } from "./preview-config";
 
 interface PreviewDocumentProps {
   previewId: string;
@@ -59,6 +59,22 @@ export function IsolatedPreview({
  * so the workbench never hides overflow below a fixed frame height.
  */
 export function PreviewDocument({ previewId, canvas, children }: PreviewDocumentProps) {
+  const theme = canvasTheme(canvas);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const previousTheme = root.dataset.theme;
+    root.dataset.theme = theme;
+
+    return () => {
+      if (previousTheme) {
+        root.dataset.theme = previousTheme;
+      } else {
+        delete root.dataset.theme;
+      }
+    };
+  }, [theme]);
+
   useEffect(() => {
     let animationFrame = 0;
 
@@ -101,8 +117,9 @@ export function PreviewDocument({ previewId, canvas, children }: PreviewDocument
   return (
     <main
       data-testid="isolated-preview-document"
+      data-theme={theme}
       className={cn(
-        "flex min-h-[40rem] w-full items-center justify-center p-4 sm:p-8",
+        "flex min-h-[40rem] w-full items-center justify-center p-4 text-[var(--sh-text-primary)] sm:p-8",
         canvasStyles[canvas],
       )}
     >

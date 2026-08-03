@@ -42,12 +42,12 @@ export function ShowcaseBlock({
               <h3 className="text-base font-semibold tracking-[-0.03em] text-current">{title}</h3>
             ) : null}
             {description ? (
-              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-color-mist)]">
+              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-text-muted)]">
                 {description}
               </p>
             ) : null}
             {note ? (
-              <p className="text-xs font-medium uppercase tracking-[0.12em] text-[var(--sh-color-sea)]">
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-[var(--sh-interactive-text)]">
                 {note}
               </p>
             ) : null}

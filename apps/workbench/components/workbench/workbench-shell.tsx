@@ -529,7 +529,10 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   const status = statusMeta[entry.status];
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0a0a0c] text-[var(--sh-color-ivory)]">
+    <div
+      data-theme="dark"
+      className="min-h-screen overflow-x-hidden bg-[var(--sh-page-background)] text-[var(--sh-text-primary)]"
+    >
       <WorkbenchNav current="/workbench" />
       <div className="mx-auto grid w-full max-w-[100rem] gap-6 px-5 py-6 lg:grid-cols-[14rem_minmax(0,1fr)_16rem]">
         <aside

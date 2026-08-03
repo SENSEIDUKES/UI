@@ -47,12 +47,12 @@ export function SEICard({
         {(eyebrow || metadata) && (
           <div className="flex flex-wrap items-center justify-between gap-2">
             {eyebrow ? (
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
                 {eyebrow}
               </div>
             ) : null}
             {metadata ? (
-              <div className="text-sm text-[var(--sh-color-mist)]">{metadata}</div>
+              <div className="text-sm text-[var(--sh-text-subtle)]">{metadata}</div>
             ) : null}
           </div>
         )}
@@ -69,13 +69,13 @@ export function SEICard({
         )}
 
         {description ? (
-          <p className="text-sm leading-relaxed text-[var(--sh-color-cloud)]">{description}</p>
+          <p className="text-sm leading-relaxed text-[var(--sh-text-muted)]">{description}</p>
         ) : null}
 
         {children}
 
         {footer ? (
-          <div className="border-t border-white/10 pt-4 text-sm text-[var(--sh-color-mist)]">
+          <div className="border-t border-[var(--sh-border)] pt-4 text-sm text-[var(--sh-text-subtle)]">
             {footer}
           </div>
         ) : null}

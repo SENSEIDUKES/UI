@@ -59,13 +59,13 @@ export function MediaCard({
             accentStyles[accent],
           )}
         >
-          <div className="absolute right-5 top-5 size-24 rounded-full border border-white/18 bg-white/[0.035]" />
+          <div className="absolute right-5 top-5 size-24 rounded-full border border-[var(--sh-border-strong)] bg-[var(--sh-interactive-surface)]" />
           <div className="absolute bottom-5 left-5 right-5 flex items-end gap-2">
             {[34, 58, 42, 76, 48, 64, 38].map((height, index) => (
               <span key={index} className="w-full rounded-full bg-white/20" style={{ height }} />
             ))}
           </div>
-          <div className="relative z-10 flex size-12 items-center justify-center rounded-2xl border border-white/15 bg-black/20 text-white backdrop-blur-xl">
+          <div className="relative z-10 flex size-12 items-center justify-center rounded-2xl border border-[var(--sh-border-strong)] bg-[var(--sh-overlay)] text-white backdrop-blur-xl">
             <Icon aria-hidden="true" className="size-5" />
           </div>
         </div>

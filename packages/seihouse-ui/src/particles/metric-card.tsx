@@ -9,15 +9,15 @@ import { cn } from "../styles/cn";
 const metricCardStyles = tv({
   slots: {
     value: "text-3xl font-black tracking-[-0.06em]",
-    helper: "text-sm leading-relaxed text-[var(--sh-color-cloud)]",
+    helper: "text-sm leading-relaxed text-[var(--sh-text-muted)]",
   },
   variants: {
     variant: {
       default: {},
-      soft: { value: "text-[#8fc8ff]" },
-      dark: { value: "text-white" },
-      light: { value: "text-[#111318]", helper: "text-[#4b4f58]" },
-      outline: { value: "text-[var(--sh-color-ivory)]" },
+      soft: { value: "text-[var(--sh-interactive-text)]" },
+      dark: { value: "text-[var(--sh-text-primary)]" },
+      light: { value: "text-[var(--sh-text-primary)]", helper: "text-[var(--sh-text-muted)]" },
+      outline: { value: "text-[var(--sh-text-primary)]" },
     },
   },
   defaultVariants: { variant: "default" },
@@ -61,7 +61,7 @@ export function MetricCard({
       <div className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
               {label}
             </p>
             <p className={styles.value()}>{value}</p>
@@ -74,8 +74,8 @@ export function MetricCard({
         </div>
         {helper ? <p className={styles.helper()}>{helper}</p> : null}
         {trend ? (
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs font-semibold text-[var(--sh-color-cloud)]">
-            <TrendIcon aria-hidden="true" className="size-3.5 text-[var(--sh-color-sea)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] px-3 py-1.5 text-xs font-semibold text-[var(--sh-text-muted)]">
+            <TrendIcon aria-hidden="true" className="size-3.5 text-[var(--sh-interactive-text)]" />
             {trend}
           </div>
         ) : null}
