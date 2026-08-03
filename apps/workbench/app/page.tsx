@@ -94,7 +94,7 @@ export default function HomePage() {
 
       <main className="mx-auto w-full max-w-6xl px-5 pb-20">
         <section className="border-b border-white/10 py-12">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-color-sea)]">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-interactive-text)]">
             Internal design review
           </p>
           <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">

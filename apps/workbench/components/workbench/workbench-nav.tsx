@@ -17,7 +17,7 @@ export function WorkbenchNav({ current }: { current?: string }) {
     <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0a0a0c]/90 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
-          <span className="grid size-7 shrink-0 place-items-center rounded-full border border-dashed border-[rgba(0,122,255,0.62)] bg-[rgba(0,122,255,0.08)] text-[0.55rem] font-black tracking-[0.1em] text-[var(--sh-color-sea)]">
+          <span className="grid size-7 shrink-0 place-items-center rounded-full border border-dashed border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-[0.55rem] font-black tracking-[0.1em] text-[var(--sh-interactive-text)]">
             SEI
           </span>
           <span className="truncate text-xs font-bold uppercase tracking-[0.16em] text-white">

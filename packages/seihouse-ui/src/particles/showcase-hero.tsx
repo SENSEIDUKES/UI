@@ -15,7 +15,7 @@ const showcaseHeroStyles = tv({
     grid: "relative z-10 grid gap-8 lg:grid-cols-[1.06fr_0.94fr] lg:items-center",
     headline: "max-w-4xl text-4xl font-black leading-[0.95] tracking-[-0.075em] sm:text-6xl",
     preview:
-      "min-h-64 overflow-hidden rounded-[1.35rem] border border-white/12 bg-white/[0.055] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
+      "min-h-64 overflow-hidden rounded-[1.35rem] border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]",
   },
   variants: {
     variant: {
@@ -103,7 +103,7 @@ export function ShowcaseHero({
           </SEIBadge>
           <div className="space-y-5">
             <h1 className={styles.headline()}>{heroHeadline}</h1>
-            <p className="max-w-2xl text-base leading-relaxed text-[var(--sh-color-cloud)] sm:text-xl">
+            <p className="max-w-2xl text-base leading-relaxed text-[var(--sh-text-muted)] sm:text-xl">
               {heroSubheadline}
             </p>
           </div>
@@ -131,18 +131,18 @@ export function ShowcaseHero({
                 <SEIBadge variant="media-test" size="sm">
                   {entry?.previewLabel ?? "Preview area"}
                 </SEIBadge>
-                <span className="font-mono text-xs text-[var(--sh-color-mist)]">visual only</span>
+                <span className="font-mono text-xs text-[var(--sh-text-subtle)]">visual only</span>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[72, 44, 88, 56, 66, 38].map((height, index) => (
                   <span
                     key={index}
-                    className="rounded-2xl border border-white/10 bg-white/[0.055]"
+                    className="rounded-2xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)]"
                     style={{ height }}
                   />
                 ))}
               </div>
-              <p className="text-sm leading-relaxed text-[var(--sh-color-cloud)]">
+              <p className="text-sm leading-relaxed text-[var(--sh-text-muted)]">
                 Optional preview slot for album worlds, dashboard summaries, registry states, or
                 creator-tool mockups.
               </p>
@@ -156,16 +156,20 @@ export function ShowcaseHero({
 
 export default memo(ShowcaseHero, (prevProps, nextProps) => {
   // Custom comparison for complex props
-  const entryEqual = (!prevProps.entry && !nextProps.entry) ||
-    Boolean(prevProps.entry && nextProps.entry &&
+  const entryEqual =
+    (!prevProps.entry && !nextProps.entry) ||
+    Boolean(
+      prevProps.entry &&
+      nextProps.entry &&
       prevProps.entry.eyebrow === nextProps.entry.eyebrow &&
       prevProps.entry.headline === nextProps.entry.headline &&
       prevProps.entry.subheadline === nextProps.entry.subheadline &&
       prevProps.entry.previewLabel === nextProps.entry.previewLabel &&
-      JSON.stringify(prevProps.entry.badges) === JSON.stringify(nextProps.entry.badges));
-  
+      JSON.stringify(prevProps.entry.badges) === JSON.stringify(nextProps.entry.badges),
+    );
+
   const badgesEqual = JSON.stringify(prevProps.badges) === JSON.stringify(nextProps.badges);
-  
+
   return (
     entryEqual &&
     prevProps.eyebrow === nextProps.eyebrow &&

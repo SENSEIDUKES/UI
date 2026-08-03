@@ -874,7 +874,7 @@ export function CommandPaletteWorkbenchPreview(_props: ComponentPreviewProps) {
           Ctrl K
         </kbd>
         {last ? (
-          <span className="ml-2 text-[var(--sh-color-sea)]">Last run (mock): {last}</span>
+          <span className="ml-2 text-[var(--sh-interactive-text)]">Last run (mock): {last}</span>
         ) : null}
       </p>
       <SEICommandPalette

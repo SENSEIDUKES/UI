@@ -51,7 +51,7 @@ export function PluginSlotPreview({
     <SEIPanel as="article" variant="glass-test" padding="md" className={cn("h-full", className)}>
       <div className="space-y-5">
         <div className="flex items-start justify-between gap-4">
-          <div className="grid size-12 place-items-center rounded-2xl border border-white/12 bg-white/[0.055] text-white">
+          <div className="grid size-12 place-items-center rounded-2xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] text-[var(--sh-text-primary)]">
             <Icon aria-hidden="true" className="size-5" />
           </div>
           <SEIBadge variant={pluginStatusVariant[status]} size="sm">
@@ -60,22 +60,22 @@ export function PluginSlotPreview({
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
             Future plugin slot
           </p>
           <h3 className="text-xl font-semibold tracking-[-0.04em]">{slotName}</h3>
-          <p className="text-sm leading-relaxed text-[var(--sh-color-cloud)]">{description}</p>
+          <p className="text-sm leading-relaxed text-[var(--sh-text-muted)]">{description}</p>
         </div>
 
-        <div className="min-h-28 rounded-[1.1rem] border border-dashed border-white/15 bg-white/[0.035] p-4">
+        <div className="min-h-28 rounded-[1.1rem] border border-dashed border-[var(--sh-border-strong)] bg-[var(--sh-interactive-surface)] p-4">
           {placeholder ?? (
-            <div className="grid h-full min-h-20 place-items-center text-center text-sm text-[var(--sh-color-mist)]">
+            <div className="grid h-full min-h-20 place-items-center text-center text-sm text-[var(--sh-text-muted)]">
               Placeholder only — no plugin runtime or backend connection.
             </div>
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2 border-t border-white/10 pt-4">
+        <div className="flex flex-wrap gap-2 border-t border-[var(--sh-border)] pt-4">
           <SEIButton size="sm" variant="outline">
             Preview slot
           </SEIButton>

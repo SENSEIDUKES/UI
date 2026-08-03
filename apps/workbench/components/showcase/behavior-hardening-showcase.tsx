@@ -186,7 +186,7 @@ function CommandPaletteDemo() {
         Fuzzy search (try <span className="font-mono text-[var(--sh-color-cloud)]">ovf</span> →
         “Open Vault Fragments”), grouped arrow-key navigation, and a recent-commands section.
         {last ? (
-          <span className="ml-1 text-[var(--sh-color-sea)]">Last run (mock): {last}</span>
+          <span className="ml-1 text-[var(--sh-interactive-text)]">Last run (mock): {last}</span>
         ) : null}
       </p>
       <SEICommandPalette
@@ -325,7 +325,7 @@ export function BehaviorHardeningShowcase() {
               <li key={note} className="flex gap-2">
                 <Sparkles
                   aria-hidden="true"
-                  className="mt-0.5 size-3.5 shrink-0 text-[var(--sh-color-sea)]"
+                  className="mt-0.5 size-3.5 shrink-0 text-[var(--sh-interactive-text)]"
                 />
                 {note}
               </li>

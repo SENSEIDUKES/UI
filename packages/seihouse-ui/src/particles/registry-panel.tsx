@@ -13,9 +13,9 @@ const registryPanelStyles = tv({
   slots: {
     panel: "h-full",
     header:
-      "flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between",
+      "flex flex-col gap-4 border-b border-[var(--sh-border)] pb-5 sm:flex-row sm:items-start sm:justify-between",
     idLine:
-      "flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sh-color-mist)]",
+      "flex flex-wrap items-center gap-2 rounded-2xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] px-3 py-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--sh-text-subtle)]",
   },
   variants: {
     state: {
@@ -79,7 +79,7 @@ export function RegistryPanel({ item, state = item.state, className }: RegistryP
           </SEIButton>
         </div>
 
-        <p className="text-sm leading-relaxed text-[var(--sh-color-cloud)]">{item.verification}</p>
+        <p className="text-sm leading-relaxed text-[var(--sh-text-muted)]">{item.verification}</p>
 
         <div className="grid gap-3 md:grid-cols-2">
           <div className={styles.idLine()}>
@@ -104,7 +104,7 @@ export function RegistryPanel({ item, state = item.state, className }: RegistryP
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2 border-t border-white/10 pt-4">
+        <div className="flex flex-wrap gap-2 border-t border-[var(--sh-border)] pt-4">
           <SEIButton size="sm" variant="solid">
             Review mock record
           </SEIButton>
@@ -121,23 +121,21 @@ export default memo(RegistryPanel, (prevProps, nextProps) => {
   // Custom comparison for RegistryItem object
   if (prevProps.item !== nextProps.item) {
     // Deep compare registry item properties that affect rendering
-    const itemEqual = (
+    const itemEqual =
       prevProps.item.title === nextProps.item.title &&
       prevProps.item.type === nextProps.item.type &&
       prevProps.item.verification === nextProps.item.verification &&
       prevProps.item.mockId === nextProps.item.mockId &&
       prevProps.item.timestamp === nextProps.item.timestamp &&
       JSON.stringify(prevProps.item.seals) === JSON.stringify(nextProps.item.seals) &&
-      prevProps.item.state === nextProps.item.state
-    );
+      prevProps.item.state === nextProps.item.state;
     // Even if item content is the same, check state and className
-    return itemEqual &&
+    return (
+      itemEqual &&
       prevProps.state === nextProps.state &&
-      prevProps.className === nextProps.className;
+      prevProps.className === nextProps.className
+    );
   }
   // Item reference is same, check state and className
-  return (
-    prevProps.state === nextProps.state &&
-    prevProps.className === nextProps.className
-  );
+  return prevProps.state === nextProps.state && prevProps.className === nextProps.className;
 });

@@ -147,6 +147,123 @@
   --sh-safe-left: env(safe-area-inset-left, 0px);
 }
 
+/* ========================================================================
+   SEMANTIC COLOR THEMES
+
+   Components consume these role-based tokens instead of inferring contrast
+   from a dark parent. `data-theme` scopes whole documents/canvases, while the
+   `sh-theme-*` classes let intentionally dark, glass, or light components keep
+   their own contrast contract inside the opposite page theme.
+   ======================================================================== */
+:root,
+[data-theme="dark"],
+.sh-theme-dark {
+  color-scheme: dark;
+
+  --sh-page-background: #0a0a0c;
+  --sh-surface: #12141a;
+  --sh-surface-elevated: #1b1e26;
+  --sh-surface-raised: #252933;
+  --sh-text-primary: #f7f7fa;
+  --sh-text-muted: #b8bbc4;
+  --sh-text-subtle: #a4a8b2;
+  --sh-border: rgba(255, 255, 255, 0.14);
+  --sh-border-strong: rgba(255, 255, 255, 0.24);
+  --sh-focus-ring: #65adff;
+  --sh-focus-offset: #0a0a0c;
+  --sh-overlay-soft: rgba(0, 0, 0, 0.46);
+  --sh-overlay: rgba(0, 0, 0, 0.64);
+  --sh-overlay-strong: rgba(0, 0, 0, 0.76);
+
+  --sh-interactive-primary: #0068d1;
+  --sh-interactive-primary-hover: #005bb8;
+  --sh-interactive-on-primary: #ffffff;
+  --sh-interactive-text: #9bd0ff;
+  --sh-interactive-surface: rgba(255, 255, 255, 0.055);
+  --sh-interactive-surface-hover: rgba(255, 255, 255, 0.1);
+  --sh-interactive-surface-active: rgba(255, 255, 255, 0.14);
+  --sh-interactive-selected: #0c3157;
+  --sh-interactive-selected-border: #477caf;
+  --sh-interactive-selected-text: #ffffff;
+  --sh-progress-track: rgba(255, 255, 255, 0.14);
+  --sh-progress-fill-muted: rgba(255, 255, 255, 0.62);
+
+  --sh-status-success-bg: #153d21;
+  --sh-status-success-border: #397d4b;
+  --sh-status-success-text: #a2efb7;
+  --sh-status-warning-bg: #49320e;
+  --sh-status-warning-border: #916823;
+  --sh-status-warning-text: #ffda9c;
+  --sh-status-danger-bg: #4d211e;
+  --sh-status-danger-border: #99504b;
+  --sh-status-danger-text: #ffaaa4;
+  --sh-status-accent-bg: #4a291b;
+  --sh-status-accent-border: #9b583c;
+  --sh-status-accent-text: #ffb79c;
+
+  /* Compatibility aliases keep existing consumers theme-aware while their
+     internals migrate to the semantic names above. */
+  --sh-color-ivory: var(--sh-text-primary);
+  --sh-color-cloud: var(--sh-text-muted);
+  --sh-color-mist: var(--sh-text-subtle);
+  --sh-color-sea: var(--sh-interactive-primary);
+  --sh-color-sea-deep: var(--sh-interactive-primary-hover);
+  --sh-surface-base: var(--sh-surface);
+}
+
+[data-theme="light"],
+.sh-theme-light {
+  color-scheme: light;
+
+  --sh-page-background: #f7f6f1;
+  --sh-surface: #ffffff;
+  --sh-surface-elevated: #efeee8;
+  --sh-surface-raised: #e4e2db;
+  --sh-text-primary: #17191e;
+  --sh-text-muted: #555b66;
+  --sh-text-subtle: #535964;
+  --sh-border: rgba(23, 25, 30, 0.18);
+  --sh-border-strong: rgba(23, 25, 30, 0.32);
+  --sh-focus-ring: #005ebd;
+  --sh-focus-offset: #ffffff;
+  --sh-overlay-soft: rgba(16, 18, 22, 0.42);
+  --sh-overlay: rgba(16, 18, 22, 0.58);
+  --sh-overlay-strong: rgba(16, 18, 22, 0.72);
+
+  --sh-interactive-primary: #005ebd;
+  --sh-interactive-primary-hover: #004d9c;
+  --sh-interactive-on-primary: #ffffff;
+  --sh-interactive-text: #004f9f;
+  --sh-interactive-surface: rgba(23, 25, 30, 0.055);
+  --sh-interactive-surface-hover: rgba(23, 25, 30, 0.1);
+  --sh-interactive-surface-active: rgba(23, 25, 30, 0.14);
+  --sh-interactive-selected: #dcecff;
+  --sh-interactive-selected-border: #77aee8;
+  --sh-interactive-selected-text: #003d7a;
+  --sh-progress-track: rgba(23, 25, 30, 0.16);
+  --sh-progress-fill-muted: rgba(23, 25, 30, 0.58);
+
+  --sh-status-success-bg: #e2f6e7;
+  --sh-status-success-border: #83c895;
+  --sh-status-success-text: #17652d;
+  --sh-status-warning-bg: #fff1d6;
+  --sh-status-warning-border: #d5a34e;
+  --sh-status-warning-text: #6c4500;
+  --sh-status-danger-bg: #ffe5e2;
+  --sh-status-danger-border: #df928b;
+  --sh-status-danger-text: #8a241d;
+  --sh-status-accent-bg: #ffeadf;
+  --sh-status-accent-border: #e4a285;
+  --sh-status-accent-text: #873517;
+
+  --sh-color-ivory: var(--sh-text-primary);
+  --sh-color-cloud: var(--sh-text-muted);
+  --sh-color-mist: var(--sh-text-subtle);
+  --sh-color-sea: var(--sh-interactive-primary);
+  --sh-color-sea-deep: var(--sh-interactive-primary-hover);
+  --sh-surface-base: var(--sh-surface);
+}
+
 /* ==========================================================================
    Reduced motion strategy (Phase 4, promoted with the tokens in Phase 6)
    Honour prefers-reduced-motion. We *shorten* animations/transitions instead

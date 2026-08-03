@@ -108,7 +108,8 @@ export function SEIMenuItem({ className, destructive = false, ...props }: SEIMen
     <Menu.Item
       className={cn(
         menuItemClass,
-        destructive && "text-[#ff9b94] data-[highlighted]:bg-[rgba(255,69,58,0.11)]",
+        destructive &&
+          "text-[var(--sh-status-danger-text)] data-[highlighted]:bg-[var(--sh-status-danger-bg)]",
         className,
       )}
       {...props}
@@ -126,7 +127,7 @@ export interface SEIMenuCheckboxItemProps extends Omit<
 export function SEIMenuCheckboxItem({ className, children, ...props }: SEIMenuCheckboxItemProps) {
   return (
     <Menu.CheckboxItem className={cn(menuItemClass, "pl-9", className)} {...props}>
-      <Menu.CheckboxItemIndicator className="absolute left-3 inline-flex text-[var(--sh-color-sea)]">
+      <Menu.CheckboxItemIndicator className="absolute left-3 inline-flex text-[var(--sh-interactive-text)]">
         <Check aria-hidden="true" className="size-4" strokeWidth={3} />
       </Menu.CheckboxItemIndicator>
       <span className="min-w-0 flex-1">{children}</span>
@@ -150,7 +151,7 @@ export interface SEIMenuRadioItemProps extends Omit<
 export function SEIMenuRadioItem({ className, children, ...props }: SEIMenuRadioItemProps) {
   return (
     <Menu.RadioItem className={cn(menuItemClass, "pl-9", className)} {...props}>
-      <Menu.RadioItemIndicator className="absolute left-3 inline-flex text-[var(--sh-color-sea)]">
+      <Menu.RadioItemIndicator className="absolute left-3 inline-flex text-[var(--sh-interactive-text)]">
         <Circle aria-hidden="true" className="size-2.5 fill-current" />
       </Menu.RadioItemIndicator>
       <span className="min-w-0 flex-1">{children}</span>

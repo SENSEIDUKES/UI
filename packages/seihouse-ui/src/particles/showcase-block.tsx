@@ -39,17 +39,15 @@ export function ShowcaseBlock({
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-2">
             {title ? (
-              <h3 className="text-base font-semibold tracking-[-0.03em] text-current">
-                {title}
-              </h3>
+              <h3 className="text-base font-semibold tracking-[-0.03em] text-current">{title}</h3>
             ) : null}
             {description ? (
-              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-color-mist)]">
+              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-text-muted)]">
                 {description}
               </p>
             ) : null}
             {note ? (
-              <p className="text-xs font-medium uppercase tracking-[0.12em] text-[var(--sh-color-sea)]">
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-[var(--sh-interactive-text)]">
                 {note}
               </p>
             ) : null}

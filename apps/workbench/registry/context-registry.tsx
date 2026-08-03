@@ -108,7 +108,7 @@ function SeaPortalShellContext() {
     <SEIPanel variant="dark" padding="md" className="w-full">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div className="flex items-center gap-3">
-          <div className="grid size-9 place-items-center rounded-full border border-dashed border-[rgba(0,122,255,0.62)] bg-[rgba(0,122,255,0.08)] text-[0.6rem] font-black tracking-[0.14em] text-[var(--sh-color-sea)]">
+          <div className="grid size-9 place-items-center rounded-full border border-dashed border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-[0.6rem] font-black tracking-[0.14em] text-[var(--sh-interactive-text)]">
             SEA
           </div>
           <div>
@@ -162,7 +162,7 @@ function VaultFragmentListContext() {
     <SEIPanel variant="default" padding="md" className="w-full">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div className="flex items-center gap-2">
-          <Vault aria-hidden="true" className="size-4 text-[var(--sh-color-sea)]" />
+          <Vault aria-hidden="true" className="size-4 text-[var(--sh-interactive-text)]" />
           <h3 className="text-sm font-semibold text-white">Vault · recovered fragments</h3>
         </div>
         <SEIBadge variant="warning" size="sm">

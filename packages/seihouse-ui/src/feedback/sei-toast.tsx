@@ -155,7 +155,7 @@ const toneIcon = {
 
 const toneIconClass: Record<SEIToastTone, string> = {
   default: "text-[var(--sh-color-mist)]",
-  info: "text-[var(--sh-color-sea)]",
+  info: "text-[var(--sh-interactive-text)]",
   success: "text-[var(--sh-color-success)]",
   warning: "text-[var(--sh-color-warning)]",
   danger: "text-[var(--sh-color-danger)]",

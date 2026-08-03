@@ -30,7 +30,7 @@ export function SEIPageHeader({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 max-w-3xl space-y-2">
           {eyebrow ? (
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-color-sea)]">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-interactive-text)]">
               {eyebrow}
             </div>
           ) : null}

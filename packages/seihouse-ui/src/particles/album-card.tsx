@@ -14,7 +14,7 @@ const albumCardStyles = tv({
     media:
       "relative overflow-hidden bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.24),transparent_18rem),linear-gradient(135deg,rgba(0,122,255,0.34),rgba(255,107,53,0.16))]",
     artwork:
-      "relative flex aspect-square items-end justify-between overflow-hidden rounded-[1.15rem] border border-white/12 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
+      "relative flex aspect-square items-end justify-between overflow-hidden rounded-[1.15rem] border border-[var(--sh-border)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]",
     title: "tracking-[-0.04em]",
     tags: "flex flex-wrap gap-2",
   },
@@ -101,10 +101,10 @@ export function AlbumCard({ album, variant = "default", className }: AlbumCardPr
                 toneGlow[album.artworkTone],
               )}
             />
-            <div className="relative z-10 grid size-12 place-items-center rounded-2xl border border-white/15 bg-black/25 text-white backdrop-blur-xl">
+            <div className="relative z-10 grid size-12 place-items-center rounded-2xl border border-[var(--sh-border-strong)] bg-[var(--sh-interactive-surface-hover)] text-[var(--sh-text-primary)] backdrop-blur-xl">
               <Disc3 aria-hidden="true" className="size-5" />
             </div>
-            <div className="relative z-10 text-right font-mono text-xs uppercase tracking-[0.16em] text-white/70">
+            <div className="relative z-10 text-right font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sh-text-primary)]">
               {album.releaseType}
             </div>
           </div>
@@ -125,7 +125,7 @@ export function AlbumCard({ album, variant = "default", className }: AlbumCardPr
       description={variant === "compact" ? undefined : album.description}
       footer={
         <div className="space-y-4">
-          <div className="text-sm font-medium text-[var(--sh-color-cloud)]">{album.artist}</div>
+          <div className="text-sm font-medium text-[var(--sh-text-muted)]">{album.artist}</div>
           <div className={styles.tags()}>
             {album.tags.map((tag) => (
               <SEIBadge key={tag} size="sm" variant="outline" icon={Tag}>
@@ -151,23 +151,21 @@ export default memo(AlbumCard, (prevProps, nextProps) => {
   // Custom comparison for Album object
   if (prevProps.album !== nextProps.album) {
     // Deep compare album properties that affect rendering
-    const albumEqual = (
+    const albumEqual =
       prevProps.album.title === nextProps.album.title &&
       prevProps.album.artist === nextProps.album.artist &&
       prevProps.album.year === nextProps.album.year &&
       prevProps.album.description === nextProps.album.description &&
       prevProps.album.releaseType === nextProps.album.releaseType &&
       prevProps.album.status === nextProps.album.status &&
-      JSON.stringify(prevProps.album.tags) === JSON.stringify(nextProps.album.tags)
-    );
+      JSON.stringify(prevProps.album.tags) === JSON.stringify(nextProps.album.tags);
     // Even if album content is the same, check variant and className
-    return albumEqual &&
+    return (
+      albumEqual &&
       prevProps.variant === nextProps.variant &&
-      prevProps.className === nextProps.className;
+      prevProps.className === nextProps.className
+    );
   }
   // Album reference is same, check variant and className
-  return (
-    prevProps.variant === nextProps.variant &&
-    prevProps.className === nextProps.className
-  );
+  return prevProps.variant === nextProps.variant && prevProps.className === nextProps.className;
 });

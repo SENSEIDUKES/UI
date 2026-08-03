@@ -7,11 +7,16 @@ export type WidthOption = (typeof widthOptions)[number];
 export type ModeOption = "solo" | "variants" | "context";
 
 export const canvasStyles: Record<CanvasOption, string> = {
-  dark: "bg-[radial-gradient(circle_at_30%_15%,rgba(0,122,255,0.07),transparent_24rem),#0b0c10]",
-  light: "bg-[#f7f6f1]",
-  plain: "bg-[#15161a]",
-  glass: "bg-[linear-gradient(135deg,rgba(0,122,255,0.16),rgba(255,107,53,0.10)),#0d0f14]",
+  dark: "bg-[radial-gradient(circle_at_30%_15%,rgba(0,104,209,0.09),transparent_24rem),var(--sh-page-background)]",
+  light: "bg-[var(--sh-page-background)]",
+  plain: "bg-[var(--sh-surface)]",
+  glass:
+    "bg-[linear-gradient(135deg,rgba(0,104,209,0.18),rgba(255,107,53,0.12)),var(--sh-page-background)]",
 };
+
+export function canvasTheme(canvas: CanvasOption): "dark" | "light" {
+  return canvas === "light" ? "light" : "dark";
+}
 
 export const viewportPresets: Record<
   WidthOption,

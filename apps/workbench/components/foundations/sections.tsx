@@ -742,7 +742,7 @@ export function SystemSection() {
           <ul className="space-y-1.5 text-sm text-[var(--sh-color-cloud)]">
             {reducedMotionNotes.map((note) => (
               <li key={note} className="flex gap-2">
-                <span aria-hidden="true" className="text-[var(--sh-color-sea)]">
+                <span aria-hidden="true" className="text-[var(--sh-interactive-text)]">
                   ·
                 </span>
                 {note}

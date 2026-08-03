@@ -23,7 +23,7 @@ export default function FoundationsPage() {
 
       <main className="mx-auto w-full max-w-6xl px-5 pb-20">
         <div className="border-b border-white/10 py-10">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-color-sea)]">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-interactive-text)]">
             Core UI infrastructure
           </p>
           <h1 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white">

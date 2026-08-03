@@ -26,20 +26,20 @@ export function SEISection({
   return (
     <section className={cn(seiSectionVariants({ spacing }), className)} {...props}>
       {(eyebrow || title || description || aside) && (
-        <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-5 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 border-b border-[var(--sh-border)] pb-5 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-3xl space-y-3">
             {eyebrow ? (
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-color-sea)]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sh-interactive-text)]">
                 {eyebrow}
               </div>
             ) : null}
             {title ? (
-              <h2 className="text-2xl font-semibold tracking-[-0.055em] text-white sm:text-4xl">
+              <h2 className="text-2xl font-semibold tracking-[-0.055em] text-[var(--sh-text-primary)] sm:text-4xl">
                 {title}
               </h2>
             ) : null}
             {description ? (
-              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-color-cloud)] sm:text-base">
+              <p className="max-w-2xl text-sm leading-relaxed text-[var(--sh-text-muted)] sm:text-base">
                 {description}
               </p>
             ) : null}
