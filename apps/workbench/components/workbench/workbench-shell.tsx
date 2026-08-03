@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Library, Search, SlidersHorizontal } from "lucide-react";
 
 import {
   componentRegistry,
@@ -13,8 +13,17 @@ import {
   type WorkbenchComponentEntry,
 } from "@/registry/component-registry";
 import { getContextById } from "@/registry/context-registry";
-import { SEIBadge } from "@seihouse/ui";
-import { cn } from "@seihouse/ui";
+import {
+  SEIBadge,
+  SEIDrawer,
+  SEIDrawerBody,
+  SEIDrawerContent,
+  SEIDrawerDescription,
+  SEIDrawerHeader,
+  SEIDrawerTitle,
+  SEIDrawerTrigger,
+  cn,
+} from "@seihouse/ui";
 
 import { WorkbenchNav } from "./workbench-nav";
 
@@ -146,7 +155,7 @@ function DesignNotes({ slug }: { slug: string }) {
   );
 }
 
-function Sidebar({ activeSlug }: { activeSlug: string }) {
+function Sidebar({ activeSlug, onSelect }: { activeSlug: string; onSelect?: () => void }) {
   const [query, setQuery] = useState("");
 
   const grouped = useMemo(() => {
@@ -197,6 +206,7 @@ function Sidebar({ activeSlug }: { activeSlug: string }) {
                 <li key={entry.slug}>
                   <Link
                     href={`/workbench/${entry.slug}`}
+                    onClick={onSelect}
                     aria-current={entry.slug === activeSlug ? "page" : undefined}
                     className={cn(
                       "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors",
@@ -218,6 +228,113 @@ function Sidebar({ activeSlug }: { activeSlug: string }) {
         ))}
       </div>
     </nav>
+  );
+}
+
+interface ControlsProps {
+  entry: WorkbenchComponentEntry;
+  status: (typeof statusMeta)[WorkbenchComponentEntry["status"]];
+  variant: string;
+  mockIndex: number;
+  canvas: CanvasOption;
+  width: WidthOption;
+  mode: ModeOption;
+  setVariant: (value: string) => void;
+  setMockIndex: (value: number) => void;
+  setCanvas: (value: CanvasOption) => void;
+  setWidth: (value: WidthOption) => void;
+  setMode: (value: ModeOption) => void;
+}
+
+function Controls({
+  entry,
+  status,
+  variant,
+  mockIndex,
+  canvas,
+  width,
+  mode,
+  setVariant,
+  setMockIndex,
+  setCanvas,
+  setWidth,
+  setMode,
+}: ControlsProps) {
+  return (
+    <div className="space-y-5">
+      <div>
+        <ControlLabel>Mode</ControlLabel>
+        <div className="flex flex-wrap gap-1.5">
+          {(["solo", "variants", "context"] as const).map((option) => (
+            <SegButton key={option} active={mode === option} onClick={() => setMode(option)}>
+              {option}
+            </SegButton>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <ControlLabel>Variant</ControlLabel>
+        <div className="flex flex-wrap gap-1.5">
+          {entry.variants.map((option) => (
+            <SegButton key={option} active={variant === option} onClick={() => setVariant(option)}>
+              {option}
+            </SegButton>
+          ))}
+        </div>
+      </div>
+
+      {entry.mockDataOptions?.length ? (
+        <div>
+          <ControlLabel>Mock data</ControlLabel>
+          <div className="flex flex-wrap gap-1.5">
+            {entry.mockDataOptions.map((option, index) => (
+              <SegButton
+                key={option.id}
+                active={mockIndex === index}
+                onClick={() => setMockIndex(index)}
+              >
+                {option.label}
+              </SegButton>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <div>
+        <ControlLabel>Canvas</ControlLabel>
+        <div className="flex flex-wrap gap-1.5">
+          {(["dark", "light", "plain", "glass"] as const).map((option) => (
+            <SegButton key={option} active={canvas === option} onClick={() => setCanvas(option)}>
+              {option}
+            </SegButton>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <ControlLabel>Width</ControlLabel>
+        <div className="flex flex-wrap gap-1.5">
+          {(["mobile", "tablet", "desktop"] as const).map((option) => (
+            <SegButton key={option} active={width === option} onClick={() => setWidth(option)}>
+              {option}
+            </SegButton>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-white/10 pt-4">
+        <ControlLabel>Status</ControlLabel>
+        <SEIBadge variant={status.badge} size="sm">
+          {status.label}
+        </SEIBadge>
+      </div>
+
+      <div className="border-t border-white/10 pt-4">
+        <ControlLabel>Design notes</ControlLabel>
+        <DesignNotes slug={entry.slug} />
+      </div>
+    </div>
   );
 }
 
@@ -322,6 +439,8 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   const [canvas, setCanvas] = useState<CanvasOption>("dark");
   const [width, setWidth] = useState<WidthOption>("desktop");
   const [mode, setMode] = useState<ModeOption>("solo");
+  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
 
   // Reset per-component controls when navigating between components.
   useEffect(() => {
@@ -333,14 +452,17 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   const status = statusMeta[entry.status];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[var(--sh-color-ivory)]">
+    <div className="min-h-screen overflow-x-hidden bg-[#0a0a0c] text-[var(--sh-color-ivory)]">
       <WorkbenchNav current="/workbench" />
       <div className="mx-auto grid w-full max-w-[100rem] gap-6 px-5 py-6 lg:grid-cols-[14rem_minmax(0,1fr)_16rem]">
-        <aside className="lg:sticky lg:top-16 lg:h-[calc(100vh-5rem)]">
+        <aside
+          data-testid="desktop-component-catalog"
+          className="hidden lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-5rem)]"
+        >
           <Sidebar activeSlug={entry.slug} />
         </aside>
 
-        <main className="min-w-0">
+        <main data-testid="workbench-preview" className="min-w-0">
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <h1 className="text-xl font-semibold tracking-[-0.03em] text-white">{entry.name}</h1>
             <SEIBadge variant={status.badge} size="sm">
@@ -354,97 +476,87 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
             {entry.description}
           </p>
 
-          <PreviewArea
+          <div className="mb-4 grid grid-cols-2 gap-2 lg:hidden">
+            <SEIDrawer open={catalogOpen} onOpenChange={setCatalogOpen}>
+              <SEIDrawerTrigger className="flex min-w-0 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sh-color-sea)]">
+                <Library aria-hidden="true" className="size-4 shrink-0" />
+                <span className="truncate">Components</span>
+              </SEIDrawerTrigger>
+              <SEIDrawerContent side="left" size="compact" tone="dark">
+                <SEIDrawerHeader>
+                  <SEIDrawerTitle>Browse components</SEIDrawerTitle>
+                  <SEIDrawerDescription>
+                    Search the catalog and choose a component to preview.
+                  </SEIDrawerDescription>
+                </SEIDrawerHeader>
+                <SEIDrawerBody className="min-h-0">
+                  <Sidebar activeSlug={entry.slug} onSelect={() => setCatalogOpen(false)} />
+                </SEIDrawerBody>
+              </SEIDrawerContent>
+            </SEIDrawer>
+
+            <SEIDrawer open={controlsOpen} onOpenChange={setControlsOpen}>
+              <SEIDrawerTrigger className="flex min-w-0 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sh-color-sea)]">
+                <SlidersHorizontal aria-hidden="true" className="size-4 shrink-0" />
+                <span className="truncate">Controls</span>
+              </SEIDrawerTrigger>
+              <SEIDrawerContent side="bottom" tone="dark">
+                <SEIDrawerHeader>
+                  <SEIDrawerTitle>Component controls</SEIDrawerTitle>
+                  <SEIDrawerDescription>
+                    Adjust the preview and save design notes for {entry.name}.
+                  </SEIDrawerDescription>
+                </SEIDrawerHeader>
+                <SEIDrawerBody>
+                  <Controls
+                    entry={entry}
+                    status={status}
+                    variant={variant}
+                    mockIndex={mockIndex}
+                    canvas={canvas}
+                    width={width}
+                    mode={mode}
+                    setVariant={setVariant}
+                    setMockIndex={setMockIndex}
+                    setCanvas={setCanvas}
+                    setWidth={setWidth}
+                    setMode={setMode}
+                  />
+                </SEIDrawerBody>
+              </SEIDrawerContent>
+            </SEIDrawer>
+          </div>
+
+          <div data-testid="component-preview-canvas" className="min-w-0 overflow-x-auto">
+            <PreviewArea
+              entry={entry}
+              variant={variant}
+              mockIndex={mockIndex}
+              canvas={canvas}
+              width={width}
+              mode={mode}
+            />
+          </div>
+        </main>
+
+        <aside
+          data-testid="desktop-component-controls"
+          className="hidden lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pb-10"
+        >
+          <Controls
             entry={entry}
+            status={status}
             variant={variant}
             mockIndex={mockIndex}
             canvas={canvas}
             width={width}
             mode={mode}
+            setVariant={setVariant}
+            setMockIndex={setMockIndex}
+            setCanvas={setCanvas}
+            setWidth={setWidth}
+            setMode={setMode}
           />
-        </main>
-
-        <aside className="space-y-5 lg:sticky lg:top-16 lg:h-[calc(100vh-5rem)] lg:overflow-y-auto lg:pb-10">
-          <div>
-            <ControlLabel>Mode</ControlLabel>
-            <div className="flex flex-wrap gap-1.5">
-              {(["solo", "variants", "context"] as const).map((option) => (
-                <SegButton key={option} active={mode === option} onClick={() => setMode(option)}>
-                  {option}
-                </SegButton>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <ControlLabel>Variant</ControlLabel>
-            <div className="flex flex-wrap gap-1.5">
-              {entry.variants.map((option) => (
-                <SegButton
-                  key={option}
-                  active={variant === option}
-                  onClick={() => setVariant(option)}
-                >
-                  {option}
-                </SegButton>
-              ))}
-            </div>
-          </div>
-
-          {entry.mockDataOptions?.length ? (
-            <div>
-              <ControlLabel>Mock data</ControlLabel>
-              <div className="flex flex-wrap gap-1.5">
-                {entry.mockDataOptions.map((option, index) => (
-                  <SegButton
-                    key={option.id}
-                    active={mockIndex === index}
-                    onClick={() => setMockIndex(index)}
-                  >
-                    {option.label}
-                  </SegButton>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          <div>
-            <ControlLabel>Canvas</ControlLabel>
-            <div className="flex flex-wrap gap-1.5">
-              {(["dark", "light", "plain", "glass"] as const).map((option) => (
-                <SegButton
-                  key={option}
-                  active={canvas === option}
-                  onClick={() => setCanvas(option)}
-                >
-                  {option}
-                </SegButton>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <ControlLabel>Width</ControlLabel>
-            <div className="flex flex-wrap gap-1.5">
-              {(["mobile", "tablet", "desktop"] as const).map((option) => (
-                <SegButton key={option} active={width === option} onClick={() => setWidth(option)}>
-                  {option}
-                </SegButton>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-t border-white/10 pt-4">
-            <ControlLabel>Status</ControlLabel>
-            <SEIBadge variant={status.badge} size="sm">
-              {status.label}
-            </SEIBadge>
-          </div>
-
-          <div className="border-t border-white/10 pt-4">
-            <ControlLabel>Design notes</ControlLabel>
-            <DesignNotes slug={entry.slug} />
-          </div>
         </aside>
       </div>
     </div>
