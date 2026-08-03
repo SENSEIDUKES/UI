@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Library, Search, SlidersHorizontal } from "lucide-react";
 
@@ -26,6 +26,14 @@ import {
 } from "@seihouse/ui";
 
 import { WorkbenchNav } from "./workbench-nav";
+import {
+  canvasOptions,
+  viewportPresets,
+  widthOptions,
+  type CanvasOption,
+  type ModeOption,
+  type WidthOption,
+} from "./preview-config";
 
 /* ------------------------------------------------------------------ */
 /* Workbench shell                                                      */
@@ -33,23 +41,6 @@ import { WorkbenchNav } from "./workbench-nav";
 /* Center: one preview at a time on a controllable canvas.              */
 /* Right: variant / mock data / canvas / width / mode / status / notes. */
 /* ------------------------------------------------------------------ */
-
-type CanvasOption = "dark" | "light" | "plain" | "glass";
-type WidthOption = "mobile" | "tablet" | "desktop";
-type ModeOption = "solo" | "variants" | "context";
-
-const canvasStyles: Record<CanvasOption, string> = {
-  dark: "bg-[radial-gradient(circle_at_30%_15%,rgba(0,122,255,0.07),transparent_24rem),#0b0c10]",
-  light: "bg-[#f7f6f1]",
-  plain: "bg-[#15161a]",
-  glass: "bg-[linear-gradient(135deg,rgba(0,122,255,0.16),rgba(255,107,53,0.10)),#0d0f14]",
-};
-
-const widthStyles: Record<WidthOption, string> = {
-  mobile: "max-w-[23.5rem]",
-  tablet: "max-w-3xl",
-  desktop: "max-w-none",
-};
 
 const noteFields: { key: keyof ReviewNotes; label: string; placeholder: string }[] = [
   { key: "whatWorks", label: "What works", placeholder: "What already feels right…" },
@@ -304,7 +295,7 @@ function Controls({
       <div>
         <ControlLabel>Canvas</ControlLabel>
         <div className="flex flex-wrap gap-1.5">
-          {(["dark", "light", "plain", "glass"] as const).map((option) => (
+          {canvasOptions.map((option) => (
             <SegButton key={option} active={canvas === option} onClick={() => setCanvas(option)}>
               {option}
             </SegButton>
@@ -315,9 +306,9 @@ function Controls({
       <div>
         <ControlLabel>Width</ControlLabel>
         <div className="flex flex-wrap gap-1.5">
-          {(["mobile", "tablet", "desktop"] as const).map((option) => (
+          {widthOptions.map((option) => (
             <SegButton key={option} active={width === option} onClick={() => setWidth(option)}>
-              {option}
+              {viewportPresets[option].label}
             </SegButton>
           ))}
         </div>
@@ -338,6 +329,98 @@ function Controls({
   );
 }
 
+interface PreviewFrameProps {
+  entry: WorkbenchComponentEntry;
+  variant: string;
+  mockIndex: number;
+  canvas: CanvasOption;
+  width: WidthOption;
+  contextId?: string;
+  title?: string;
+}
+
+function PreviewFrame({
+  entry,
+  variant,
+  mockIndex,
+  canvas,
+  width,
+  contextId,
+  title,
+}: PreviewFrameProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const previewId = useId().replaceAll(":", "");
+  const preset = viewportPresets[width];
+  const [height, setHeight] = useState(preset.minimumHeight);
+
+  const src = useMemo(() => {
+    const query = new URLSearchParams({
+      canvas,
+      mockIndex: String(mockIndex),
+      previewId,
+      variant,
+    });
+    if (contextId) query.set("contextId", contextId);
+    return `/workbench/preview/${entry.slug}?${query.toString()}`;
+  }, [canvas, contextId, entry.slug, mockIndex, previewId, variant]);
+
+  useEffect(() => {
+    setHeight(preset.minimumHeight);
+  }, [preset.minimumHeight, src]);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== iframeRef.current?.contentWindow
+      ) {
+        return;
+      }
+
+      const message = event.data as {
+        source?: string;
+        previewId?: string;
+        height?: unknown;
+      };
+      if (
+        message.source !== "sei-workbench-preview" ||
+        message.previewId !== previewId ||
+        typeof message.height !== "number"
+      ) {
+        return;
+      }
+
+      setHeight(Math.max(preset.minimumHeight, Math.ceil(message.height)));
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [preset.minimumHeight, previewId]);
+
+  return (
+    <div className="w-max max-w-none">
+      <div className="mb-2 flex items-baseline justify-between gap-3 px-1">
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--sh-color-mist)]">
+          {title ?? preset.label}
+        </span>
+        <span className="font-mono text-[0.65rem] text-[var(--sh-color-mist)]">
+          {preset.width}px viewport
+        </span>
+      </div>
+      <div className="overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0b0c10] shadow-[0_24px_80px_rgba(0,0,0,0.32)]">
+        <iframe
+          ref={iframeRef}
+          data-testid="component-preview-frame"
+          title={`${entry.name} — ${title ?? preset.label} preview`}
+          src={src}
+          className="block max-w-none bg-transparent"
+          style={{ width: preset.width, height }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function PreviewArea({
   entry,
   variant,
@@ -353,8 +436,6 @@ function PreviewArea({
   width: WidthOption;
   mode: ModeOption;
 }) {
-  const Preview = entry.preview;
-
   if (mode === "context") {
     const contexts = entry.contextExamples
       .map((id) => getContextById(id))
@@ -371,20 +452,21 @@ function PreviewArea({
     return (
       <div className="space-y-6">
         {contexts.map((ctx) => {
-          const Context = ctx.component;
           return (
             <section key={ctx.id}>
               <div className="mb-2 flex flex-wrap items-baseline gap-2">
                 <h3 className="text-sm font-semibold text-white">{ctx.name}</h3>
                 <p className="text-xs text-[var(--sh-color-mist)]">{ctx.description}</p>
               </div>
-              <div
-                className={cn("rounded-[1.35rem] border border-white/10 p-5", canvasStyles[canvas])}
-              >
-                <div className={cn("mx-auto w-full", widthStyles[width])}>
-                  <Context />
-                </div>
-              </div>
+              <PreviewFrame
+                entry={entry}
+                variant={variant}
+                mockIndex={mockIndex}
+                canvas={canvas}
+                width={width}
+                contextId={ctx.id}
+                title={ctx.name}
+              />
             </section>
           );
         })}
@@ -397,19 +479,14 @@ function PreviewArea({
       <div className="space-y-4">
         {entry.variants.map((v) => (
           <section key={v}>
-            <p className="mb-1.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-[var(--sh-color-mist)]">
-              {v}
-            </p>
-            <div
-              className={cn(
-                "grid place-items-center rounded-[1.35rem] border border-white/10 p-6",
-                canvasStyles[canvas],
-              )}
-            >
-              <div className={cn("flex w-full justify-center", widthStyles[width])}>
-                <Preview variant={v} mockIndex={mockIndex} />
-              </div>
-            </div>
+            <PreviewFrame
+              entry={entry}
+              variant={v}
+              mockIndex={mockIndex}
+              canvas={canvas}
+              width={width}
+              title={v}
+            />
           </section>
         ))}
       </div>
@@ -417,16 +494,13 @@ function PreviewArea({
   }
 
   return (
-    <div
-      className={cn(
-        "grid min-h-[24rem] place-items-center rounded-[1.35rem] border border-white/10 p-6 sm:p-10",
-        canvasStyles[canvas],
-      )}
-    >
-      <div className={cn("flex w-full justify-center", widthStyles[width])}>
-        <Preview variant={variant} mockIndex={mockIndex} />
-      </div>
-    </div>
+    <PreviewFrame
+      entry={entry}
+      variant={variant}
+      mockIndex={mockIndex}
+      canvas={canvas}
+      width={width}
+    />
   );
 }
 
