@@ -51,6 +51,7 @@ test.describe("semantic theme contrast", () => {
     ["dojo-module-card", "light"],
     ["metric-card", "light"],
     ["player-shell", "light"],
+    ["page-header", "default"],
     ["showcase-hero", "light"],
     ["showcase-block", "light"],
   ] as const;
@@ -131,6 +132,11 @@ test.describe("semantic theme contrast", () => {
     await expect(menu).toHaveCSS("color-scheme", "light");
     await expect(menu).not.toHaveAttribute("data-starting-style");
     await expect(menu).toHaveCSS("opacity", "1");
+
+    const destructiveItem = menu.getByRole("menuitem", { name: "Archive fragment" });
+    await destructiveItem.hover();
+    await expect(destructiveItem).toHaveCSS("color", "rgb(138, 36, 29)");
+    await expect(destructiveItem).toHaveCSS("background-color", "rgb(255, 229, 226)");
 
     const results = await contrastResults(page);
     expect(results.violations).toEqual([]);

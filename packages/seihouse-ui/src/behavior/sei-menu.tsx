@@ -20,7 +20,7 @@ type PositionerProps = React.ComponentPropsWithoutRef<typeof Menu.Positioner>;
 const menuItemClass = cn(
   seiInteractiveItemVariants(),
   "relative min-h-9 select-none justify-between",
-  "data-[highlighted]:bg-white/[0.07] data-[highlighted]:text-white",
+  "data-[highlighted]:bg-[var(--sh-interactive-surface-hover)] data-[highlighted]:text-[var(--sh-text-primary)]",
   "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
   focusRing,
 );
@@ -109,7 +109,7 @@ export function SEIMenuItem({ className, destructive = false, ...props }: SEIMen
       className={cn(
         menuItemClass,
         destructive &&
-          "text-[var(--sh-status-danger-text)] data-[highlighted]:bg-[var(--sh-status-danger-bg)]",
+          "text-[var(--sh-status-danger-text)] data-[highlighted]:bg-[var(--sh-status-danger-bg)] data-[highlighted]:text-[var(--sh-status-danger-text)]",
         className,
       )}
       {...props}

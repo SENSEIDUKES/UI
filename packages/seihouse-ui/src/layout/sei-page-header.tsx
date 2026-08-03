@@ -34,7 +34,7 @@ export function SEIPageHeader({
               {eyebrow}
             </div>
           ) : null}
-          <h1 className="text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+          <h1 className="text-2xl font-semibold tracking-[-0.04em] text-[var(--sh-text-primary)] sm:text-3xl">
             {title}
           </h1>
           {description ? (
