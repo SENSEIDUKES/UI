@@ -35,7 +35,7 @@ export const seiDrawerStyles = tv({
       focusRing,
     ],
     header: "flex items-start justify-between gap-4 border-b px-5 py-4",
-    body: "flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed",
+    body: "min-h-0 flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed",
     footer: "flex flex-wrap items-center justify-end gap-2 border-t px-5 py-4",
     title: "text-base font-semibold tracking-[-0.02em]",
     description: "mt-1 text-sm leading-relaxed",

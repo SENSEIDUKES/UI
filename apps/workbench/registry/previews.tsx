@@ -21,6 +21,7 @@ import {
   Menu as MenuIcon,
   MoreHorizontal,
   Music,
+  Plus,
   Radio,
   Save,
   Search,
@@ -187,16 +188,27 @@ const pick = <T,>(items: readonly T[], index: number): T =>
 export function ButtonPreview({ variant }: ComponentPreviewProps) {
   const v = variant as React.ComponentProps<typeof SEIButton>["variant"];
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3">
-      <SEIButton variant={v} size="sm">
-        Small
-      </SEIButton>
-      <SEIButton variant={v} size="md" icon={Sparkles}>
-        Medium
-      </SEIButton>
-      <SEIButton variant={v} size="lg" iconRight={<ArrowRight className="size-4" />}>
-        Large
-      </SEIButton>
+    <div className="space-y-4">
+      <div className="mx-auto flex max-w-[17.5rem] flex-wrap items-center justify-center gap-3 sm:max-w-none">
+        <SEIButton variant={v} size="sm">
+          Small
+        </SEIButton>
+        <SEIButton variant={v} size="md" icon={Sparkles}>
+          Medium
+        </SEIButton>
+        <SEIButton variant={v} size="lg" iconRight={<ArrowRight className="size-4" />}>
+          Large
+        </SEIButton>
+      </div>
+      <div className="mx-auto flex max-w-[17.5rem] flex-wrap items-center justify-center gap-3 sm:max-w-none">
+        <SEIButton variant={v} loading>
+          Saving
+        </SEIButton>
+        <SEIButton variant={v} disabled>
+          Unavailable
+        </SEIButton>
+        <SEIButton variant={v} icon={Plus} aria-label="Add item" />
+      </div>
     </div>
   );
 }

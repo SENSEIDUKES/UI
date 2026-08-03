@@ -6,7 +6,7 @@ import { Plus, ArrowRight, Mail } from "lucide-react";
 const meta = {
   title: "Primitives/SEIButton",
   component: SEIButton,
-  tags: ["ai-generated", "needs-work"],
+  tags: ["autodocs"],
   parameters: {
     layout: "centered",
     docs: {
@@ -21,14 +21,18 @@ A versatile button component with multiple variants, sizes, and states.
 - **Focus Management**: Visible focus ring with \`focus-visible\` styles for keyboard users
 - **Loading State**: Sets \`aria-busy="true"\` when loading, disabling interaction
 - **Disabled State**: Uses \`disabled\` attribute for proper screen reader announcement
-- **Icon Support**: Icons use \`aria-hidden="true"\` to prevent redundant announcements
-- **Icon-Only Buttons**: Use \`data-icon-only\` attribute for proper sizing when no text label is present
+- **Icon Support**: Every icon slot is hidden from assistive technology to keep the visible label authoritative
+- **Icon-Only Buttons**: Require an \`aria-label\` or \`aria-labelledby\` accessible name
+- **Composition**: Forwards its DOM ref for focus management and behavior-component triggers
+- **High Contrast**: Retains a visible outline when forced-colors mode removes focus-ring shadows
 
 ### Usage Guidelines
 - Use \`variant="solid"\` for primary actions
 - Use \`variant="default"\` for secondary actions
 - Use \`variant="ghost"\` for tertiary actions
-- Always provide a text label or \`aria-label\` for icon-only buttons
+- Prefer \`md\` or \`lg\` for primary actions on touch-first phone and tablet surfaces
+- Use SEIButton for actions. For navigation, use a native anchor styled with \`seiButtonVariants\`
+- Keep visible labels concise; icon-only buttons still need an accessible name and usually a tooltip
         `,
       },
     },
@@ -85,7 +89,7 @@ A versatile button component with multiple variants, sizes, and states.
     },
     loading: {
       control: "boolean",
-      description: "Shows loading spinner and sets aria-busy",
+      description: "Shows a loading spinner, sets aria-busy, and prevents repeat activation",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },

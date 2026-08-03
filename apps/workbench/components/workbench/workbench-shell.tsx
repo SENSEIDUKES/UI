@@ -518,6 +518,34 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   const [mode, setMode] = useState<ModeOption>("solo");
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
+  const previewCanvasRef = useRef<HTMLDivElement>(null);
+
+  // Start with the preset that matches the device displaying the workbench.
+  // The explicit Width controls remain authoritative after this first mount.
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) {
+      setWidth("desktop");
+    } else if (window.matchMedia("(min-width: 640px)").matches) {
+      setWidth("tablet");
+    } else {
+      setWidth("mobile");
+    }
+  }, []);
+
+  // Fixed preview presets can be wider than a phone. Center their horizontal
+  // viewport so the component is visible immediately and can still be panned.
+  useEffect(() => {
+    const canvas = previewCanvasRef.current;
+    if (!canvas) return;
+
+    const animationFrame = requestAnimationFrame(() => {
+      canvas.scrollLeft = window.matchMedia("(min-width: 640px)").matches
+        ? 0
+        : Math.max(0, (canvas.scrollWidth - canvas.clientWidth) / 2);
+    });
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [entry.slug, mode, width]);
 
   // Reset per-component controls when navigating between components.
   useEffect(() => {
@@ -607,7 +635,11 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
             </SEIDrawer>
           </div>
 
-          <div data-testid="component-preview-canvas" className="min-w-0 overflow-x-auto">
+          <div
+            ref={previewCanvasRef}
+            data-testid="component-preview-canvas"
+            className="min-w-0 overflow-x-auto"
+          >
             <PreviewArea
               entry={entry}
               variant={variant}

@@ -175,7 +175,6 @@ function SEIToastViewport({
         "pb-[var(--sh-safe-bottom)] sm:bottom-5 sm:right-5",
         seiLayer.toast,
       )}
-      aria-label="Notifications"
     >
       {toasts.map((toast) => (
         <SEIToastItem key={toast.id} toast={toast} onDismiss={onDismiss} />
