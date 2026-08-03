@@ -3,7 +3,7 @@ import { tv, type VariantProps } from "tailwind-variants";
 import { seiLayer } from "./layering";
 
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sh-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sh-focus-offset)]";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-transparent focus-visible:ring-2 focus-visible:ring-[var(--sh-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sh-focus-offset)]";
 
 export const transitionSurface =
   "transition-[background,border-color,box-shadow,color,opacity,transform] duration-200 ease-out";
@@ -28,10 +28,11 @@ export const interactionStates = [
 
 export const seiButtonVariants = tv({
   base: [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full",
+    "inline-flex touch-manipulation items-center justify-center gap-2 whitespace-nowrap rounded-full",
     "font-semibold leading-none tracking-[-0.01em]",
     "disabled:pointer-events-none disabled:opacity-45",
     "data-[icon-only=true]:aspect-square data-[icon-only=true]:px-0",
+    "motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0",
     focusRing,
     transitionSurface,
   ],

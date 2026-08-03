@@ -181,7 +181,8 @@ export const componentRegistry: WorkbenchComponentEntry[] = [
     category: "Primitives",
     layer: "foundation",
     status: "approved-foundation",
-    description: "The one button every SEIHouse surface uses — actions, links, players, registry.",
+    description:
+      "The one native action button every SEIHouse surface uses — forms, players, registry.",
     variants: [
       "default",
       "soft",
