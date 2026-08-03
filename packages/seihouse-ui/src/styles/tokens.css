@@ -183,6 +183,7 @@
   --sh-interactive-surface-hover: rgba(255, 255, 255, 0.1);
   --sh-interactive-surface-active: rgba(255, 255, 255, 0.14);
   --sh-interactive-selected: #0c3157;
+  --sh-interactive-selected-hover: #164675;
   --sh-interactive-selected-border: #477caf;
   --sh-interactive-selected-text: #ffffff;
   --sh-progress-track: rgba(255, 255, 255, 0.14);
@@ -238,6 +239,7 @@
   --sh-interactive-surface-hover: rgba(23, 25, 30, 0.1);
   --sh-interactive-surface-active: rgba(23, 25, 30, 0.14);
   --sh-interactive-selected: #dcecff;
+  --sh-interactive-selected-hover: #c6e0ff;
   --sh-interactive-selected-border: #77aee8;
   --sh-interactive-selected-text: #003d7a;
   --sh-progress-track: rgba(23, 25, 30, 0.16);

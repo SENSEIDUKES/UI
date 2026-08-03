@@ -87,6 +87,19 @@ test.describe("semantic theme contrast", () => {
       await expectNoContrastViolations(page, previewPath("card", "default", canvas));
       await expectNoContrastViolations(page, previewPath("panel", "default", canvas));
     });
+
+    test(`soft button hover keeps accessible ${canvas} contrast`, async ({ page }) => {
+      await page.goto(previewPath("button", "soft", canvas));
+      const button = page.getByRole("button").first();
+      await button.hover();
+      await expect(button).toHaveCSS(
+        "background-color",
+        canvas === "dark" ? "rgb(22, 70, 117)" : "rgb(198, 224, 255)",
+      );
+
+      const results = await contrastResults(page);
+      expect(results.violations).toEqual([]);
+    });
   }
 
   test("theme scopes expose matching color-scheme and focus offsets", async ({ page }) => {

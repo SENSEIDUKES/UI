@@ -14,7 +14,7 @@ const metricCardStyles = tv({
   variants: {
     variant: {
       default: {},
-      soft: { value: "text-[var(--sh-interactive-selected-text)]" },
+      soft: { value: "text-[var(--sh-interactive-text)]" },
       dark: { value: "text-[var(--sh-text-primary)]" },
       light: { value: "text-[var(--sh-text-primary)]", helper: "text-[var(--sh-text-muted)]" },
       outline: { value: "text-[var(--sh-text-primary)]" },

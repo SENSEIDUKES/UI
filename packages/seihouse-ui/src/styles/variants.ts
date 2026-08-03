@@ -39,7 +39,7 @@ export const seiButtonVariants = tv({
     variant: {
       default:
         "border border-[var(--sh-border)] bg-[var(--sh-text-primary)] text-[var(--sh-page-background)] shadow-[0_16px_40px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 hover:opacity-90",
-      soft: "border border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-[var(--sh-interactive-selected-text)] hover:-translate-y-0.5 hover:bg-[var(--sh-interactive-surface-active)]",
+      soft: "border border-[var(--sh-interactive-selected-border)] bg-[var(--sh-interactive-selected)] text-[var(--sh-interactive-selected-text)] hover:-translate-y-0.5 hover:bg-[var(--sh-interactive-selected-hover)]",
       outline:
         "border border-[var(--sh-border-strong)] bg-transparent text-[var(--sh-text-primary)] hover:-translate-y-0.5 hover:bg-[var(--sh-interactive-surface-hover)]",
       ghost:

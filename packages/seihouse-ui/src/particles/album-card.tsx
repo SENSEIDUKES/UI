@@ -101,7 +101,7 @@ export function AlbumCard({ album, variant = "default", className }: AlbumCardPr
                 toneGlow[album.artworkTone],
               )}
             />
-            <div className="relative z-10 grid size-12 place-items-center rounded-2xl border border-[var(--sh-border-strong)] bg-[var(--sh-interactive-surface-hover)] text-[var(--sh-text-primary)] backdrop-blur-xl">
+            <div className="relative z-10 grid size-12 place-items-center rounded-2xl border border-[var(--sh-border-strong)] bg-[var(--sh-overlay)] text-[var(--sh-text-primary)] backdrop-blur-xl">
               <Disc3 aria-hidden="true" className="size-5" />
             </div>
             <div className="relative z-10 text-right font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sh-text-primary)]">
