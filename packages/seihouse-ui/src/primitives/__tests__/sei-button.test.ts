@@ -52,6 +52,26 @@ describe("SEIButton contract", () => {
     expect(markup).toContain('focusable="false"');
   });
 
+  it("does not render spacing wrappers for conditional icons that resolve to false", () => {
+    const markup = renderButton({
+      children: "Continue",
+      iconLeft: [false, null, ""],
+      iconRight: [false, null, ""],
+    });
+
+    expect(markup).not.toContain("inline-flex shrink-0");
+  });
+
+  it("retains icon-only sizing when a conditional label is empty", () => {
+    const markup = renderButton({
+      children: [false, null, ""],
+      icon: Plus,
+      "aria-label": "Add item",
+    });
+
+    expect(markup).toContain('data-icon-only="true"');
+  });
+
   it("accepts a DOM ref and an explicitly named icon-only button", () => {
     const ref = createRef<HTMLButtonElement>();
     const markup = renderButton({ ref, ...namedIconButtonProps });

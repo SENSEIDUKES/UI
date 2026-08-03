@@ -38,6 +38,10 @@ export type SEIButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "chil
   SEIButtonOwnProps &
   (TextButtonContent | NamedIconButtonContent);
 
+function hasRenderableContent(node: ReactNode): boolean {
+  return React.Children.toArray(node).some((child) => child !== "");
+}
+
 /**
  * SEIButton — styled native `<button>` with safe form, loading, focus, and
  * accessible-name defaults. Native button attributes and the DOM ref are
@@ -61,7 +65,9 @@ export const SEIButton = React.forwardRef<HTMLButtonElement, SEIButtonProps>(fun
   },
   ref,
 ) {
-  const iconOnly = children == null && (Icon != null || iconLeft != null || iconRight != null);
+  const hasLeadingIcon = Icon != null || hasRenderableContent(iconLeft);
+  const hasTrailingIcon = hasRenderableContent(iconRight);
+  const iconOnly = !hasRenderableContent(children) && (hasLeadingIcon || hasTrailingIcon);
 
   return (
     <button
@@ -79,7 +85,7 @@ export const SEIButton = React.forwardRef<HTMLButtonElement, SEIButtonProps>(fun
           aria-hidden="true"
           className="size-4 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent"
         />
-      ) : iconLeft != null ? (
+      ) : hasRenderableContent(iconLeft) ? (
         <span aria-hidden="true" className="inline-flex shrink-0 items-center justify-center">
           {iconLeft}
         </span>
@@ -88,7 +94,7 @@ export const SEIButton = React.forwardRef<HTMLButtonElement, SEIButtonProps>(fun
         <Icon aria-hidden="true" focusable="false" className="size-4 shrink-0" />
       ) : null}
       {children}
-      {iconRight != null ? (
+      {hasRenderableContent(iconRight) ? (
         <span aria-hidden="true" className="inline-flex shrink-0 items-center justify-center">
           {iconRight}
         </span>
