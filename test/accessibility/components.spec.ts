@@ -11,9 +11,13 @@ function criticalOrSerious(results: Awaited<ReturnType<AxeBuilder["analyze"]>>) 
   );
 }
 
+function previewPath(slug: string) {
+  return `/workbench/preview/${slug}?canvas=dark&mockIndex=0&previewId=component-test`;
+}
+
 test.describe("component primitives", () => {
   test("opened menu has no critical/serious axe violations", async ({ page }) => {
-    await page.goto("/workbench/menu");
+    await page.goto(previewPath("menu"));
     await page.getByRole("button", { name: /Open menu/i }).click();
     await expect(page.getByRole("menu")).toBeVisible();
 
@@ -30,7 +34,7 @@ test.describe("component primitives", () => {
   });
 
   test("toast announces a fired notification", async ({ page }) => {
-    await page.goto("/workbench/toast");
+    await page.goto(previewPath("toast"));
     await page.getByRole("button", { name: /Fire success toast/i }).click();
 
     const toast = page.getByRole("status").filter({ hasText: "Vault update saved" });
@@ -39,7 +43,7 @@ test.describe("component primitives", () => {
   });
 
   test("data table sortable headers toggle aria-sort by click and keyboard", async ({ page }) => {
-    await page.goto("/workbench/data-table");
+    await page.goto(previewPath("data-table"));
 
     const titleHeader = page.getByRole("columnheader", { name: /Title/i });
     const titleButton = titleHeader.getByRole("button", { name: /Title/i });
