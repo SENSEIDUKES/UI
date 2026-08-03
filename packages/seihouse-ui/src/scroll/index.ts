@@ -1,8 +1,4 @@
-export {
-  SEIScrollArea,
-  type SEIScrollAreaProps,
-  getScrollShadows,
-} from "./sei-scroll-area";
+export { SEIScrollArea, type SEIScrollAreaProps, getScrollShadows } from "./sei-scroll-area";
 export {
   SEIVirtualScrollArea,
   getVirtualRange,

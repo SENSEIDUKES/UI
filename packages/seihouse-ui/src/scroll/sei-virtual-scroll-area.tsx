@@ -49,7 +49,8 @@ export function getVirtualRange(args: {
   }
 
   const visibleStart = Math.floor(Math.max(0, scrollTop) / safeHeight);
-  const visibleEnd = Math.ceil((Math.max(0, scrollTop) + Math.max(0, viewportHeight)) / safeHeight) - 1;
+  const visibleEnd =
+    Math.ceil((Math.max(0, scrollTop) + Math.max(0, viewportHeight)) / safeHeight) - 1;
   const startIndex = Math.max(0, visibleStart - safeOverscan);
   const endIndex = Math.min(safeCount - 1, visibleEnd + safeOverscan);
 
@@ -61,8 +62,10 @@ export function getVirtualRange(args: {
   };
 }
 
-export interface SEIVirtualScrollAreaProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+export interface SEIVirtualScrollAreaProps<T> extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
   /** Items to virtualize. */
   items: readonly T[];
   /** Fixed row height in pixels. Keep this close to rendered item height. */
@@ -110,7 +113,8 @@ export function SEIVirtualScrollArea<T>({
   const [shadows, setShadows] = useState({ top: false, bottom: false });
 
   const range = useMemo(
-    () => getVirtualRange({ itemCount: items.length, itemHeight, viewportHeight, scrollTop, overscan }),
+    () =>
+      getVirtualRange({ itemCount: items.length, itemHeight, viewportHeight, scrollTop, overscan }),
     [items.length, itemHeight, overscan, scrollTop, viewportHeight],
   );
 

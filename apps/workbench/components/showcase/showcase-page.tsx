@@ -38,12 +38,7 @@ import {
   mockShowcaseEntries,
   mockVaultFragments,
 } from "@/lib/mock-data/examples";
-import {
-  ActionStrip,
-  RegistrySeal,
-  ShowcaseBlock,
-  ShowcaseHero,
-} from "@seihouse/ui";
+import { ActionStrip, RegistrySeal, ShowcaseBlock, ShowcaseHero } from "@seihouse/ui";
 import { SEIBadge } from "@seihouse/ui";
 import { SEIButton } from "@seihouse/ui";
 import { SEICard } from "@seihouse/ui";

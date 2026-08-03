@@ -151,17 +151,20 @@ function Sidebar({ activeSlug }: { activeSlug: string }) {
 
   const grouped = useMemo(() => {
     const q = query.trim().toLowerCase();
+
+    const filteredEntries = q
+      ? componentRegistry.filter(
+          (entry) =>
+            entry.name.toLowerCase().includes(q) ||
+            entry.category.toLowerCase().includes(q) ||
+            entry.slug.includes(q),
+        )
+      : componentRegistry;
+
     return orderedLayers
       .map((layer) => ({
         layer,
-        entries: componentRegistry.filter(
-          (entry) =>
-            entry.layer === layer &&
-            (!q ||
-              entry.name.toLowerCase().includes(q) ||
-              entry.category.toLowerCase().includes(q) ||
-              entry.slug.includes(q)),
-        ),
+        entries: filteredEntries.filter((entry) => entry.layer === layer),
       }))
       .filter((group) => group.entries.length > 0);
   }, [query]);

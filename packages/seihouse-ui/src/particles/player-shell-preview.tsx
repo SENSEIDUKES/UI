@@ -65,9 +65,19 @@ export function PlayerShellPreview({
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
           <div className="flex items-center gap-2">
-            <SEIButton variant="ghost" size="sm" icon={SkipBack} aria-label="Previous track preview" />
+            <SEIButton
+              variant="ghost"
+              size="sm"
+              icon={SkipBack}
+              aria-label="Previous track preview"
+            />
             <SEIButton variant="solid" size="md" icon={Play} aria-label="Play preview" />
-            <SEIButton variant="ghost" size="sm" icon={SkipForward} aria-label="Next track preview" />
+            <SEIButton
+              variant="ghost"
+              size="sm"
+              icon={SkipForward}
+              aria-label="Next track preview"
+            />
           </div>
           <div className="flex items-center gap-3 text-[var(--sh-color-mist)]">
             <Pause aria-hidden="true" className="size-4 opacity-60" />

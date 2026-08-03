@@ -156,16 +156,20 @@ export function ShowcaseHero({
 
 export default memo(ShowcaseHero, (prevProps, nextProps) => {
   // Custom comparison for complex props
-  const entryEqual = (!prevProps.entry && !nextProps.entry) ||
-    Boolean(prevProps.entry && nextProps.entry &&
+  const entryEqual =
+    (!prevProps.entry && !nextProps.entry) ||
+    Boolean(
+      prevProps.entry &&
+      nextProps.entry &&
       prevProps.entry.eyebrow === nextProps.entry.eyebrow &&
       prevProps.entry.headline === nextProps.entry.headline &&
       prevProps.entry.subheadline === nextProps.entry.subheadline &&
       prevProps.entry.previewLabel === nextProps.entry.previewLabel &&
-      JSON.stringify(prevProps.entry.badges) === JSON.stringify(nextProps.entry.badges));
-  
+      JSON.stringify(prevProps.entry.badges) === JSON.stringify(nextProps.entry.badges),
+    );
+
   const badgesEqual = JSON.stringify(prevProps.badges) === JSON.stringify(nextProps.badges);
-  
+
   return (
     entryEqual &&
     prevProps.eyebrow === nextProps.eyebrow &&
