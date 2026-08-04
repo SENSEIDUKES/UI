@@ -68,15 +68,13 @@ export function SEIMultiSelectCombobox({
 
   const lowerQuery = inputValue.trim().toLowerCase();
   // Available = not-yet-selected options matching the current query.
-  const available = useMemo(
-    () =>
-      options.filter(
-        (o) =>
-          !selected.includes(o.id) &&
-          (lowerQuery === "" || o.label.toLowerCase().includes(lowerQuery)),
-      ),
-    [options, selected, lowerQuery],
-  );
+  const available = useMemo(() => {
+    const selectedSet = new Set(selected);
+    return options.filter(
+      (o) =>
+        !selectedSet.has(o.id) && (lowerQuery === "" || o.label.toLowerCase().includes(lowerQuery)),
+    );
+  }, [options, selected, lowerQuery]);
 
   const addKey = (key: Key | null) => {
     if (key == null) return;
