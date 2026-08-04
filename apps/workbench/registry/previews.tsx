@@ -294,6 +294,75 @@ export function PanelPreview({ variant }: ComponentPreviewProps) {
   );
 }
 
+export function GlassPanelPreview({ variant }: ComponentPreviewProps) {
+  const glow = variant === "glow";
+  return (
+    <div className="relative w-full max-w-2xl">
+      {/* Decorative backdrop so the translucency and blur read clearly. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_18%_0%,rgba(0,122,255,0.28),transparent_60%),radial-gradient(circle_at_85%_95%,rgba(255,107,53,0.18),transparent_55%)]"
+      />
+      <div className="relative space-y-4 p-1 sm:p-3">
+        {/* Large content panel */}
+        <SEIPanel variant="glass" glow={glow} padding="lg" as="section" className="w-full">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-color-mist)]">
+            Content panel
+          </p>
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] sm:text-2xl">
+            Midnight Sessions
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--sh-color-cloud)]">
+            The glass surface carries primary content: a translucent dark body, soft blur, and a
+            thin luminous edge that stays calm over busy artwork behind it.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {["12 tracks", "Registered", "Vault ready"].map((label) => (
+              <div
+                key={label}
+                className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-center text-xs text-[var(--sh-color-cloud)]"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+        </SEIPanel>
+
+        {/* Smaller info / callout panel */}
+        <SEIPanel variant="glass" glow={glow} padding="sm" className="w-full sm:max-w-md">
+          <div className="flex items-start gap-3">
+            <Info
+              aria-hidden="true"
+              className="mt-0.5 size-4 shrink-0 text-[var(--sh-interactive-text)]"
+            />
+            <div>
+              <p className="text-sm font-semibold">Registry note</p>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--sh-color-cloud)]">
+                A compact callout for hints, metadata, or secondary information.
+              </p>
+            </div>
+          </div>
+        </SEIPanel>
+
+        {/* Footer / action strip panel */}
+        <SEIPanel variant="glass" glow={glow} padding="sm" as="footer" className="w-full">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-[var(--sh-color-mist)]">Draft saved · 2 minutes ago</p>
+            <div className="flex items-center gap-2">
+              <SEIButton variant="ghost" size="md">
+                Discard
+              </SEIButton>
+              <SEIButton variant="solid" size="md" iconRight={<ArrowRight className="size-4" />}>
+                Publish
+              </SEIButton>
+            </div>
+          </div>
+        </SEIPanel>
+      </div>
+    </div>
+  );
+}
+
 export function SectionPreview({ variant }: ComponentPreviewProps) {
   return (
     <SEISection

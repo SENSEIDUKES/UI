@@ -117,7 +117,9 @@ export const seiBadgeVariants = tv({
 
 export const seiPanelVariants = tv({
   base: [
-    "relative overflow-hidden rounded-[1.35rem] border",
+    // min-w-0 lets the panel shrink inside flex/grid tracks so overflow-hidden
+    // contains long content instead of the panel overflowing its layout.
+    "relative min-w-0 overflow-hidden rounded-[1.35rem] border",
     "shadow-[0_24px_70px_rgba(0,0,0,0.22)]",
     transitionSurface,
   ],
@@ -132,6 +134,19 @@ export const seiPanelVariants = tv({
       dark: "sh-theme-dark border-[var(--sh-border)] bg-[#07080c] text-[var(--sh-text-primary)] shadow-[0_28px_80px_rgba(0,0,0,0.34)]",
       light:
         "sh-theme-light border-[var(--sh-border)] bg-[var(--sh-surface)] text-[var(--sh-text-primary)] shadow-[0_24px_70px_rgba(0,0,0,0.16)]",
+      glass: [
+        "sh-theme-dark border-[var(--sh-glass-border)] text-[var(--sh-text-primary)]",
+        // Sheen gradient is an explicit background-image: a `bg-[gradient,color]`
+        // list would compile to an invalid `background-color` and be dropped.
+        "[background-image:linear-gradient(165deg,rgba(255,255,255,0.075),rgba(255,255,255,0.018)_42%)]",
+        // Base stays opaque enough for browsers without backdrop-filter support;
+        // the translucent body is layered on behind a supports() guard.
+        "bg-[rgba(12,14,20,0.92)] supports-[backdrop-filter]:bg-[rgba(12,14,20,0.62)]",
+        // Lighter blur on small screens, where high-DPR mobile GPUs pay the
+        // most for backdrop sampling; full blur from sm up.
+        "backdrop-blur-[var(--sh-blur-sm)] backdrop-saturate-150 sm:backdrop-blur-[var(--sh-blur-md)]",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(255,255,255,0.03),0_24px_70px_rgba(0,0,0,0.34)]",
+      ].join(" "),
       "glass-test":
         "sh-theme-dark border-[var(--sh-border)] bg-[rgba(18,20,26,0.84)] text-[var(--sh-text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl",
       "media-test":
@@ -144,7 +159,12 @@ export const seiPanelVariants = tv({
       lg: "p-6 sm:p-8",
     },
     interactive: {
-      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.32)] hover:shadow-[0_32px_90px_rgba(0,0,0,0.34),0_0_38px_rgba(0,122,255,0.08)]",
+      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.32)] hover:shadow-[0_32px_90px_rgba(0,0,0,0.34),0_0_38px_rgba(0,122,255,0.08)] motion-reduce:hover:translate-y-0",
+      false: "",
+    },
+    /** Optional gentle rim light — pairs with the glass variant. */
+    glow: {
+      true: "drop-shadow-[0_0_30px_rgba(0,122,255,0.12)]",
       false: "",
     },
   },
@@ -152,6 +172,7 @@ export const seiPanelVariants = tv({
     variant: "default",
     padding: "md",
     interactive: false,
+    glow: false,
   },
 });
 
