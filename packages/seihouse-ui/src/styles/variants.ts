@@ -132,6 +132,12 @@ export const seiPanelVariants = tv({
       dark: "sh-theme-dark border-[var(--sh-border)] bg-[#07080c] text-[var(--sh-text-primary)] shadow-[0_28px_80px_rgba(0,0,0,0.34)]",
       light:
         "sh-theme-light border-[var(--sh-border)] bg-[var(--sh-surface)] text-[var(--sh-text-primary)] shadow-[0_24px_70px_rgba(0,0,0,0.16)]",
+      glass: [
+        "sh-theme-dark border-[var(--sh-glass-border)] text-[var(--sh-text-primary)]",
+        "bg-[linear-gradient(165deg,rgba(255,255,255,0.075),rgba(255,255,255,0.018)_42%),rgba(12,14,20,0.62)]",
+        "backdrop-blur-[var(--sh-blur-md)] backdrop-saturate-150",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(255,255,255,0.03),0_24px_70px_rgba(0,0,0,0.34)]",
+      ].join(" "),
       "glass-test":
         "sh-theme-dark border-[var(--sh-border)] bg-[rgba(18,20,26,0.84)] text-[var(--sh-text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl",
       "media-test":
@@ -147,11 +153,17 @@ export const seiPanelVariants = tv({
       true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.32)] hover:shadow-[0_32px_90px_rgba(0,0,0,0.34),0_0_38px_rgba(0,122,255,0.08)]",
       false: "",
     },
+    /** Optional gentle rim light — pairs with the glass variant. */
+    glow: {
+      true: "drop-shadow-[0_0_30px_rgba(0,122,255,0.12)]",
+      false: "",
+    },
   },
   defaultVariants: {
     variant: "default",
     padding: "md",
     interactive: false,
+    glow: false,
   },
 });
 

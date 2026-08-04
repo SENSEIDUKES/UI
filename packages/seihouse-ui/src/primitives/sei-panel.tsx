@@ -15,13 +15,14 @@ export function SEIPanel({
   variant,
   padding,
   interactive,
+  glow,
   ...props
 }: SEIPanelProps) {
   const Component = as as ElementType;
 
   return (
     <Component
-      className={cn(seiPanelVariants({ variant, padding, interactive }), className)}
+      className={cn(seiPanelVariants({ variant, padding, interactive, glow }), className)}
       {...props}
     />
   );
