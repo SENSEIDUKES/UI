@@ -53,7 +53,8 @@ export interface SEINavigationDrawerPanelProps extends HTMLAttributes<HTMLDivEle
 }
 
 const itemClasses = cn(
-  "flex w-full touch-manipulation items-center gap-3 rounded-xl px-3 py-2.5 text-left",
+  // `py-3` keeps the row at a comfortable 44px touch target.
+  "flex w-full touch-manipulation items-center gap-3 rounded-xl px-3 py-3 text-left",
   "text-sm font-medium text-[var(--sh-color-cloud)]",
   "hover:bg-[var(--sh-interactive-surface-hover)] hover:text-[var(--sh-color-ivory)]",
   "active:bg-[var(--sh-interactive-surface-active)]",
@@ -218,8 +219,10 @@ export interface SEINavigationDrawerProps extends SEINavigationDrawerPanelProps 
  *
  * Built on `SEIDrawer` (Base UI Dialog), so focus trapping, Escape handling,
  * scroll lock, and the slide transition come from the shared behavior layer.
- * Presentational by design: the parent owns routing/state, reacts through each
- * item's `onSelect`, and closes via `onClose`.
+ * On phones the panel caps at 85vw so a scrim sliver (and its tap-to-close
+ * affordance) stays visible; from `sm` up the drawer's compact 20rem width
+ * takes over. Presentational by design: the parent owns routing/state, reacts
+ * through each item's `onSelect`, and closes via `onClose`.
  */
 export function SEINavigationDrawer({
   open,
@@ -242,7 +245,7 @@ export function SEINavigationDrawer({
         size="compact"
         tone="dark"
         aria-label={ariaLabel}
-        className={className}
+        className={cn("max-w-[85vw]", className)}
       >
         <SEINavigationDrawerPanel onClose={onClose} {...panelProps} />
       </SEIDrawerContent>

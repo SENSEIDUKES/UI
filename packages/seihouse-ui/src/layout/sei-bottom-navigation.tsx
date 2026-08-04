@@ -47,7 +47,7 @@ export function SEIBottomNavigation({ items, className, ...props }: SEIBottomNav
       )}
       {...props}
     >
-      <div className="flex items-stretch gap-1">
+      <div className="flex items-stretch justify-center gap-1">
         {items.map((item) => (
           <button
             key={item.id}
@@ -56,7 +56,9 @@ export function SEIBottomNavigation({ items, className, ...props }: SEIBottomNav
             data-selected={item.active ? "true" : undefined}
             onClick={() => item.onSelect?.(item.id)}
             className={cn(
-              "flex min-w-0 flex-1 touch-manipulation flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5",
+              // `max-w-40` keeps tabs from stretching apart on tablet/desktop;
+              // below the cap they still share the full width via `flex-1`.
+              "flex min-w-0 max-w-40 flex-1 touch-manipulation flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5",
               "text-xs font-medium text-[var(--sh-color-cloud)]",
               "hover:bg-[var(--sh-interactive-surface-hover)] hover:text-[var(--sh-color-ivory)]",
               "active:bg-[var(--sh-interactive-surface-active)]",

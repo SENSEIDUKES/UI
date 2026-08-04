@@ -59,4 +59,11 @@ describe("SEIBottomNavigation contract", () => {
     expect(markup).toContain("pb-[calc(0.5rem+var(--sh-safe-bottom))]");
     expect(markup).toContain("backdrop-blur-[var(--sh-blur-md)]");
   });
+
+  it("caps tab width so tabs stay grouped on wide screens", () => {
+    const markup = renderNavigation();
+
+    expect(markup).toContain("max-w-40");
+    expect(markup).toContain("justify-center");
+  });
 });

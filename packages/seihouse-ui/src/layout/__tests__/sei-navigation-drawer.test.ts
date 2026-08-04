@@ -96,4 +96,8 @@ describe("SEINavigationDrawerPanel contract", () => {
     expect(markup).toContain("pb-[calc(0.75rem+var(--sh-safe-bottom))]");
     expect(renderPanel()).not.toContain("--sh-safe-bottom");
   });
+
+  it("keeps destination rows at a comfortable touch target", () => {
+    expect(renderPanel()).toContain("py-3");
+  });
 });
