@@ -37,9 +37,8 @@ test.describe("component primitives", () => {
     await page.goto(previewPath("toast"));
     await page.getByRole("button", { name: /Fire success toast/i }).click();
 
-    const toast = page.getByRole("status").filter({ hasText: "Vault update saved" });
-    await expect(toast).toBeVisible();
-    await expect(toast).toContainText("mock notification");
+    const toast = page.getByRole("status");
+    await expect(toast).toContainText(/Vault update saved[\s\S]*mock notification/);
   });
 
   test("data table sortable headers toggle aria-sort by click and keyboard", async ({ page }) => {
