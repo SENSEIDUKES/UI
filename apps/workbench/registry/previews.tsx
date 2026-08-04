@@ -349,10 +349,10 @@ export function GlassPanelPreview({ variant }: ComponentPreviewProps) {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-[var(--sh-color-mist)]">Draft saved · 2 minutes ago</p>
             <div className="flex items-center gap-2">
-              <SEIButton variant="ghost" size="sm">
+              <SEIButton variant="ghost" size="md">
                 Discard
               </SEIButton>
-              <SEIButton variant="solid" size="sm" iconRight={<ArrowRight className="size-4" />}>
+              <SEIButton variant="solid" size="md" iconRight={<ArrowRight className="size-4" />}>
                 Publish
               </SEIButton>
             </div>

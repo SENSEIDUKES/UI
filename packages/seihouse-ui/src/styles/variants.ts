@@ -117,7 +117,9 @@ export const seiBadgeVariants = tv({
 
 export const seiPanelVariants = tv({
   base: [
-    "relative overflow-hidden rounded-[1.35rem] border",
+    // min-w-0 lets the panel shrink inside flex/grid tracks so overflow-hidden
+    // contains long content instead of the panel overflowing its layout.
+    "relative min-w-0 overflow-hidden rounded-[1.35rem] border",
     "shadow-[0_24px_70px_rgba(0,0,0,0.22)]",
     transitionSurface,
   ],
