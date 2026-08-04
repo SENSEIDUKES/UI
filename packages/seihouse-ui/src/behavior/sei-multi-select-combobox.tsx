@@ -67,16 +67,26 @@ export function SEIMultiSelectCombobox({
   const selectedOptions = selected.map((id) => byId.get(id)).filter(Boolean) as MultiSelectOption[];
 
   const lowerQuery = inputValue.trim().toLowerCase();
+
+  // Cache lowercased labels to avoid allocating strings inside the filter loop.
+  const lowerLabels = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const o of options) {
+      map.set(o.id, o.label.toLowerCase());
+    }
+    return map;
+  }, [options]);
+
   // Available = not-yet-selected options matching the current query.
-  const available = useMemo(
-    () =>
-      options.filter(
-        (o) =>
-          !selected.includes(o.id) &&
-          (lowerQuery === "" || o.label.toLowerCase().includes(lowerQuery)),
-      ),
-    [options, selected, lowerQuery],
-  );
+  const available = useMemo(() => {
+    // Use a Set for O(1) lookups instead of Array.includes(id) in the filter loop
+    const selectedSet = new Set(selected);
+    return options.filter(
+      (o) =>
+        !selectedSet.has(o.id) &&
+        (lowerQuery === "" || (lowerLabels.get(o.id) || "").includes(lowerQuery)),
+    );
+  }, [options, selected, lowerQuery, lowerLabels]);
 
   const addKey = (key: Key | null) => {
     if (key == null) return;
