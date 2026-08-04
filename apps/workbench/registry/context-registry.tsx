@@ -144,6 +144,7 @@ function AlbumWorldHeroContext() {
     <div className="w-full space-y-4">
       <ShowcaseHero
         variant="media"
+        headingLevel={1}
         entry={mockShowcaseEntries[0]}
         primaryAction="Enter album world"
         secondaryAction="View registry"

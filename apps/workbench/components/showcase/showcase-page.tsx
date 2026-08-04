@@ -205,6 +205,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
         >
           <ShowcaseHero
             variant="media"
+            headingLevel={1}
             entry={mockShowcaseEntries[0]}
             primaryAction="Explore Phase 2"
             secondaryAction="Keep it visual"
@@ -294,7 +295,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
           <div className="mt-5 grid gap-5 md:grid-cols-3">
             <SEICard
               variant="default"
-              interactive
+              elevateOnHover
               eyebrow="Project"
               title="SEA Portal shell"
               description="A reusable card for showing routes, tools, or projects without binding to app logic."
@@ -303,7 +304,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
             />
             <SEICard
               variant="soft"
-              interactive
+              elevateOnHover
               eyebrow="Content"
               title="Artist world block"
               description="Flexible layout for creator pages, album worlds, or collection previews."
@@ -312,7 +313,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
             />
             <SEICard
               variant="glass-test"
-              interactive
+              elevateOnHover
               eyebrow="Experiment"
               title="Glass overlay card"
               description="A test surface for overlays, future player docks, and ambient panels."
@@ -395,6 +396,7 @@ export function SEIComponentShowcase({ route = "/" }: { route?: string }) {
           <div id="experience-blocks" className="space-y-6">
             <ShowcaseHero
               variant="soft"
+              headingLevel={3}
               entry={mockShowcaseEntries[1]}
               primaryAction="Preview portal"
               secondaryAction="Map modules"

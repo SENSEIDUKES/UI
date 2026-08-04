@@ -60,7 +60,7 @@ export function ArtistCard({ artist, variant = "default", className }: ArtistCar
     <SEICard
       variant={artistSurface[variant ?? "default"]}
       padding={variant === "compact" ? "sm" : "md"}
-      interactive
+      elevateOnHover
       className={cn(styles.card(), className)}
     >
       <div className={styles.layout()}>

@@ -6,6 +6,9 @@ import { defineConfig } from "vitest/config";
  * specs under `test/` are never picked up here.
  */
 export default defineConfig({
+  esbuild: {
+    jsx: "automatic",
+  },
   test: {
     include: ["packages/**/*.test.ts"],
     environment: "node",

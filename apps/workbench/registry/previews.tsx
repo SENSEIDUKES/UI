@@ -231,17 +231,44 @@ export function BadgePreview({ variant }: ComponentPreviewProps) {
 }
 
 export function CardPreview({ variant }: ComponentPreviewProps) {
+  const [activationCount, setActivationCount] = useState(0);
+  const [disabledActivationCount, setDisabledActivationCount] = useState(0);
+
   return (
-    <SEICard
-      variant={variant as React.ComponentProps<typeof SEICard>["variant"]}
-      interactive
-      eyebrow="Project"
-      title="SEA Portal shell"
-      description="A reusable card for routes, tools, or projects without app logic."
-      metadata="UI mock"
-      footer="metadata · actions · footer"
-      className="w-full max-w-sm"
-    />
+    <div className="w-full max-w-sm space-y-3">
+      <SEICard
+        variant={variant as React.ComponentProps<typeof SEICard>["variant"]}
+        interactive
+        onClick={() => setActivationCount((count) => count + 1)}
+        aria-describedby="card-activation-status"
+        eyebrow="Project"
+        title="SEA Portal shell"
+        description="A reusable card with a keyboard-operable action."
+        metadata="UI mock"
+      />
+      <p
+        id="card-activation-status"
+        data-testid="card-activation-status"
+        role="status"
+        className="text-center text-sm text-[var(--sh-text-muted)]"
+      >
+        Activated {activationCount} {activationCount === 1 ? "time" : "times"}
+      </p>
+      <SEICard
+        variant={variant as React.ComponentProps<typeof SEICard>["variant"]}
+        interactive
+        disabled
+        onClick={() => setDisabledActivationCount((count) => count + 1)}
+        title="Unavailable card action"
+        description="Disabled action cards remain visibly unavailable and out of keyboard navigation."
+      />
+      <p
+        data-testid="disabled-card-activation-status"
+        className="text-center text-sm text-[var(--sh-text-muted)]"
+      >
+        Disabled action activated {disabledActivationCount} times
+      </p>
+    </div>
   );
 }
 
@@ -1482,6 +1509,7 @@ export function ShowcaseHeroWorkbenchPreview({ variant, mockIndex }: ComponentPr
     <ShowcaseHero
       entry={pick(mockShowcaseEntries, mockIndex)}
       variant={variant as React.ComponentProps<typeof ShowcaseHero>["variant"]}
+      headingLevel={1}
       className="w-full"
     />
   );

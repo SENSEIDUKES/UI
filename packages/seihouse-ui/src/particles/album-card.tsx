@@ -89,7 +89,7 @@ export function AlbumCard({ album, variant = "default", className }: AlbumCardPr
     <SEICard
       variant={albumSurface[variant ?? "default"]}
       padding="md"
-      interactive
+      elevateOnHover
       className={cn(styles.card(), className)}
       contentClassName={variant === "compact" ? "space-y-3" : undefined}
       media={
