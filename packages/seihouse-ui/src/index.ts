@@ -256,6 +256,9 @@ export {
   SEISplitPane,
   SEIStickyFooter,
   SEISafeArea,
+  SEIBottomNavigation,
+  SEINavigationDrawer,
+  SEINavigationDrawerPanel,
   type SEIContainerProps,
   type SEIAppShellProps,
   type SEIPageHeaderProps,
@@ -265,6 +268,13 @@ export {
   type SEISplitPaneProps,
   type SEIStickyFooterProps,
   type SEISafeAreaProps,
+  type SEIBottomNavigationItem,
+  type SEIBottomNavigationProps,
+  type SEINavigationDrawerAccount,
+  type SEINavigationDrawerItem,
+  type SEINavigationDrawerPanelProps,
+  type SEINavigationDrawerProps,
+  type SEINavigationDrawerSection,
 } from "./layout";
 
 // --- Scroll / overflow (Phase 6) ---

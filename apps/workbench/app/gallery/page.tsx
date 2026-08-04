@@ -19,6 +19,7 @@ const layerAnchors: Record<string, string> = {
   state: "states",
   form: "forms",
   behavior: "behavior",
+  menu: "menus",
   layout: "layout",
   media: "media",
   "music-particle": "music-particles",

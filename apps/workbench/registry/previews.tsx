@@ -12,11 +12,13 @@ import {
   Download,
   FileText,
   Filter,
+  Home,
   ImageIcon,
   Info,
   Layers,
   ListFilter,
   ListMusic,
+  LogOut,
   Mail,
   Menu as MenuIcon,
   MoreHorizontal,
@@ -63,6 +65,7 @@ import {
   SEIAppShell,
   SEIAspectRatio,
   SEIAvatar,
+  SEIBottomNavigation,
   SEICheckbox,
   SEIContainer,
   SEIEmptyState,
@@ -72,6 +75,7 @@ import {
   SEIInput,
   SEILoadingState,
   SEIMediaRow,
+  SEINavigationDrawer,
   SEIPageHeader,
   SEIMenu,
   SEIMenuCheckboxItem,
@@ -1317,6 +1321,110 @@ export function SafeAreaPreview({ variant }: ComponentPreviewProps) {
     >
       Safe-area padding wrapper
     </SEISafeArea>
+  );
+}
+
+export function BottomNavigationPreview({ variant }: ComponentPreviewProps) {
+  const [activeId, setActiveId] = useState("vault");
+  const destinations = [
+    { id: "home", label: "Home", icon: <Home className="size-5" /> },
+    { id: "vault", label: "Vault", icon: <ListMusic className="size-5" /> },
+    { id: "registry", label: "Registry", icon: <ShieldCheck className="size-5" /> },
+    { id: "dojo", label: "Dojo", icon: <Sparkles className="size-5" /> },
+    { id: "profile", label: "Profile", icon: <UserRound className="size-5" /> },
+  ];
+  const itemCount = variant === "three-items" ? 3 : variant === "five-items" ? 5 : 4;
+
+  return (
+    <div className="h-72 w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-black/20">
+      <div className="space-y-3 p-4 text-sm text-[var(--sh-color-cloud)]">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <p key={index}>Scrollable mock content row {index + 1}</p>
+        ))}
+      </div>
+      <SEIBottomNavigation
+        aria-label="Demo app"
+        items={destinations.slice(0, itemCount).map((destination) => ({
+          ...destination,
+          active: destination.id === activeId,
+          onSelect: setActiveId,
+        }))}
+      />
+    </div>
+  );
+}
+
+export function NavigationDrawerPreview({ variant }: ComponentPreviewProps) {
+  const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState("vault");
+
+  const destination = (id: string, label: string, icon: React.ReactNode) => ({
+    id,
+    label,
+    icon,
+    active: id === activeId,
+    onSelect: (selectedId: string) => {
+      setActiveId(selectedId);
+      setOpen(false);
+    },
+  });
+
+  const sections = [
+    {
+      id: "browse",
+      label: "Browse",
+      items: [
+        destination("home", "Home", <Home className="size-5" />),
+        destination("vault", "Vault", <ListMusic className="size-5" />),
+        destination("registry", "Registry", <ShieldCheck className="size-5" />),
+      ],
+    },
+    {
+      id: "create",
+      label: "Create",
+      items: [
+        destination("dojo", "Dojo", <Sparkles className="size-5" />),
+        destination("profile", "Profile", <UserRound className="size-5" />),
+      ],
+    },
+  ];
+
+  return (
+    <div className="flex items-center gap-3">
+      <SEIButton variant="solid" icon={MenuIcon} onClick={() => setOpen(true)}>
+        Open navigation
+      </SEIButton>
+      <SEINavigationDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-label="Demo app"
+        side={variant === "right-side" ? "right" : "left"}
+        account={
+          variant === "sections-only"
+            ? undefined
+            : {
+                name: "Sensei Dukes",
+                detail: "sensei@seihouse.app",
+                onSelect: () => setOpen(false),
+              }
+        }
+        sections={sections}
+        actions={[
+          {
+            id: "settings",
+            label: "Settings",
+            icon: <Settings className="size-5" />,
+            onSelect: () => setOpen(false),
+          },
+          {
+            id: "sign-out",
+            label: "Sign out",
+            icon: <LogOut className="size-5" />,
+            onSelect: () => setOpen(false),
+          },
+        ]}
+      />
+    </div>
   );
 }
 

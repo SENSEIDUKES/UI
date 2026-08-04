@@ -39,6 +39,12 @@ const sections = [
     count: () => getComponentsByLayer("behavior").length,
   },
   {
+    name: "Menus",
+    href: "/gallery#menus",
+    description: "Mobile menu systems: bottom navigation and slide-in navigation drawer.",
+    count: () => getComponentsByLayer("menu").length,
+  },
+  {
     name: "Registry",
     href: "/gallery#registry",
     description: "Seals and panels for verification states.",
