@@ -2,6 +2,7 @@ import type { HTMLAttributes, ReactNode } from "react";
 
 import { cn } from "../styles/cn";
 import { seiLayer } from "../styles/layering";
+import { seiGlass } from "../styles/surfaces";
 import { focusRing, transitionSurface } from "../styles/variants";
 
 export interface SEIBottomNavigationItem {
@@ -37,7 +38,9 @@ export function SEIBottomNavigation({ items, className, ...props }: SEIBottomNav
       className={cn(
         "sticky bottom-0 w-full",
         seiLayer.sticky,
-        "border-t border-[var(--sh-glass-border)] bg-[var(--sh-glass-bg)] backdrop-blur-[var(--sh-blur-md)]",
+        // Shared glass surface; only the top edge keeps its border.
+        seiGlass,
+        "border-x-0 border-b-0",
         "px-2 pt-2",
         "pb-[calc(0.5rem+var(--sh-safe-bottom))]",
         className,
@@ -53,7 +56,7 @@ export function SEIBottomNavigation({ items, className, ...props }: SEIBottomNav
             data-selected={item.active ? "true" : undefined}
             onClick={() => item.onSelect?.(item.id)}
             className={cn(
-              "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5",
+              "flex min-w-0 flex-1 touch-manipulation flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5",
               "text-xs font-medium text-[var(--sh-color-cloud)]",
               "hover:bg-[var(--sh-interactive-surface-hover)] hover:text-[var(--sh-color-ivory)]",
               "active:bg-[var(--sh-interactive-surface-active)]",

@@ -53,7 +53,7 @@ export interface SEINavigationDrawerPanelProps extends HTMLAttributes<HTMLDivEle
 }
 
 const itemClasses = cn(
-  "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left",
+  "flex w-full touch-manipulation items-center gap-3 rounded-xl px-3 py-2.5 text-left",
   "text-sm font-medium text-[var(--sh-color-cloud)]",
   "hover:bg-[var(--sh-interactive-surface-hover)] hover:text-[var(--sh-color-ivory)]",
   "active:bg-[var(--sh-interactive-surface-active)]",
@@ -165,7 +165,10 @@ export function SEINavigationDrawerPanel({
         </div>
       ) : null}
 
-      <nav aria-label={ariaLabel} className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
+      <nav
+        aria-label={ariaLabel}
+        className="min-h-0 flex-1 overscroll-contain overflow-y-auto px-3 py-3"
+      >
         <div className="space-y-6">
           {sections.map((section) => (
             <div

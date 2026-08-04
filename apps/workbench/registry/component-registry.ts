@@ -88,6 +88,7 @@ export type WorkbenchLayer =
   | "state"
   | "form"
   | "behavior"
+  | "menu"
   | "music-particle"
   | "registry"
   | "layout"
@@ -150,10 +151,11 @@ export const layerMeta: Record<WorkbenchLayer, { label: string; order: number }>
   state: { label: "States", order: 1 },
   form: { label: "Forms", order: 2 },
   behavior: { label: "Behavior", order: 3 },
-  layout: { label: "Layout", order: 4 },
-  media: { label: "Media", order: 5 },
-  "music-particle": { label: "Music Particles", order: 6 },
-  registry: { label: "Registry", order: 7 },
+  menu: { label: "Menus", order: 4 },
+  layout: { label: "Layout", order: 5 },
+  media: { label: "Media", order: 6 },
+  "music-particle": { label: "Music Particles", order: 7 },
+  registry: { label: "Registry", order: 8 },
 };
 
 export const statusMeta: Record<
@@ -667,6 +669,36 @@ export const componentRegistry: WorkbenchComponentEntry[] = [
     reviewNotes: emptyNotes,
   },
 
+  /* ---- Menus ---- */
+  {
+    name: "Bottom Navigation",
+    slug: "bottom-navigation",
+    category: "Menus",
+    layer: "menu",
+    status: "rough",
+    description:
+      "Mobile tab bar: icon + label destinations with active state, selection callback, and safe-area padding.",
+    variants: ["four-items", "three-items", "five-items"],
+    defaultVariant: "four-items",
+    preview: BottomNavigationPreview,
+    contextExamples: ["layout-media-list"],
+    reviewNotes: emptyNotes,
+  },
+  {
+    name: "Navigation Drawer",
+    slug: "navigation-drawer",
+    category: "Menus",
+    layer: "menu",
+    status: "rough",
+    description:
+      "Mobile slide-in navigation: grouped icon + label sections, account header, settings actions, and safe-area padding.",
+    variants: ["full", "sections-only", "right-side"],
+    defaultVariant: "full",
+    preview: NavigationDrawerPreview,
+    contextExamples: ["layout-media-list"],
+    reviewNotes: emptyNotes,
+  },
+
   /* ---- Media ---- */
   {
     name: "Aspect Ratio",
@@ -991,34 +1023,6 @@ export const componentRegistry: WorkbenchComponentEntry[] = [
     variants: ["all", "top", "bottom"],
     defaultVariant: "all",
     preview: SafeAreaPreview,
-    contextExamples: ["layout-media-list"],
-    reviewNotes: emptyNotes,
-  },
-  {
-    name: "Bottom Navigation",
-    slug: "bottom-navigation",
-    category: "Layout",
-    layer: "layout",
-    status: "rough",
-    description:
-      "Mobile tab bar: icon + label destinations with active state, selection callback, and safe-area padding.",
-    variants: ["four-items", "three-items", "five-items"],
-    defaultVariant: "four-items",
-    preview: BottomNavigationPreview,
-    contextExamples: ["layout-media-list"],
-    reviewNotes: emptyNotes,
-  },
-  {
-    name: "Navigation Drawer",
-    slug: "navigation-drawer",
-    category: "Layout",
-    layer: "layout",
-    status: "rough",
-    description:
-      "Mobile slide-in navigation: grouped icon + label sections, account header, settings actions, and safe-area padding.",
-    variants: ["full", "sections-only", "right-side"],
-    defaultVariant: "full",
-    preview: NavigationDrawerPreview,
     contextExamples: ["layout-media-list"],
     reviewNotes: emptyNotes,
   },
