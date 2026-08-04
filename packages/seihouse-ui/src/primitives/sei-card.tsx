@@ -254,7 +254,7 @@ function InteractiveLinkCard({
   return (
     <a
       {...linkProps}
-      href={href}
+      href={disabled ? undefined : href}
       onClick={handleLinkClick}
       aria-disabled={disabled || undefined}
       tabIndex={disabled ? -1 : linkProps.tabIndex}

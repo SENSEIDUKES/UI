@@ -54,6 +54,20 @@ describe("SEICard contract", () => {
     expect(markup).toContain("focus-visible:ring-2");
   });
 
+  it("removes disabled link destinations", () => {
+    const markup = renderCard({
+      interactive: true,
+      disabled: true,
+      href: "/library",
+      title: "Unavailable library",
+    });
+
+    expect(markup).toContain("<a");
+    expect(markup).not.toContain('href="/library"');
+    expect(markup).toContain('aria-disabled="true"');
+    expect(markup).toContain('tabindex="-1"');
+  });
+
   it("removes disabled action cards from keyboard navigation", () => {
     const markup = renderCard({
       interactive: true,
