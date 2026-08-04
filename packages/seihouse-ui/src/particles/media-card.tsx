@@ -43,14 +43,14 @@ export function MediaCard({
   secondaryAction,
   variant = "media-test",
   padding = "md",
-  interactive = true,
+  elevateOnHover = true,
   className,
 }: MediaCardProps) {
   return (
     <SEICard
       variant={variant}
       padding={padding}
-      interactive={interactive}
+      elevateOnHover={elevateOnHover}
       className={className}
       media={
         <div
@@ -113,7 +113,7 @@ export default memo(MediaCard, (prevProps, nextProps) => {
     prevProps.secondaryAction === nextProps.secondaryAction &&
     prevProps.variant === nextProps.variant &&
     prevProps.padding === nextProps.padding &&
-    prevProps.interactive === nextProps.interactive &&
+    prevProps.elevateOnHover === nextProps.elevateOnHover &&
     prevProps.className === nextProps.className
   );
 });

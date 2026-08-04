@@ -62,7 +62,7 @@ export function VaultFragmentCard({
     <SEICard
       variant={vaultSurface[variant ?? "default"]}
       padding={variant === "compact" ? "sm" : "md"}
-      interactive
+      elevateOnHover
       className={cn(styles.card(), className)}
     >
       <div className="space-y-4">

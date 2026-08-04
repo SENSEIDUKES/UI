@@ -65,7 +65,7 @@ export function DojoModuleCard({ module, variant = "default", className }: DojoM
     <SEICard
       variant={dojoSurface[variant ?? "default"]}
       padding="md"
-      interactive
+      elevateOnHover
       className={cn(styles.card(), className)}
     >
       <div className="space-y-5">

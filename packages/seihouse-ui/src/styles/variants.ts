@@ -183,15 +183,15 @@ export const seiCardVariants = tv({
       md: "p-5",
       lg: "p-6",
     },
-    interactive: {
-      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.3)] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34)]",
+    elevateOnHover: {
+      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.3)] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34)] motion-reduce:hover:translate-y-0",
       false: "",
     },
   },
   defaultVariants: {
     variant: "default",
     padding: "md",
-    interactive: false,
+    elevateOnHover: false,
   },
 });
 

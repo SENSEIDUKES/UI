@@ -52,10 +52,20 @@ const heroSurface = {
   experimental: "glass-test",
 } as const;
 
+type ShowcaseHeroHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+type ShowcaseHeroHeadingAs = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
 export interface ShowcaseHeroProps extends VariantProps<typeof showcaseHeroStyles> {
   entry?: ShowcaseEntry;
   eyebrow?: string;
   headline?: string;
+  /**
+   * Semantic level for the headline. Defaults to h2 so the component can be
+   * embedded beneath a page heading without creating a second h1.
+   */
+  headingLevel?: ShowcaseHeroHeadingLevel;
+  /** Explicit heading element alias. Takes precedence over headingLevel. */
+  headingAs?: ShowcaseHeroHeadingAs;
   subheadline?: string;
   badges?: string[];
   primaryAction?: string;
@@ -68,6 +78,8 @@ export function ShowcaseHero({
   entry,
   eyebrow,
   headline,
+  headingLevel = 2,
+  headingAs,
   subheadline,
   badges,
   primaryAction = "Explore lab",
@@ -84,6 +96,7 @@ export function ShowcaseHero({
     entry?.subheadline ??
     "Mocked, reusable interface blocks for future product concepts.";
   const heroBadges = badges ?? entry?.badges ?? ["Mock data", "UI only", "Reusable"];
+  const Heading = (headingAs ?? "h" + headingLevel) as ShowcaseHeroHeadingAs;
 
   return (
     <SEIPanel
@@ -102,7 +115,7 @@ export function ShowcaseHero({
             {heroEyebrow}
           </SEIBadge>
           <div className="space-y-5">
-            <h1 className={styles.headline()}>{heroHeadline}</h1>
+            <Heading className={styles.headline()}>{heroHeadline}</Heading>
             <p className="max-w-2xl text-base leading-relaxed text-[var(--sh-text-muted)] sm:text-xl">
               {heroSubheadline}
             </p>
@@ -174,6 +187,8 @@ export default memo(ShowcaseHero, (prevProps, nextProps) => {
     entryEqual &&
     prevProps.eyebrow === nextProps.eyebrow &&
     prevProps.headline === nextProps.headline &&
+    prevProps.headingLevel === nextProps.headingLevel &&
+    prevProps.headingAs === nextProps.headingAs &&
     prevProps.subheadline === nextProps.subheadline &&
     badgesEqual &&
     prevProps.primaryAction === nextProps.primaryAction &&

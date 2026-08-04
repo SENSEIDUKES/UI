@@ -17,14 +17,16 @@ A flexible card component for displaying content with optional media, actions, a
 
 ### Accessibility Features
 - **Semantic Element**: Defaults to \`<article>\` for self-contained content
-- **Flexible Semantics**: Can render as \`div\`, \`section\`, or other elements via \`as\` prop
+- **Flexible Semantics**: Can render as \`article\`, \`div\`, or \`section\` via the \`as\` prop
 - **Heading Hierarchy**: Title renders as \`<h3>\` - ensure proper heading order in context
-- **Interactive States**: Hover and focus styles for interactive cards
+- **Actionable Cards**: An action card requires \`href\` for a link or \`onClick\` for a keyboard-operable button role
+- **Visual Hover Treatment**: \`elevateOnHover\` adds visual elevation only; it does not make a card clickable
 - **ARIA Support**: Passes through all ARIA attributes
 
 ### Usage Guidelines
 - Use \`variant="default"\` for standard content cards
-- Use \`interactive={true}\` for clickable cards (adds hover lift effect)
+- Use \`elevateOnHover={true}\` for decorative hover elevation
+- Use \`interactive\` with \`href\` or \`onClick\` for a whole-card action; do not nest controls inside it
 - Use \`eyebrow\` for category or metadata above the title
 - Use \`footer\` for secondary actions or metadata at the bottom
         `,
@@ -69,9 +71,9 @@ A flexible card component for displaying content with optional media, actions, a
         defaultValue: { summary: "md" },
       },
     },
-    interactive: {
+    elevateOnHover: {
       control: "boolean",
-      description: "Enables hover lift effect for clickable cards",
+      description: "Adds visual hover elevation without changing card semantics",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -202,18 +204,55 @@ export const LargePadding: Story = {
   },
 };
 
-// Interactive Story
-export const Interactive: Story = {
+// Hover treatment and whole-card action stories
+export const HoverElevation: Story = {
   args: {
-    title: "Interactive Card",
-    description: "This card has hover effects enabled. Click to interact.",
-    interactive: true,
+    title: "Elevated Card",
+    description: "This card has visual hover elevation but remains static content.",
+    elevateOnHover: true,
   },
   parameters: {
     docs: {
       description: {
         story:
-          "Interactive cards have a hover lift effect. Use for clickable cards that navigate or trigger actions.",
+          "Use visual elevation for presentation-only cards. It does not add focus, click, or keyboard behavior.",
+      },
+    },
+  },
+};
+
+export const InteractiveAction: Story = {
+  render: () => (
+    <SEICard
+      interactive
+      onClick={() => undefined}
+      title="Interactive Card"
+      description="This whole card is a keyboard-operable button action."
+    />
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Action cards receive button semantics, Enter and Space activation, a focus-visible ring, and disabled behavior.",
+      },
+    },
+  },
+};
+
+export const InteractiveLink: Story = {
+  render: () => (
+    <SEICard
+      interactive
+      href="#linked-card"
+      title="Linked Card"
+      description="This whole card preserves native link semantics."
+    />
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Navigation cards render as native links, including their normal keyboard behavior.",
       },
     },
   },
@@ -275,7 +314,7 @@ export const CompleteExample: Story = {
     title: "Complete Card Example",
     description:
       "This card demonstrates all available features including eyebrow, metadata, actions, and footer.",
-    interactive: true,
+    elevateOnHover: true,
     actions: (
       <div className="flex gap-2">
         <SEIButton variant="ghost" size="sm" icon={ExternalLink} aria-label="Open external link" />
@@ -305,7 +344,7 @@ export const Playground: Story = {
     description: "Use the controls panel to experiment with different prop combinations.",
     variant: "default",
     padding: "md",
-    interactive: false,
+    elevateOnHover: false,
   },
   parameters: {
     docs: {
