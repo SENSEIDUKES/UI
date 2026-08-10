@@ -1,5 +1,6 @@
 "use client";
 
+import { Children } from "react";
 import { Checkbox, type CheckboxProps } from "react-aria-components";
 import { Check, Minus } from "lucide-react";
 
@@ -19,12 +20,14 @@ export interface SEICheckboxProps extends Omit<CheckboxProps, "className" | "chi
  * `isIndeterminate`); SEIHouse styles the box and swaps a Check / Minus glyph.
  */
 export function SEICheckbox({ children, className, ...props }: SEICheckboxProps) {
+  const hasLabel = Children.toArray(children).length > 0;
+
   return (
     <Checkbox
       className={cn(
         "group inline-flex items-center gap-2.5 text-sm text-[var(--sh-color-ivory)]",
         mobileTouchTarget,
-        children == null && "justify-center",
+        !hasLabel && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}
@@ -49,7 +52,7 @@ export function SEICheckbox({ children, className, ...props }: SEICheckboxProps)
               <Check aria-hidden="true" className="size-3.5" strokeWidth={3} />
             ) : null}
           </span>
-          {children != null ? <span>{children}</span> : null}
+          {hasLabel ? <span>{children}</span> : null}
         </>
       )}
     </Checkbox>

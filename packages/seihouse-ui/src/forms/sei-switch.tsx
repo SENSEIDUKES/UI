@@ -1,5 +1,6 @@
 "use client";
 
+import { Children } from "react";
 import { Switch, type SwitchProps } from "react-aria-components";
 
 import { cn } from "../styles/cn";
@@ -31,12 +32,14 @@ const THUMB_SIZE: Record<SEISwitchSize, string> = {
  * and a motion-safe thumb. `children` becomes the label.
  */
 export function SEISwitch({ children, size = "comfortable", className, ...props }: SEISwitchProps) {
+  const hasLabel = Children.toArray(children).length > 0;
+
   return (
     <Switch
       className={cn(
         "group inline-flex items-center gap-3 text-sm text-[var(--sh-color-ivory)]",
         mobileTouchTarget,
-        children == null && "justify-center",
+        !hasLabel && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}
@@ -60,7 +63,7 @@ export function SEISwitch({ children, size = "comfortable", className, ...props 
           )}
         />
       </span>
-      {children != null ? <span>{children}</span> : null}
+      {hasLabel ? <span>{children}</span> : null}
     </Switch>
   );
 }
