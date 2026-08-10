@@ -18,7 +18,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, seiInteractiveItemVariants } from "../styles/variants";
+import { focusRing, mobileTouchTarget, seiInteractiveItemVariants } from "../styles/variants";
 
 /**
  * SEICombobox — searchable, accessible combobox composed from React Aria
@@ -98,7 +98,7 @@ export function SEIComboboxControl({
         placeholder={placeholder}
         onKeyDown={onInputKeyDown}
         className={cn(
-          "h-10 w-full bg-transparent text-sm text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none",
+          "h-11 w-full bg-transparent text-base text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none sm:h-10 sm:text-sm",
           inputClassName,
         )}
       />
@@ -106,6 +106,7 @@ export function SEIComboboxControl({
         <Button
           className={cn(
             "grid size-7 shrink-0 place-items-center rounded-full text-[var(--sh-color-mist)] hover:text-white",
+            mobileTouchTarget,
             focusRing,
           )}
         >

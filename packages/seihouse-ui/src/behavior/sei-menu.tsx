@@ -19,7 +19,7 @@ type PositionerProps = React.ComponentPropsWithoutRef<typeof Menu.Positioner>;
 
 const menuItemClass = cn(
   seiInteractiveItemVariants(),
-  "relative min-h-9 select-none justify-between",
+  "relative select-none justify-between sm:min-h-9",
   "data-[highlighted]:bg-[var(--sh-interactive-surface-hover)] data-[highlighted]:text-[var(--sh-text-primary)]",
   "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
   focusRing,

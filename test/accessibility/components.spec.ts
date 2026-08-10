@@ -19,7 +19,9 @@ test.describe("component primitives", () => {
   test("opened menu has no critical/serious axe violations", async ({ page }) => {
     await page.goto(previewPath("menu"));
     await page.getByRole("button", { name: /Open menu/i }).click();
-    await expect(page.getByRole("menu")).toBeVisible();
+    const menu = page.getByRole("menu");
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveCSS("opacity", "1");
 
     const results = await axe(page).include('[role="menu"]').analyze();
     const blocking = criticalOrSerious(results);

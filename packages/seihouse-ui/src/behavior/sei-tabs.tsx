@@ -6,7 +6,7 @@ import { Tabs } from "@base-ui/react/tabs";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 /**
  * SEITabs — accessible tab navigation powered by Base UI Tabs.
@@ -21,6 +21,7 @@ export const seiTabsStyles = tv({
     list: "relative flex flex-wrap items-center gap-1",
     trigger: [
       "relative z-10 inline-flex items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-2",
+      mobileTouchTarget,
       "text-sm font-semibold text-[var(--sh-color-cloud)]",
       "cursor-pointer select-none disabled:cursor-not-allowed disabled:opacity-40",
       focusRing,

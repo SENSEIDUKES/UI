@@ -7,7 +7,12 @@ import { Dialog } from "@base-ui/react/dialog";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing, seiOverlayVariants, transitionSurface } from "../styles/variants";
+import {
+  focusRing,
+  mobileTouchTarget,
+  seiOverlayVariants,
+  transitionSurface,
+} from "../styles/variants";
 
 /**
  * SEIDialog — accessible modal dialog powered by Base UI Dialog.
@@ -22,7 +27,7 @@ export const seiDialogStyles = tv({
   slots: {
     popup: [
       "fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2",
-      "max-h-[calc(100vh-2rem)] overflow-y-auto rounded-[1.35rem] border p-6 shadow-[0_40px_120px_rgba(0,0,0,0.55)]",
+      "max-h-[calc(100vh-2rem)] overflow-y-auto rounded-[1.35rem] border p-6 pr-16 shadow-[0_40px_120px_rgba(0,0,0,0.55)] sm:pr-6",
       "transition-[opacity,transform] duration-200 ease-out",
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -32,6 +37,7 @@ export const seiDialogStyles = tv({
     description: "mt-1.5 text-sm leading-relaxed",
     close: [
       "absolute right-4 top-4 grid size-8 place-items-center rounded-full border",
+      mobileTouchTarget,
       "cursor-pointer text-current/70 hover:text-current",
       focusRing,
       transitionSurface,

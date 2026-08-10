@@ -1,5 +1,6 @@
 "use client";
 
+import { Children } from "react";
 import {
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps as AriaRadioGroupProps,
@@ -10,7 +11,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { transitionSurface } from "../styles/variants";
+import { mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export interface SEIRadioGroupProps extends Omit<AriaRadioGroupProps, "className" | "children"> {
   label?: React.ReactNode;
@@ -82,10 +83,14 @@ export interface SEIRadioProps extends Omit<AriaRadioProps, "className" | "child
  * `Radio`. Renders a ring that fills with a dot when selected.
  */
 export function SEIRadio({ children, className, ...props }: SEIRadioProps) {
+  const hasLabel = Children.toArray(children).length > 0;
+
   return (
     <AriaRadio
       className={cn(
         "group inline-flex cursor-pointer items-center gap-2.5 text-sm text-[var(--sh-color-ivory)]",
+        mobileTouchTarget,
+        !hasLabel && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}
@@ -109,7 +114,7 @@ export function SEIRadio({ children, className, ...props }: SEIRadioProps) {
           )}
         />
       </span>
-      {children != null ? <span>{children}</span> : null}
+      {hasLabel ? <span>{children}</span> : null}
     </AriaRadio>
   );
 }
