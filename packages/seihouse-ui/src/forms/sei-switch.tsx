@@ -3,7 +3,7 @@
 import { Switch, type SwitchProps } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export type SEISwitchSize = "compact" | "comfortable";
 
@@ -35,6 +35,8 @@ export function SEISwitch({ children, size = "comfortable", className, ...props 
     <Switch
       className={cn(
         "group inline-flex items-center gap-3 text-sm text-[var(--sh-color-ivory)]",
+        mobileTouchTarget,
+        children == null && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}

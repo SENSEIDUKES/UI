@@ -16,7 +16,7 @@ import { CheckCircle2, Info, TriangleAlert, X, XCircle } from "lucide-react";
 
 import { cn } from "../styles/cn";
 import { seiLayer } from "../styles/layering";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export type SEIToastTone = "default" | "info" | "success" | "warning" | "danger";
 
@@ -257,6 +257,7 @@ function SEIToastItem({
           onClick={() => onDismiss(toast.id)}
           className={cn(
             "grid size-7 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-[var(--sh-color-mist)] hover:bg-white/[0.08] hover:text-white",
+            mobileTouchTarget,
             focusRing,
             transitionSurface,
           )}

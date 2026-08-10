@@ -4,7 +4,7 @@ import { Checkbox, type CheckboxProps } from "react-aria-components";
 import { Check, Minus } from "lucide-react";
 
 import { cn } from "../styles/cn";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export interface SEICheckboxProps extends Omit<CheckboxProps, "className" | "children"> {
   /** Label rendered next to the box. */
@@ -23,6 +23,8 @@ export function SEICheckbox({ children, className, ...props }: SEICheckboxProps)
     <Checkbox
       className={cn(
         "group inline-flex items-center gap-2.5 text-sm text-[var(--sh-color-ivory)]",
+        mobileTouchTarget,
+        children == null && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}

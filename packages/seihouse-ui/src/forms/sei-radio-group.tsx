@@ -10,7 +10,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { transitionSurface } from "../styles/variants";
+import { mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export interface SEIRadioGroupProps extends Omit<AriaRadioGroupProps, "className" | "children"> {
   label?: React.ReactNode;
@@ -86,6 +86,8 @@ export function SEIRadio({ children, className, ...props }: SEIRadioProps) {
     <AriaRadio
       className={cn(
         "group inline-flex cursor-pointer items-center gap-2.5 text-sm text-[var(--sh-color-ivory)]",
+        mobileTouchTarget,
+        children == null && "justify-center",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-45",
         className,
       )}

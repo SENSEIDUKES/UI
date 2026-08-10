@@ -9,6 +9,12 @@ export const transitionSurface =
   "transition-[background,border-color,box-shadow,color,opacity,transform] duration-200 ease-out";
 
 /**
+ * Keep compact visuals while giving primary controls a 44px mobile hit area.
+ * The existing component dimensions resume at the `sm` breakpoint.
+ */
+export const mobileTouchTarget = "min-h-11 min-w-11 sm:min-h-0 sm:min-w-0";
+
+/**
  * Shared interaction-state class set (Phase 6).
  *
  * One consistent expression of the standard interaction states so every
@@ -29,6 +35,7 @@ export const interactionStates = [
 export const seiButtonVariants = tv({
   base: [
     "inline-flex touch-manipulation items-center justify-center gap-2 whitespace-nowrap rounded-full",
+    mobileTouchTarget,
     "font-semibold leading-none tracking-[-0.01em]",
     "disabled:pointer-events-none disabled:opacity-45",
     "data-[icon-only=true]:aspect-square data-[icon-only=true]:px-0",
@@ -306,6 +313,7 @@ export const seiPopupSurfaceVariants = tv({
 export const seiInteractiveItemVariants = tv({
   base: [
     "flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-sm outline-none",
+    mobileTouchTarget,
     "text-[var(--sh-text-muted)]",
     "data-[focused]:bg-[var(--sh-interactive-surface-hover)] data-[focused]:text-[var(--sh-text-primary)]",
     "data-[hovered]:bg-[var(--sh-interactive-surface)]",

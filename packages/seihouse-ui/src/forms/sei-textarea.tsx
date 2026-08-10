@@ -27,7 +27,7 @@ export const SEITextarea = forwardRef<HTMLTextAreaElement, SEITextareaProps>(fun
       className={cn(
         seiFieldControlVariants({ size, invalid }),
         // Override the fixed control height with auto growth.
-        "h-auto min-h-[5.5rem] resize-y py-2.5 leading-relaxed",
+        "h-auto min-h-[5.5rem] resize-y py-2.5 leading-relaxed sm:h-auto",
         className,
       )}
       {...props}

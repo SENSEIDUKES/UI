@@ -14,7 +14,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, seiInteractiveItemVariants } from "../styles/variants";
+import { focusRing, mobileTouchTarget, seiInteractiveItemVariants } from "../styles/variants";
 import type { MultiSelectOption } from "../types/behavior";
 
 /**
@@ -109,7 +109,7 @@ export function SEIMultiSelectCombobox({
             {selectedOptions.map((item) => (
               <li
                 key={item.id}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(0,122,255,0.28)] bg-[var(--sh-color-sea-subtle)] py-1 pl-3 pr-1.5 text-xs font-semibold text-[#8fc8ff]"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(0,122,255,0.28)] bg-[var(--sh-color-sea-subtle)] py-0 pl-3 pr-1.5 text-xs font-semibold text-[#8fc8ff] sm:py-1"
               >
                 {item.label}
                 <button
@@ -118,6 +118,7 @@ export function SEIMultiSelectCombobox({
                   onClick={() => removeId(item.id)}
                   className={cn(
                     "grid size-4 place-items-center rounded-full text-[#8fc8ff] hover:bg-white/10 hover:text-white",
+                    mobileTouchTarget,
                     focusRing,
                   )}
                 >
@@ -145,7 +146,7 @@ export function SEIMultiSelectCombobox({
                 removeId(selected[selected.length - 1]);
               }
             }}
-            className="h-10 w-full bg-transparent text-sm text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none"
+            className="h-11 w-full bg-transparent text-base text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none sm:h-10 sm:text-sm"
           />
           {selected.length > 0 ? (
             <button
@@ -153,6 +154,7 @@ export function SEIMultiSelectCombobox({
               onClick={() => setSelected([])}
               className={cn(
                 "whitespace-nowrap rounded-full px-2 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[var(--sh-color-mist)] hover:text-white",
+                mobileTouchTarget,
                 focusRing,
               )}
             >

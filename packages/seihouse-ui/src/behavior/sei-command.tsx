@@ -112,7 +112,7 @@ export function SEICommandInput({
         autoFocus={autoFocus}
         placeholder={placeholder}
         className={cn(
-          "h-12 w-full bg-transparent text-sm text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none [&::-webkit-search-cancel-button]:appearance-none",
+          "h-12 w-full bg-transparent text-base text-[var(--sh-color-ivory)] placeholder:text-[var(--sh-color-mist)] focus:outline-none sm:text-sm [&::-webkit-search-cancel-button]:appearance-none",
           inputClassName,
         )}
       />

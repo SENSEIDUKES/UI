@@ -30,8 +30,8 @@ export const seiFieldControlVariants = tv({
   ],
   variants: {
     size: {
-      compact: "h-9 px-3 text-sm",
-      comfortable: "h-11 px-3.5 text-sm",
+      compact: "h-11 px-3 text-base sm:h-9 sm:text-sm",
+      comfortable: "h-11 px-3.5 text-base sm:text-sm",
     },
     invalid: {
       true: "border-[rgba(255,69,58,0.5)] focus-visible:ring-[var(--sh-color-danger)]",

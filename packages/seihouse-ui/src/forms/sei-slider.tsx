@@ -10,7 +10,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 export interface SEISliderProps extends Omit<AriaSliderProps<number>, "className" | "children"> {
   label?: React.ReactNode;
@@ -60,7 +60,7 @@ export function SEISlider({
         </div>
       ) : null}
 
-      <SliderTrack className="relative flex h-6 w-full items-center">
+      <SliderTrack className="relative flex h-11 w-full items-center sm:h-6">
         {({ state }) => (
           <>
             <span className="absolute h-1.5 w-full rounded-full bg-white/12" />
@@ -70,12 +70,15 @@ export function SEISlider({
             />
             <SliderThumb
               className={cn(
-                "top-1/2 size-4 rounded-full border border-[rgba(0,122,255,0.55)] bg-white shadow-sm",
+                "top-1/2 grid place-items-center rounded-full",
+                mobileTouchTarget,
                 transitionSurface,
                 focusRing,
                 "data-[dragging]:scale-110",
               )}
-            />
+            >
+              <span className="pointer-events-none size-4 rounded-full border border-[rgba(0,122,255,0.55)] bg-white shadow-sm" />
+            </SliderThumb>
           </>
         )}
       </SliderTrack>

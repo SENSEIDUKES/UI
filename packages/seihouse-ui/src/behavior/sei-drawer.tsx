@@ -7,7 +7,7 @@ import { Dialog } from "@base-ui/react/dialog";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing, transitionSurface } from "../styles/variants";
+import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
 
 /**
  * SEIDrawer — accessible side / bottom panel.
@@ -36,11 +36,13 @@ export const seiDrawerStyles = tv({
     ],
     header: "flex items-start justify-between gap-4 border-b px-5 py-4",
     body: "min-h-0 flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed",
-    footer: "flex flex-wrap items-center justify-end gap-2 border-t px-5 py-4",
+    footer:
+      "flex flex-wrap items-center justify-end gap-2 border-t px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
     title: "text-base font-semibold tracking-[-0.02em]",
     description: "mt-1 text-sm leading-relaxed",
     close: [
       "grid size-8 shrink-0 place-items-center rounded-full border",
+      mobileTouchTarget,
       "cursor-pointer text-current/70 hover:text-current",
       focusRing,
       transitionSurface,
