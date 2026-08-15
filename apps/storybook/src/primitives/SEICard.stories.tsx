@@ -1,7 +1,28 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { SEICard } from "@seihouse/ui";
-import { SEIButton } from "@seihouse/ui";
-import { MoreHorizontal, ExternalLink } from "lucide-react";
+import {
+  SEIBadge,
+  SEIButton,
+  SEICard,
+  SEICardActions,
+  SEICardBody,
+  SEICardContent,
+  SEICardDescription,
+  SEICardFooter,
+  SEICardHeader,
+  SEICardMedia,
+  SEICardMetadata,
+  SEICardTitle,
+} from "@seihouse/ui";
+import {
+  BookOpen,
+  ExternalLink,
+  Gem,
+  MapPin,
+  MoreHorizontal,
+  Play,
+  Sparkles,
+  Volume2,
+} from "lucide-react";
 
 const meta = {
   title: "Primitives/SEICard",
@@ -13,12 +34,13 @@ const meta = {
         component: `
 ## SEICard
 
-A flexible card component for displaying content with optional media, actions, and footer.
+A flexible card surface for simple content and advanced product-specific compositions.
 
 ### Accessibility Features
 - **Semantic Element**: Defaults to \`<article>\` for self-contained content
 - **Flexible Semantics**: Can render as \`article\`, \`div\`, or \`section\` via the \`as\` prop
 - **Heading Hierarchy**: Title renders as \`<h3>\` - ensure proper heading order in context
+- **Configurable Headings**: Use \`titleAs\` or \`SEICardTitle as\` when a composed card needs a different heading level
 - **Actionable Cards**: An action card requires \`href\` for a link or \`onClick\` for a keyboard-operable button role
 - **Visual Hover Treatment**: \`elevateOnHover\` adds visual elevation only; it does not make a card clickable
 - **ARIA Support**: Passes through all ARIA attributes
@@ -29,6 +51,9 @@ A flexible card component for displaying content with optional media, actions, a
 - Use \`interactive\` with \`href\` or \`onClick\` for a whole-card action; do not nest controls inside it
 - Use \`eyebrow\` for category or metadata above the title
 - Use \`footer\` for secondary actions or metadata at the bottom
+- Use the compound regions (\`SEICardMedia\`, \`SEICardContent\`, \`SEICardHeader\`, \`SEICardBody\`, \`SEICardMetadata\`, \`SEICardActions\`, and \`SEICardFooter\`) when a product card needs its own content order
+- Use \`accentColor\` for entity category or rarity identity; product components still own their stronger artwork and effects
+- Keep System Panels on \`SEIPanel\`; they are not card compositions
         `,
       },
     },
@@ -95,6 +120,15 @@ A flexible card component for displaying content with optional media, actions, a
     title: {
       control: "text",
       description: "Card title (renders as h3)",
+    },
+    titleAs: {
+      control: "select",
+      options: ["h2", "h3", "h4", "h5", "h6"],
+      description: "Semantic heading level for the convenience title slot",
+    },
+    accentColor: {
+      control: "color",
+      description: "Optional entity-category or rarity accent color",
     },
     description: {
       control: "text",
@@ -332,6 +366,162 @@ export const CompleteExample: Story = {
     docs: {
       description: {
         story: "A complete example showing all card features working together.",
+      },
+    },
+  },
+};
+
+/**
+ * Product-shaped examples prove that one foundation can support different
+ * information hierarchies. These are composition examples, not finished
+ * Celestial Library cards and do not import any application feature.
+ */
+export const SharedProductFoundation: Story = {
+  render: () => (
+    <div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
+      <SEICard variant="media-test" padding="none" accentColor="#04ACFF" className="h-full">
+        <SEICardMedia className="flex aspect-[4/3] items-center justify-center bg-[radial-gradient(circle_at_center,rgba(4,172,255,0.2),transparent_58%),linear-gradient(145deg,#07121f,#03070d)]">
+          <div className="absolute inset-5 rounded-2xl border border-dashed border-[var(--sh-card-accent-border)]" />
+          <div className="relative flex flex-col items-center gap-2 text-center">
+            <Sparkles aria-hidden="true" className="size-7 text-[var(--sh-card-accent)]" />
+            <span className="text-xs font-bold uppercase tracking-[0.18em]">Manifest</span>
+            <span className="text-xs text-[var(--sh-text-subtle)]">Awaken portrait</span>
+          </div>
+        </SEICardMedia>
+        <SEICardContent padding="md">
+          <SEICardHeader
+            eyebrow="Reveal · Human portrait"
+            title="Lady Aria of the Azure Gate"
+            description="A Codex-backed identity can show existing artwork or a clear generation state."
+          />
+          <SEICardMetadata>
+            <span>First revealed · Chapter 4</span>
+            <span>Portrait available</span>
+          </SEICardMetadata>
+          <SEICardActions>
+            <SEIButton size="sm" variant="solid" icon={Sparkles}>
+              Manifest
+            </SEIButton>
+            <SEIButton size="sm" variant="ghost" icon={BookOpen}>
+              Open Codex
+            </SEIButton>
+          </SEICardActions>
+        </SEICardContent>
+      </SEICard>
+
+      <SEICard variant="media-test" padding="none" accentColor="#8B5CF6" className="h-full">
+        <SEICardMedia className="flex aspect-[21/9] items-end bg-[linear-gradient(180deg,transparent,rgba(3,7,13,0.94)),radial-gradient(circle_at_30%_15%,rgba(139,92,246,0.38),transparent_45%),#111827] p-5">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white/80">
+            <MapPin aria-hidden="true" className="size-4" /> Curated world backdrop
+          </div>
+        </SEICardMedia>
+        <SEICardContent padding="md">
+          <SEICardHeader
+            icon={<Volume2 aria-hidden="true" className="size-5" />}
+            eyebrow="World · Bestiary"
+            title="Apex Abyss Beast"
+          />
+          <SEICardBody>
+            <SEICardDescription
+              as="blockquote"
+              className="border-l-2 border-[var(--sh-card-accent-border)] pl-3 italic"
+            >
+              Its call carries farther than its shadow, and neither arrives alone.
+            </SEICardDescription>
+          </SEICardBody>
+          <SEICardActions>
+            <SEIButton fullWidth size="sm" variant="outline" icon={Play}>
+              Play creature echo
+            </SEIButton>
+          </SEICardActions>
+        </SEICardContent>
+      </SEICard>
+
+      <SEICard
+        variant="dark"
+        padding="none"
+        accentColor="#F59E0B"
+        elevateOnHover
+        className="h-full"
+      >
+        <SEICardContent padding="md">
+          <SEICardHeader
+            icon={<Gem aria-hidden="true" className="size-5" />}
+            eyebrow={
+              <SEIBadge variant="warning" size="sm">
+                Legendary relic
+              </SEIBadge>
+            }
+            title="Compass of Returning Stars"
+            description="A compact gallery card can omit media and lead with a sigil, rarity, and reward value."
+          />
+          <SEICardMetadata className="rounded-xl border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)] p-3">
+            <strong className="text-[var(--sh-text-primary)]">+120 Qi</strong>
+            <span>+15 Sect Merit</span>
+            <span>Milestone · Homebound</span>
+          </SEICardMetadata>
+          <SEICardFooter className="flex items-center justify-between gap-3">
+            <span>Claim available</span>
+            <SEIButton size="sm" variant="ghost">
+              Inspect
+            </SEIButton>
+          </SEICardFooter>
+        </SEICardContent>
+      </SEICard>
+    </div>
+  ),
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story:
+          "Codex, World, and compact Relic examples share the same structural base while keeping different media, lore, metadata, and action arrangements.",
+      },
+    },
+  },
+};
+
+export const CeremonialRelicFoundation: Story = {
+  render: () => (
+    <div className="w-[min(30rem,calc(100vw-2rem))]">
+      <SEICard variant="media-test" padding="none" accentColor="#F59E0B">
+        <SEICardMedia className="flex aspect-[4/3] items-center justify-center bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.22),transparent_48%),#08090d]">
+          <div className="absolute size-44 rounded-full border border-[var(--sh-card-accent-border)]" />
+          <div className="absolute size-32 rotate-45 rounded-3xl border border-[var(--sh-card-accent-border)]" />
+          <Gem
+            aria-hidden="true"
+            className="relative size-14 text-[var(--sh-card-accent)] drop-shadow-[0_0_22px_var(--sh-card-accent-glow)]"
+          />
+        </SEICardMedia>
+        <SEICardContent padding="lg" className="text-center">
+          <SEICardMetadata className="justify-center font-bold uppercase tracking-[0.18em] text-[var(--sh-card-accent)]">
+            Legendary relic
+          </SEICardMetadata>
+          <SEICardTitle as="h3" className="text-2xl">
+            Compass of Returning Stars
+          </SEICardTitle>
+          <SEICardDescription className="mx-auto max-w-sm font-serif italic">
+            The ceremonial card can arrange its sigil, lore, reward, and claim action independently
+            while retaining the shared surface and spacing contract.
+          </SEICardDescription>
+          <SEICardMetadata className="justify-center">
+            <span>Reward · 120 Qi</span>
+            <span>Requirement · Homebound milestone</span>
+          </SEICardMetadata>
+          <SEICardActions className="justify-center pt-2">
+            <SEIButton variant="solid" icon={Gem}>
+              Claim Relic
+            </SEIButton>
+          </SEICardActions>
+        </SEICardContent>
+      </SEICard>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The shared card owns structure, spacing, semantics, and accent hooks; the composed Relic experience remains free to add stronger ceremony and effects.",
       },
     },
   },

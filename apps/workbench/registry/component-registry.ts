@@ -237,7 +237,8 @@ export const componentRegistry: WorkbenchComponentEntry[] = [
     category: "Primitives",
     layer: "foundation",
     status: "reviewing",
-    description: "The base card surface that albums, artists, fragments, and modules sit on.",
+    description:
+      "A semantic, composable card surface for media, identity, lore, metadata, actions, and product-driven accents.",
     variants: [
       "default",
       "soft",
