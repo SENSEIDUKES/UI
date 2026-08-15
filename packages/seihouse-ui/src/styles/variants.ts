@@ -203,8 +203,12 @@ export const seiCardVariants = tv({
       dark: "sh-theme-dark border-[var(--sh-border)] bg-[#07080c] text-[var(--sh-text-primary)]",
       light:
         "sh-theme-light border-[var(--sh-border)] bg-[var(--sh-surface)] text-[var(--sh-text-primary)] shadow-[0_22px_62px_rgba(0,0,0,0.12)]",
-      "glass-test":
-        "sh-theme-dark border-[var(--sh-border)] bg-[rgba(18,20,26,0.84)] text-[var(--sh-text-primary)] backdrop-blur-2xl",
+      "glass-test": [
+        "sh-theme-dark border-[var(--sh-border)] bg-[rgba(18,20,26,0.84)] text-[var(--sh-text-primary)]",
+        // Lighter blur on small screens, where high-DPR mobile GPUs pay the
+        // most for backdrop sampling; the full test blur resumes from sm up.
+        "backdrop-blur-[var(--sh-blur-sm)] sm:backdrop-blur-2xl",
+      ].join(" "),
       "media-test":
         "sh-theme-dark border-[var(--sh-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.025)),rgba(10,12,18,0.96)] text-[var(--sh-text-primary)]",
     },
