@@ -105,7 +105,9 @@ const legacyMediaInset: Record<SEICardPadding, string> = {
 };
 
 function hasRenderableContent(value: ReactNode) {
-  return Children.toArray(value).some((child) => child !== "");
+  return Children.toArray(value).some((child) =>
+    typeof child === "string" ? child.trim().length > 0 : true,
+  );
 }
 
 export interface SEICardMediaProps extends HTMLAttributes<HTMLElement> {
@@ -224,7 +226,10 @@ export function SEICardFooter({ className, ...props }: SEICardFooterProps) {
   );
 }
 
-export interface SEICardHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
+export interface SEICardHeaderProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children" | "title"
+> {
   eyebrow?: ReactNode;
   icon?: ReactNode;
   title?: ReactNode;

@@ -12,6 +12,7 @@ import {
   SEICardHeader,
   SEICardMedia,
   SEICardMetadata,
+  type SEICardHeaderProps,
   type SEICardProps,
 } from "../sei-card";
 
@@ -29,6 +30,10 @@ const actionCardProps = {
 // @ts-expect-error Interactive cards need either an href or an onClick action.
 const incompleteActionCardProps = { interactive: true, title: "Incomplete" } satisfies SEICardProps;
 void incompleteActionCardProps;
+
+// @ts-expect-error SEICardHeader uses explicit regions instead of arbitrary children.
+const unsupportedHeaderChildren = { children: "Unexpected" } satisfies SEICardHeaderProps;
+void unsupportedHeaderChildren;
 
 function renderCard(props: SEICardProps) {
   return renderToStaticMarkup(createElement(SEICard, props));
@@ -165,10 +170,10 @@ describe("SEICard contract", () => {
 
   it("does not create empty regions for conditionally absent React content", () => {
     const markup = renderCard({
-      eyebrow: [false, null, ""],
-      title: [undefined, ""],
+      eyebrow: [false, null, "", "   "],
+      title: [undefined, "", "\n\t"],
       actions: [false, null],
-      footer: [""],
+      footer: ["", "  "],
     });
 
     expect(markup).not.toContain('data-slot="card-header"');
