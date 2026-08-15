@@ -1,4 +1,4 @@
-import { Children } from "react";
+import { Children, Fragment, isValidElement } from "react";
 import type {
   AnchorHTMLAttributes,
   CSSProperties,
@@ -104,10 +104,18 @@ const legacyMediaInset: Record<SEICardPadding, string> = {
   lg: "-m-6 mb-6",
 };
 
-function hasRenderableContent(value: ReactNode) {
-  return Children.toArray(value).some((child) =>
-    typeof child === "string" ? child.trim().length > 0 : true,
-  );
+function hasRenderableContent(value: ReactNode): boolean {
+  return Children.toArray(value).some((child) => {
+    if (typeof child === "string") {
+      return child.trim().length > 0;
+    }
+
+    if (isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment) {
+      return hasRenderableContent(child.props.children);
+    }
+
+    return true;
+  });
 }
 
 export interface SEICardMediaProps extends HTMLAttributes<HTMLElement> {

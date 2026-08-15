@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, Fragment } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -170,13 +170,25 @@ describe("SEICard contract", () => {
 
   it("does not create empty regions for conditionally absent React content", () => {
     const markup = renderCard({
-      eyebrow: [false, null, "", "   "],
+      eyebrow: [false, null, "", "   ", createElement(Fragment, null)],
       title: [undefined, "", "\n\t"],
       actions: [false, null],
-      footer: ["", "  "],
+      footer: ["", "  ", createElement(Fragment, null, false, "   ")],
     });
 
     expect(markup).not.toContain('data-slot="card-header"');
     expect(markup).not.toContain('data-slot="card-footer"');
+  });
+
+  it("recognizes meaningful content nested inside React fragments", () => {
+    const markup = renderCard({
+      title: createElement(Fragment, null, createElement(Fragment, null, "Nested title")),
+      footer: createElement(Fragment, null, "Fragment footer"),
+    });
+
+    expect(markup).toContain('data-slot="card-header"');
+    expect(markup).toContain("Nested title");
+    expect(markup).toContain('data-slot="card-footer"');
+    expect(markup).toContain("Fragment footer");
   });
 });
