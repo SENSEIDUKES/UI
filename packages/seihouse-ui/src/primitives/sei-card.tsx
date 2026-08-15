@@ -265,14 +265,15 @@ export function SEICardHeader({
   className,
   ...props
 }: SEICardHeaderProps) {
-  // Walk each slot once per render; the checks below previously re-ran
-  // hasRenderableContent on the same props up to three times.
-  const hasEyebrow = hasRenderableContent(eyebrow);
-  const hasMetadata = hasRenderableContent(metadata);
-  const hasTitle = hasRenderableContent(title);
-  const hasActions = hasRenderableContent(actions);
-  const hasIcon = hasRenderableContent(icon);
-  const hasDescription = hasRenderableContent(description);
+  // Walk each populated slot once per render; the checks below previously
+  // re-ran hasRenderableContent on the same props up to three times, and the
+  // != null guards skip the Children.toArray walk entirely for omitted slots.
+  const hasEyebrow = eyebrow != null && hasRenderableContent(eyebrow);
+  const hasMetadata = metadata != null && hasRenderableContent(metadata);
+  const hasTitle = title != null && hasRenderableContent(title);
+  const hasActions = actions != null && hasRenderableContent(actions);
+  const hasIcon = icon != null && hasRenderableContent(icon);
+  const hasDescription = description != null && hasRenderableContent(description);
   const hasTopline = hasEyebrow || hasMetadata;
   const hasTitleRow = hasTitle || hasActions;
 
