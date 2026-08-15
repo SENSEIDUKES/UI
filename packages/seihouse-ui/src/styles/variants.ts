@@ -185,7 +185,10 @@ export const seiPanelVariants = tv({
 
 export const seiCardVariants = tv({
   base: [
-    "group relative min-w-0 overflow-hidden rounded-[1.35rem] border",
+    // flex-col lets stretched cards (equal-height grid rows) keep media on top
+    // and grow the content region so trailing actions/footers can anchor with
+    // mt-auto instead of pooling dead space at the bottom.
+    "group relative flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border",
     "shadow-[0_22px_62px_rgba(0,0,0,0.24)]",
     transitionSurface,
   ],

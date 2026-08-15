@@ -129,7 +129,7 @@ export function SEICardMedia({ as = "div", className, ...props }: SEICardMediaPr
   return (
     <Component
       data-slot="card-media"
-      className={cn("relative min-w-0 overflow-hidden", className)}
+      className={cn("relative min-w-0 shrink-0 overflow-hidden", className)}
       {...props}
     />
   );
@@ -144,7 +144,7 @@ export function SEICardContent({ className, padding = "none", ...props }: SEICar
   return (
     <div
       data-slot="card-content"
-      className={cn("min-w-0 space-y-4", cardContentPadding[padding], className)}
+      className={cn("flex min-w-0 flex-1 flex-col gap-4", cardContentPadding[padding], className)}
       {...props}
     />
   );

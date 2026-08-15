@@ -52,6 +52,7 @@ A flexible card surface for simple content and advanced product-specific composi
 - Use \`eyebrow\` for category or metadata above the title
 - Use \`footer\` for secondary actions or metadata at the bottom
 - Use the compound regions (\`SEICardMedia\`, \`SEICardContent\`, \`SEICardHeader\`, \`SEICardBody\`, \`SEICardMetadata\`, \`SEICardActions\`, and \`SEICardFooter\`) when a product card needs its own content order
+- In equal-height grids, stretch the card with \`h-full\` and add \`mt-auto\` to the trailing region so actions or a footer anchor to the bottom
 - Use \`accentColor\` for entity category or rarity identity; product components still own their stronger artwork and effects
 - Keep System Panels on \`SEIPanel\`; they are not card compositions
         `,
@@ -378,7 +379,7 @@ export const CompleteExample: Story = {
  */
 export const SharedProductFoundation: Story = {
   render: () => (
-    <div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
+    <div className="grid w-[min(72rem,calc(100vw-2rem))] grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <SEICard variant="media-test" padding="none" accentColor="#04ACFF" className="h-full">
         <SEICardMedia className="flex aspect-[4/3] items-center justify-center bg-[radial-gradient(circle_at_center,rgba(4,172,255,0.2),transparent_58%),linear-gradient(145deg,#07121f,#03070d)]">
           <div className="absolute inset-5 rounded-2xl border border-dashed border-[var(--sh-card-accent-border)]" />
@@ -398,7 +399,7 @@ export const SharedProductFoundation: Story = {
             <span>First revealed · Chapter 4</span>
             <span>Portrait available</span>
           </SEICardMetadata>
-          <SEICardActions>
+          <SEICardActions className="mt-auto">
             <SEIButton size="sm" variant="solid" icon={Sparkles}>
               Manifest
             </SEIButton>
@@ -429,7 +430,7 @@ export const SharedProductFoundation: Story = {
               Its call carries farther than its shadow, and neither arrives alone.
             </SEICardDescription>
           </SEICardBody>
-          <SEICardActions>
+          <SEICardActions className="mt-auto">
             <SEIButton fullWidth size="sm" variant="outline" icon={Play}>
               Play creature echo
             </SEIButton>
@@ -460,7 +461,7 @@ export const SharedProductFoundation: Story = {
             <span>+15 Sect Merit</span>
             <span>Milestone · Homebound</span>
           </SEICardMetadata>
-          <SEICardFooter className="flex items-center justify-between gap-3">
+          <SEICardFooter className="mt-auto flex items-center justify-between gap-3">
             <span>Claim available</span>
             <SEIButton size="sm" variant="ghost">
               Inspect
