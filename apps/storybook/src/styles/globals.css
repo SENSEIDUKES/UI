@@ -1,51 +1,11 @@
-/* Tailwind CSS v4 */
 @import "tailwindcss";
+@import "../../../../packages/seihouse-ui/src/styles/tokens.css";
+@source "../../../../packages/seihouse-ui/src";
 
-/* SEIHOUSE Design Tokens */
-:root {
-  /* Core Colors */
-  --sh-color-black: #000000;
-  --sh-color-white: #ffffff;
-  --sh-color-ivory: #f2f2f7;
-  --sh-color-cloud: #8e8e93;
-  --sh-color-mist: #636366;
-
-  /* Sea (Primary) */
-  --sh-color-sea: #007aff;
-  --sh-color-sea-subtle: rgba(0, 122, 255, 0.08);
-
-  /* Semantic Colors */
-  --sh-color-success: #34c759;
-  --sh-color-warning: #ff9f0a;
-  --sh-color-danger: #ff453a;
-
-  /* Surface Colors */
-  --sh-color-surface-primary: rgba(18, 20, 26, 0.86);
-  --sh-color-surface-soft: rgba(0, 122, 255, 0.065);
-  --sh-color-surface-dark: #07080c;
-  --sh-color-surface-light: #f7f6f1;
-
-  /* Border Colors */
-  --sh-color-border-default: rgba(255, 255, 255, 0.1);
-  --sh-color-border-sea: rgba(0, 122, 255, 0.2);
-}
-
-/* Dark theme (default) */
-.dark {
-  color-scheme: dark;
-  background-color: var(--sh-color-black);
-  color: var(--sh-color-ivory);
-}
-
-/* Light theme */
-.light {
-  color-scheme: light;
-  background-color: var(--sh-color-white);
-  color: var(--sh-color-black);
-}
-
-/* Base styles */
 body {
+  margin: 0;
+  background: var(--sh-page-background);
+  color: var(--sh-text-primary);
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

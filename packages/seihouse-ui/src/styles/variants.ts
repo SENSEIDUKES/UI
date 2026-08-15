@@ -185,7 +185,7 @@ export const seiPanelVariants = tv({
 
 export const seiCardVariants = tv({
   base: [
-    "group relative overflow-hidden rounded-[1.35rem] border",
+    "group relative min-w-0 overflow-hidden rounded-[1.35rem] border",
     "shadow-[0_22px_62px_rgba(0,0,0,0.24)]",
     transitionSurface,
   ],
@@ -212,7 +212,7 @@ export const seiCardVariants = tv({
       lg: "p-6",
     },
     elevateOnHover: {
-      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.3)] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34)] motion-reduce:hover:translate-y-0",
+      true: "hover:-translate-y-1 hover:border-[var(--sh-card-accent-border,rgba(0,122,255,0.3))] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34),0_0_34px_var(--sh-card-accent-glow,transparent)] motion-reduce:hover:translate-y-0",
       false: "",
     },
   },

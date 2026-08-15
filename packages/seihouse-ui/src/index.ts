@@ -3,7 +3,28 @@
 
 export { SEIBadge, type SEIBadgeProps } from "./primitives/sei-badge";
 export { SEIButton, type SEIButtonProps } from "./primitives/sei-button";
-export { SEICard, type SEICardProps } from "./primitives/sei-card";
+export {
+  SEICard,
+  SEICardActions,
+  SEICardBody,
+  SEICardContent,
+  SEICardDescription,
+  SEICardFooter,
+  SEICardHeader,
+  SEICardMedia,
+  SEICardMetadata,
+  SEICardTitle,
+  type SEICardActionsProps,
+  type SEICardBodyProps,
+  type SEICardContentProps,
+  type SEICardDescriptionProps,
+  type SEICardFooterProps,
+  type SEICardHeaderProps,
+  type SEICardMediaProps,
+  type SEICardMetadataProps,
+  type SEICardProps,
+  type SEICardTitleProps,
+} from "./primitives/sei-card";
 export { SEIPanel, type SEIPanelProps } from "./primitives/sei-panel";
 export { SEISection, type SEISectionProps } from "./primitives/sei-section";
 
