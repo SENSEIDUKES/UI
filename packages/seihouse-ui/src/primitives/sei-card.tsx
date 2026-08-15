@@ -265,8 +265,16 @@ export function SEICardHeader({
   className,
   ...props
 }: SEICardHeaderProps) {
-  const hasTopline = hasRenderableContent(eyebrow) || hasRenderableContent(metadata);
-  const hasTitleRow = hasRenderableContent(title) || hasRenderableContent(actions);
+  // Walk each slot once per render; the checks below previously re-ran
+  // hasRenderableContent on the same props up to three times.
+  const hasEyebrow = hasRenderableContent(eyebrow);
+  const hasMetadata = hasRenderableContent(metadata);
+  const hasTitle = hasRenderableContent(title);
+  const hasActions = hasRenderableContent(actions);
+  const hasIcon = hasRenderableContent(icon);
+  const hasDescription = hasRenderableContent(description);
+  const hasTopline = hasEyebrow || hasMetadata;
+  const hasTitleRow = hasTitle || hasActions;
 
   return (
     <div
@@ -274,7 +282,7 @@ export function SEICardHeader({
       className={cn("flex min-w-0 items-start gap-3", className)}
       {...props}
     >
-      {hasRenderableContent(icon) ? (
+      {hasIcon ? (
         <div
           data-slot="card-icon"
           className={cn(
@@ -291,12 +299,12 @@ export function SEICardHeader({
       <div className="min-w-0 flex-1 space-y-4">
         {hasTopline ? (
           <div className="flex flex-wrap items-center justify-between gap-2">
-            {hasRenderableContent(eyebrow) ? (
+            {hasEyebrow ? (
               <div className="wrap-anywhere text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
                 {eyebrow}
               </div>
             ) : null}
-            {hasRenderableContent(metadata) ? (
+            {hasMetadata ? (
               <SEICardMetadata className="text-sm">{metadata}</SEICardMetadata>
             ) : null}
           </div>
@@ -304,14 +312,14 @@ export function SEICardHeader({
 
         {hasTitleRow ? (
           <div className="flex min-w-0 items-start justify-between gap-4">
-            {hasRenderableContent(title) ? <SEICardTitle as={titleAs}>{title}</SEICardTitle> : null}
-            {hasRenderableContent(actions) ? (
+            {hasTitle ? <SEICardTitle as={titleAs}>{title}</SEICardTitle> : null}
+            {hasActions ? (
               <SEICardActions className="shrink-0">{actions}</SEICardActions>
             ) : null}
           </div>
         ) : null}
 
-        {hasRenderableContent(description) ? (
+        {hasDescription ? (
           <SEICardDescription>{description}</SEICardDescription>
         ) : null}
       </div>
