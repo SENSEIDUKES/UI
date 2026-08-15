@@ -161,7 +161,7 @@ export function SEICardTitle({ as = "h3", className, ...props }: SEICardTitlePro
     <Component
       data-slot="card-title"
       className={cn(
-        "min-w-0 break-words text-lg font-semibold leading-tight tracking-[-0.03em] text-current",
+        "min-w-0 wrap-anywhere text-lg font-semibold leading-tight tracking-[-0.03em] text-current",
         className,
       )}
       {...props}
@@ -180,7 +180,7 @@ export function SEICardDescription({ as = "p", className, ...props }: SEICardDes
   return (
     <Component
       data-slot="card-description"
-      className={cn("text-sm leading-relaxed text-[var(--sh-text-muted)]", className)}
+      className={cn("wrap-anywhere text-sm leading-relaxed text-[var(--sh-text-muted)]", className)}
       {...props}
     />
   );
@@ -199,7 +199,7 @@ export function SEICardMetadata({ className, ...props }: SEICardMetadataProps) {
     <div
       data-slot="card-metadata"
       className={cn(
-        "flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 text-xs text-[var(--sh-text-subtle)]",
+        "flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 wrap-anywhere text-xs text-[var(--sh-text-subtle)]",
         className,
       )}
       {...props}
@@ -226,7 +226,7 @@ export function SEICardFooter({ className, ...props }: SEICardFooterProps) {
     <div
       data-slot="card-footer"
       className={cn(
-        "border-t border-[var(--sh-border)] pt-4 text-sm text-[var(--sh-text-subtle)]",
+        "mt-auto border-t border-[var(--sh-border)] pt-4 wrap-anywhere text-sm text-[var(--sh-text-subtle)]",
         className,
       )}
       {...props}
@@ -292,7 +292,7 @@ export function SEICardHeader({
         {hasTopline ? (
           <div className="flex flex-wrap items-center justify-between gap-2">
             {hasRenderableContent(eyebrow) ? (
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
+              <div className="wrap-anywhere text-xs font-bold uppercase tracking-[0.16em] text-[var(--sh-text-subtle)]">
                 {eyebrow}
               </div>
             ) : null}

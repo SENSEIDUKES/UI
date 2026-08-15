@@ -52,7 +52,7 @@ A flexible card surface for simple content and advanced product-specific composi
 - Use \`eyebrow\` for category or metadata above the title
 - Use \`footer\` for secondary actions or metadata at the bottom
 - Use the compound regions (\`SEICardMedia\`, \`SEICardContent\`, \`SEICardHeader\`, \`SEICardBody\`, \`SEICardMetadata\`, \`SEICardActions\`, and \`SEICardFooter\`) when a product card needs its own content order
-- In equal-height grids, stretch the card with \`h-full\` and add \`mt-auto\` to the trailing region so actions or a footer anchor to the bottom
+- In equal-height grids, stretch the card with \`h-full\` and add \`mt-auto\` to custom trailing regions (like actions) so they anchor to the bottom; \`SEICardFooter\` anchors by default
 - Use \`accentColor\` for entity category or rarity identity; product components still own their stronger artwork and effects
 - Keep System Panels on \`SEIPanel\`; they are not card compositions
         `,
@@ -461,7 +461,7 @@ export const SharedProductFoundation: Story = {
             <span>+15 Sect Merit</span>
             <span>Milestone · Homebound</span>
           </SEICardMetadata>
-          <SEICardFooter className="mt-auto flex items-center justify-between gap-3">
+          <SEICardFooter className="flex items-center justify-between gap-3">
             <span>Claim available</span>
             <SEIButton size="sm" variant="ghost">
               Inspect
