@@ -13,6 +13,7 @@ export interface SEIFilterBarProps extends HTMLAttributes<HTMLDivElement> {
   "aria-label"?: string;
 }
 
+/** Formats the count of matching items with singular or plural suffix. */
 function formatResults(count: number): string {
   return `${count} ${count === 1 ? "result" : "results"}`;
 }

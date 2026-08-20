@@ -305,24 +305,18 @@ export function SEICardHeader({
                 {eyebrow}
               </div>
             ) : null}
-            {hasMetadata ? (
-              <SEICardMetadata className="text-sm">{metadata}</SEICardMetadata>
-            ) : null}
+            {hasMetadata ? <SEICardMetadata className="text-sm">{metadata}</SEICardMetadata> : null}
           </div>
         ) : null}
 
         {hasTitleRow ? (
           <div className="flex min-w-0 items-start justify-between gap-4">
             {hasTitle ? <SEICardTitle as={titleAs}>{title}</SEICardTitle> : null}
-            {hasActions ? (
-              <SEICardActions className="shrink-0">{actions}</SEICardActions>
-            ) : null}
+            {hasActions ? <SEICardActions className="shrink-0">{actions}</SEICardActions> : null}
           </div>
         ) : null}
 
-        {hasDescription ? (
-          <SEICardDescription>{description}</SEICardDescription>
-        ) : null}
+        {hasDescription ? <SEICardDescription>{description}</SEICardDescription> : null}
       </div>
     </div>
   );
