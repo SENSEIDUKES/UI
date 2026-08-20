@@ -1,9 +1,12 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { SEIFilterBar, type SEIFilterBarProps } from "../sei-filter-bar";
 
+/**
+ * Helper to render SEIFilterBar to static HTML markup for contract and snapshot assertions.
+ */
 function renderFilterBar(
   props: Partial<SEIFilterBarProps> & Record<string, unknown> = {},
   children = createElement("span", null, "Filter 1"),
@@ -47,12 +50,22 @@ describe("SEIFilterBar component", () => {
     expect(markup).not.toContain("result");
   });
 
-  it("renders Clear button when onClear handler is provided", () => {
-    const onClear = () => {};
+  it("renders Clear button and invokes onClear handler when clicked", () => {
+    const onClear = vi.fn();
     const markup = renderFilterBar({ onClear });
     expect(markup).toContain("<button");
     expect(markup).toContain('type="button"');
     expect(markup).toContain("Clear");
+
+    const element = SEIFilterBar({
+      children: createElement("span", null, "Filter 1"),
+      onClear,
+    });
+    const actionContainer = element.props.children[1];
+    const clearButton = actionContainer.props.children[1];
+    expect(clearButton.props.onClick).toBe(onClear);
+    clearButton.props.onClick();
+    expect(onClear).toHaveBeenCalledTimes(1);
   });
 
   it("does not render Clear button when onClear is not provided", () => {
@@ -66,6 +79,7 @@ describe("SEIFilterBar component", () => {
       className: "custom-class",
       "data-testid": "filter-bar-test",
     });
+    expect(markup).toContain("flex w-full flex-wrap items-center gap-2");
     expect(markup).toContain("custom-class");
     expect(markup).toContain('data-testid="filter-bar-test"');
   });
