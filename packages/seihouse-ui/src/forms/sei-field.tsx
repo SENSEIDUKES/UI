@@ -16,7 +16,7 @@ import { focusRing, transitionSurface } from "../styles/variants";
  */
 export const seiFieldControlVariants = tv({
   base: [
-    "w-full rounded-[var(--sh-radius-md)] border bg-white/[0.04] text-[var(--sh-color-ivory)]",
+    "w-full rounded-[var(--sh-radius-field)] border bg-[var(--sh-field-surface)] text-[var(--sh-color-ivory)]",
     "placeholder:text-[var(--sh-color-mist)]",
     "outline-none",
     focusRing,
@@ -35,7 +35,8 @@ export const seiFieldControlVariants = tv({
     },
     invalid: {
       true: "border-[rgba(255,69,58,0.5)] focus-visible:ring-[var(--sh-color-danger)]",
-      false: "border-white/12 hover:border-white/20 focus-within:border-[rgba(0,122,255,0.45)]",
+      false:
+        "border-[var(--sh-field-border)] hover:border-[var(--sh-field-border-hover)] focus-within:border-[var(--sh-field-border-focus)]",
     },
   },
   defaultVariants: {

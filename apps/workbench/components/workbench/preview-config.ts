@@ -6,14 +6,6 @@ export type WidthOption = (typeof widthOptions)[number];
 
 export type ModeOption = "solo" | "variants" | "context";
 
-export const canvasStyles: Record<CanvasOption, string> = {
-  dark: "bg-[radial-gradient(circle_at_30%_15%,rgba(0,104,209,0.09),transparent_24rem),var(--sh-page-background)]",
-  light: "bg-[var(--sh-page-background)]",
-  plain: "bg-[var(--sh-surface)]",
-  glass:
-    "bg-[linear-gradient(135deg,rgba(0,104,209,0.18),rgba(255,107,53,0.12)),var(--sh-page-background)]",
-};
-
 export function canvasTheme(canvas: CanvasOption): "dark" | "light" {
   return canvas === "light" ? "light" : "dark";
 }
@@ -30,3 +22,15 @@ export const viewportPresets: Record<
 export function isCanvasOption(value: string | undefined): value is CanvasOption {
   return canvasOptions.some((option) => option === value);
 }
+
+/**
+ * Canvas backgrounds read `--sh-atmosphere`, so the selected experience shapes
+ * the ambient wash behind the component instead of a hard-coded gradient.
+ */
+export const canvasStyles: Record<CanvasOption, string> = {
+  dark: "bg-[var(--sh-page-background)] [background-image:var(--sh-atmosphere)]",
+  light: "bg-[var(--sh-page-background)]",
+  plain: "bg-[var(--sh-surface)]",
+  glass:
+    "bg-[var(--sh-page-background)] [background-image:linear-gradient(135deg,var(--sh-color-sea-glow),var(--sh-color-accent-glow)),var(--sh-atmosphere)]",
+};

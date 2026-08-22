@@ -640,3 +640,61 @@ form + scroll primitives. Existing a11y specs continue to pass.
 - Draggable SplitPane resize.
 - Light-mode and final brand/theming decisions.
 - Storybook.
+
+# Foundation — Default / SEA / SEN Style System
+
+## What changed
+
+- **One system, three expressions.** Added a `data-experience="default" | "sea" | "sen"`
+  layer to `packages/seihouse-ui/src/styles/tokens.css`. `data-theme` still owns contrast
+  (dark / light); `data-experience` owns product personality. They compose: every
+  experience supplies both a dark-context and a light-context palette.
+- **No forked components.** The experience layer only rewrites the semantic `--sh-*` roles
+  components already consume, so no primitive gained an `experience` prop and no SEA/SEN
+  copy of Button, Card, Panel, or Input exists. Applied at the document root, it also
+  reaches portal-based overlays (dialog, drawer, popover, menu, toast).
+- **Token wiring.** Introduced role tokens so the shared variants can express character
+  instead of hard-coding it: `--sh-radius-control|field|panel|card`,
+  `--sh-elevation-panel|card|hover`, `--sh-hover-border`, `--sh-glass-body|sheen|rim`,
+  `--sh-atmosphere`, `--sh-field-surface|border|border-hover|border-focus`,
+  `--sh-motion-*-duration` / `--sh-motion-ease`, and the type-mood tokens
+  `--sh-font-display|reading`, `--sh-tracking-display`, `--sh-leading-reading`,
+  `--sh-measure-reading` (system font stacks only — no remote font dependencies).
+- **Backward-safe by construction.** The mapping blocks only apply under
+  `[data-experience]`, and the `default` seeds restate the current dark/light values, so
+  pages that set no experience — or set `default` — render as before.
+- **Workbench Style control.** A new first control above Mode, in both the desktop
+  controls and the mobile drawer. It persists in `localStorage`
+  (`sei-workbench-experience`), survives component navigation and refreshes, defaults to
+  Default on a first visit, and is independent of Mode / Canvas / Width. The selection is
+  passed into the isolated preview iframe (including variants and contextual previews),
+  where it lands on that document's root element.
+- **Foundation page.** New first section, _Experience_: Default / SEA / SEN side by side
+  through Button, Card, Panel (incl. glass), Input, Textarea, Bottom Navigation, and
+  Navigation Drawer, with a dark/light toggle to check both themes per experience. Every
+  column is identical markup — only the attribute on its root differs.
+
+## Visual direction
+
+- **Default — Modern.** Unchanged: the neutral, premium SEIHouse foundation.
+- **SEA — Music.** Deeper blue-cast ink, wider spectral atmosphere, richer glow and glass
+  depth, rounder containers, snappier easing.
+- **SEN — Narrative.** Deep ink with subtle celestial warmth, gold interactive primary,
+  calmer surfaces, squarer containers, slower easing, and a serif display voice for
+  reading hierarchy.
+
+## Tests
+
+- Vitest: experience vocabulary + guards, and token-file invariants (a seed block per
+  experience, dark/light seed parity across all three, and mapping scoped to
+  `[data-experience]`).
+- Playwright: Style options and default selection, propagation into the isolated preview
+  document and the shell root, persistence across navigation and reload while Mode still
+  resets, independence from Canvas / Width, contextual previews, mobile drawer with a 44px
+  target, plus axe scans with a non-default style and on the Foundation proof.
+
+## Still deferred
+
+- Per-category adaptation of each component family to the three experiences.
+- Light-mode glass treatment (glass surfaces still pin themselves to a dark contract).
+- Final brand decisions; the palettes here are directional, not locked.

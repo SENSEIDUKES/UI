@@ -361,6 +361,15 @@ export {
 } from "./data";
 
 export { cn } from "./styles/cn";
+// --- Experience layer (`data-experience`) ---
+export {
+  isSEIExperience,
+  SEI_DEFAULT_EXPERIENCE,
+  seiExperienceMeta,
+  seiExperiences,
+  type SEIExperience,
+  type SEIExperienceMeta,
+} from "./styles/experience";
 export {
   focusRing,
   interactionStates,

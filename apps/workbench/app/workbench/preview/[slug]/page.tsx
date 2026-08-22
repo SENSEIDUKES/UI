@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { IsolatedPreview } from "@/components/workbench/preview-document";
 import { isCanvasOption } from "@/components/workbench/preview-config";
+import { isSEIExperience, SEI_DEFAULT_EXPERIENCE } from "@seihouse/ui";
 import { getComponentBySlug } from "@/registry/component-registry";
 import { getContextById } from "@/registry/context-registry";
 
@@ -16,6 +17,7 @@ interface WorkbenchPreviewPageProps {
   searchParams: Promise<{
     canvas?: string;
     contextId?: string;
+    experience?: string;
     mockIndex?: string;
     previewId?: string;
     variant?: string;
@@ -31,6 +33,7 @@ export default async function WorkbenchPreviewPage({
   if (!entry) notFound();
 
   const canvas = isCanvasOption(query.canvas) ? query.canvas : "dark";
+  const experience = isSEIExperience(query.experience) ? query.experience : SEI_DEFAULT_EXPERIENCE;
   const previewId = query.previewId ?? "workbench-preview";
 
   if (query.contextId) {
@@ -43,6 +46,7 @@ export default async function WorkbenchPreviewPage({
         mockIndex={0}
         previewId={previewId}
         canvas={canvas}
+        experience={experience}
         contextId={context.id}
       />
     );
@@ -64,6 +68,7 @@ export default async function WorkbenchPreviewPage({
       mockIndex={mockIndex}
       previewId={previewId}
       canvas={canvas}
+      experience={experience}
     />
   );
 }

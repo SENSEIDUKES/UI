@@ -54,6 +54,7 @@ import {
 } from "@seihouse/ui";
 
 import { DiagBlock, DiagGrid, DiagTile } from "./shared";
+import { ExperienceSection } from "./experience-section";
 
 /* ------------------------------------------------------------------ */
 /* 1 — Tokens                                                          */
@@ -767,6 +768,13 @@ export interface FoundationSection {
 }
 
 export const foundationSections: FoundationSection[] = [
+  {
+    id: "experience",
+    name: "Experience",
+    description:
+      "Default, SEA, and SEN through the same approved components — the shared style system.",
+    Component: ExperienceSection,
+  },
   {
     id: "tokens",
     name: "Tokens",
