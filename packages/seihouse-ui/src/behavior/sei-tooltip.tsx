@@ -5,6 +5,8 @@ import { Tooltip } from "@base-ui/react/tooltip";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
+import { seiLayer } from "../styles/layering";
+import { seiPopupSurfaceVariants } from "../styles/variants";
 
 /**
  * SEITooltip — accessible tooltip powered by Base UI Tooltip.
@@ -17,8 +19,9 @@ import { cn } from "../styles/cn";
 
 export const seiTooltipStyles = tv({
   slots: {
+    positioner: seiLayer.popover,
     popup: [
-      "z-50 max-w-xs rounded-lg border px-2.5 py-1.5 text-xs font-medium leading-snug shadow-[0_18px_50px_rgba(0,0,0,0.5)]",
+      "max-w-xs rounded-lg px-2.5 py-1.5 text-xs font-medium leading-snug",
       "origin-[var(--transform-origin)] transition-[opacity,transform] duration-150 ease-out",
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -26,9 +29,9 @@ export const seiTooltipStyles = tv({
   },
   variants: {
     variant: {
-      default: { popup: "border-white/12 bg-[#11141b] text-[var(--sh-color-ivory)]" },
-      dark: { popup: "border-white/10 bg-black text-white" },
-      light: { popup: "border-black/10 bg-white text-[#111318]" },
+      default: { popup: seiPopupSurfaceVariants({ tone: "default" }) },
+      dark: { popup: seiPopupSurfaceVariants({ tone: "dark" }) },
+      light: { popup: seiPopupSurfaceVariants({ tone: "light" }) },
     },
   },
   defaultVariants: { variant: "default" },
@@ -97,6 +100,7 @@ export function SEITooltipContent({
         align={align}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
+        className={styles.positioner()}
       >
         <Tooltip.Popup className={cn(styles.popup(), className)} {...props}>
           {children}

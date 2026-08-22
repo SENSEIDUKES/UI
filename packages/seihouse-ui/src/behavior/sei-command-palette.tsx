@@ -5,6 +5,7 @@ import { Clock, CornerDownLeft } from "lucide-react";
 import { Dialog } from "@base-ui/react/dialog";
 
 import { cn } from "../styles/cn";
+import { seiLayer } from "../styles/layering";
 import { seiOverlayVariants, seiPopupSurfaceVariants } from "../styles/variants";
 import { type CommandGroup, type CommandItem } from "../types/behavior";
 import { fuzzyMatch, highlightSegments } from "./fuzzy";
@@ -197,7 +198,8 @@ export function SEICommandPalette({
         <Dialog.Popup
           className={cn(
             seiPopupSurfaceVariants({ tone: "default" }),
-            "fixed left-1/2 top-[12vh] z-50 w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-2xl",
+            "fixed left-1/2 top-[12vh] w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-2xl",
+            seiLayer.modal,
             "transition-[opacity,transform] duration-200 ease-out",
             "data-[starting-style]:-translate-y-2 data-[starting-style]:opacity-0",
             "data-[ending-style]:-translate-y-2 data-[ending-style]:opacity-0",

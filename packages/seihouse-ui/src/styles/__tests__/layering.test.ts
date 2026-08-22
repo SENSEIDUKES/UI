@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { SEI_Z_INDEX, seiLayer, type SEILayer } from "../layering";
+import { SEI_Z_INDEX, seiLayer, seiLayerImportant, type SEILayer } from "../layering";
 
 const ORDER: SEILayer[] = [
   "base",
@@ -34,5 +34,6 @@ describe("layering scale", () => {
 
   it("maps overlay to the z-40 class used by the shared scrim", () => {
     expect(seiLayer.overlay).toBe("z-40");
+    expect(seiLayerImportant.dropdown).toBe("!z-30");
   });
 });

@@ -6,7 +6,8 @@ import { Popover } from "@base-ui/react/popover";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing } from "../styles/variants";
+import { seiLayer } from "../styles/layering";
+import { focusRing, seiPopupSurfaceVariants } from "../styles/variants";
 
 /**
  * SEIPopover — accessible floating content powered by Base UI Popover.
@@ -19,40 +20,31 @@ import { focusRing } from "../styles/variants";
 
 export const seiPopoverStyles = tv({
   slots: {
+    positioner: seiLayer.popover,
     popup: [
-      "z-50 max-w-[min(20rem,var(--available-width))] rounded-2xl border p-4 shadow-[0_30px_90px_rgba(0,0,0,0.5)]",
+      "max-w-[min(20rem,var(--available-width))] rounded-2xl p-4",
       "origin-[var(--transform-origin)] transition-[opacity,transform] duration-150 ease-out",
       "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
       focusRing,
     ],
     arrow: "data-[side=bottom]:top-[-7px] data-[side=top]:bottom-[-7px]",
-    title: "text-sm font-semibold tracking-[-0.01em]",
-    description: "mt-1 text-sm leading-relaxed",
+    title: "text-sm font-semibold tracking-[-0.01em] text-[var(--sh-text-primary)]",
+    description: "mt-1 text-sm leading-relaxed text-[var(--sh-text-muted)]",
   },
   variants: {
     variant: {
       default: {
-        popup:
-          "border-white/12 bg-[rgba(18,20,26,0.97)] text-[var(--sh-color-ivory)] backdrop-blur-xl",
-        title: "text-white",
-        description: "text-[var(--sh-color-cloud)]",
+        popup: seiPopupSurfaceVariants({ tone: "default" }),
       },
       soft: {
-        popup:
-          "border-[rgba(0,122,255,0.24)] bg-[rgba(8,16,30,0.97)] text-[var(--sh-color-ivory)] backdrop-blur-xl",
-        title: "text-[#bcdcff]",
-        description: "text-[var(--sh-color-cloud)]",
+        popup: seiPopupSurfaceVariants({ tone: "soft" }),
       },
       dark: {
-        popup: "border-white/10 bg-[#07080c] text-white",
-        title: "text-white",
-        description: "text-[var(--sh-color-mist)]",
+        popup: seiPopupSurfaceVariants({ tone: "dark" }),
       },
       light: {
-        popup: "border-black/10 bg-white text-[#111318]",
-        title: "text-[#111318]",
-        description: "text-[#4b4f58]",
+        popup: seiPopupSurfaceVariants({ tone: "light" }),
       },
     },
   },
@@ -120,6 +112,7 @@ export function SEIPopoverContent({
           sideOffset={sideOffset}
           collisionPadding={collisionPadding}
           collisionAvoidance={collisionAvoidance}
+          className={styles.positioner()}
         >
           <Popover.Popup className={cn(styles.popup(), className)} {...props}>
             {showArrow ? (

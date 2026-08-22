@@ -41,3 +41,11 @@ export const seiLayer = {
   popover: "z-[60]",
   toast: "z-[70]",
 } as const satisfies Record<SEILayer, string>;
+
+/**
+ * Semantic layers that must override a third-party inline z-index. Keep these
+ * static so Tailwind emits the important utility in the production stylesheet.
+ */
+export const seiLayerImportant = {
+  dropdown: "!z-30",
+} as const;
