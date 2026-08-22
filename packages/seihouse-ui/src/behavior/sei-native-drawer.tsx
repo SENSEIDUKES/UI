@@ -7,7 +7,14 @@ import { Drawer } from "vaul";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
+import { seiLayer } from "../styles/layering";
+import {
+  focusRing,
+  mobileTouchTarget,
+  seiOverlayVariants,
+  seiPopupSurfaceVariants,
+  transitionSurface,
+} from "../styles/variants";
 
 /**
  * SEINativeDrawer — native-feeling drawer powered by `vaul`.
@@ -24,23 +31,19 @@ import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/varia
 
 export const seiNativeDrawerStyles = tv({
   slots: {
-    overlay: "fixed inset-0 z-40 bg-black/60 backdrop-blur-sm",
-    content: [
-      "fixed z-50 flex flex-col border outline-none",
-      "shadow-[0_-20px_80px_rgba(0,0,0,0.55)]",
-      focusRing,
-    ],
-    handle: "mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-white/20",
-    header: "flex items-start justify-between gap-4 px-5 py-4",
-    body: "flex-1 overflow-y-auto px-5 py-2 text-sm leading-relaxed",
+    overlay: seiOverlayVariants(),
+    content: ["fixed flex flex-col outline-none", seiLayer.modal, focusRing],
+    handle: "mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-[var(--sh-border-strong)]",
+    header: "flex items-start justify-between gap-4 border-b border-[var(--sh-border)] px-5 py-4",
+    body: "min-h-0 flex-1 overflow-y-auto px-5 py-2 text-sm leading-relaxed text-[var(--sh-text-muted)]",
     footer:
-      "flex flex-wrap items-center justify-end gap-2 border-t px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
-    title: "text-base font-semibold tracking-[-0.02em]",
-    description: "mt-1 text-sm leading-relaxed",
+      "flex flex-wrap items-center justify-end gap-2 border-t border-[var(--sh-border)] px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
+    title: "text-base font-semibold tracking-[-0.02em] text-[var(--sh-text-primary)]",
+    description: "mt-1 text-sm leading-relaxed text-[var(--sh-text-muted)]",
     close: [
-      "grid size-8 shrink-0 place-items-center rounded-full border",
+      "grid size-8 shrink-0 place-items-center rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)]",
       mobileTouchTarget,
-      "cursor-pointer text-current/70 hover:text-current",
+      "cursor-pointer text-current/70 hover:bg-[var(--sh-interactive-surface-hover)] hover:text-current",
       focusRing,
       transitionSurface,
     ],
@@ -59,48 +62,19 @@ export const seiNativeDrawerStyles = tv({
     },
     tone: {
       default: {
-        content: "border-white/10 bg-[rgba(18,20,26,0.98)] text-[var(--sh-color-ivory)]",
-        header: "border-white/10",
-        footer: "border-white/10",
-        title: "text-white",
-        description: "text-[var(--sh-color-cloud)]",
-        close: "border-white/12 bg-white/[0.05] hover:bg-white/10",
+        content: seiPopupSurfaceVariants({ tone: "default" }),
       },
       soft: {
-        content:
-          "border-[rgba(0,122,255,0.22)] bg-[rgba(8,16,30,0.98)] text-[var(--sh-color-ivory)]",
-        title: "text-[#bcdcff]",
-        description: "text-[var(--sh-color-cloud)]",
-        close:
-          "border-[rgba(0,122,255,0.28)] bg-[rgba(0,122,255,0.1)] hover:bg-[rgba(0,122,255,0.18)]",
-        header: "border-[rgba(0,122,255,0.18)]",
-        footer: "border-[rgba(0,122,255,0.18)]",
+        content: seiPopupSurfaceVariants({ tone: "soft" }),
       },
       dark: {
-        content: "border-white/10 bg-[#07080c] text-white",
-        header: "border-white/10",
-        footer: "border-white/10",
-        title: "text-white",
-        description: "text-[var(--sh-color-mist)]",
-        close: "border-white/12 bg-white/[0.05] hover:bg-white/10",
+        content: seiPopupSurfaceVariants({ tone: "dark" }),
       },
       light: {
-        content: "border-black/10 bg-white text-[#111318]",
-        header: "border-black/10",
-        footer: "border-black/10",
-        title: "text-[#111318]",
-        description: "text-[#4b4f58]",
-        close: "border-black/10 bg-black/[0.04] hover:bg-black/[0.08]",
-        handle: "bg-black/15",
+        content: seiPopupSurfaceVariants({ tone: "light" }),
       },
       "glass-test": {
-        content:
-          "border-white/16 bg-white/[0.08] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_-20px_80px_rgba(0,0,0,0.5)] backdrop-blur-2xl",
-        header: "border-white/12",
-        footer: "border-white/12",
-        title: "text-white",
-        description: "text-[var(--sh-color-cloud)]",
-        close: "border-white/16 bg-white/[0.08] hover:bg-white/16",
+        content: seiPopupSurfaceVariants({ tone: "glass-test" }),
       },
     },
     size: {

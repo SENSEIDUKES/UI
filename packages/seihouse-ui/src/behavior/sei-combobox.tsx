@@ -18,7 +18,13 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, mobileTouchTarget, seiInteractiveItemVariants } from "../styles/variants";
+import { seiLayer, seiLayerImportant } from "../styles/layering";
+import {
+  focusRing,
+  mobileTouchTarget,
+  seiInteractiveItemVariants,
+  seiPopupSurfaceVariants,
+} from "../styles/variants";
 
 /**
  * SEICombobox — searchable, accessible combobox composed from React Aria
@@ -127,7 +133,12 @@ export function SEIComboboxPopover({ className, ...props }: SEIComboboxPopoverPr
       placement="bottom"
       offset={6}
       className={cn(
-        "w-[var(--trigger-width)] origin-top rounded-2xl border border-white/12 bg-[rgba(18,20,26,0.98)] p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-xl",
+        seiPopupSurfaceVariants({ tone: "default" }),
+        seiLayer.dropdown,
+        // React Aria's default inline z-index is intentionally very high; keep
+        // this popup in the shared dropdown layer instead.
+        seiLayerImportant.dropdown,
+        "w-[var(--trigger-width)] origin-top rounded-2xl p-1.5",
         "data-[entering]:animate-in data-[entering]:fade-in-0 data-[exiting]:animate-out data-[exiting]:fade-out-0",
         className,
       )}

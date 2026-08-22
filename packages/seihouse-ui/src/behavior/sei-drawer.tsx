@@ -7,7 +7,14 @@ import { Dialog } from "@base-ui/react/dialog";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/variants";
+import { seiLayer } from "../styles/layering";
+import {
+  focusRing,
+  mobileTouchTarget,
+  seiOverlayVariants,
+  seiPopupSurfaceVariants,
+  transitionSurface,
+} from "../styles/variants";
 
 /**
  * SEIDrawer — accessible side / bottom panel.
@@ -24,26 +31,23 @@ import { focusRing, mobileTouchTarget, transitionSurface } from "../styles/varia
 
 export const seiDrawerStyles = tv({
   slots: {
-    backdrop: [
-      "fixed inset-0 z-40 bg-black/60 backdrop-blur-sm",
-      "transition-opacity duration-200 ease-out",
-      "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
-    ],
+    backdrop: seiOverlayVariants(),
     popup: [
-      "fixed z-50 flex flex-col border shadow-[0_40px_120px_rgba(0,0,0,0.55)]",
+      "fixed flex flex-col",
+      seiLayer.modal,
       "transition-transform duration-250 ease-out",
       focusRing,
     ],
-    header: "flex items-start justify-between gap-4 border-b px-5 py-4",
-    body: "min-h-0 flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed",
+    header: "flex items-start justify-between gap-4 border-b border-[var(--sh-border)] px-5 py-4",
+    body: "min-h-0 flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-[var(--sh-text-muted)]",
     footer:
-      "flex flex-wrap items-center justify-end gap-2 border-t px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
-    title: "text-base font-semibold tracking-[-0.02em]",
-    description: "mt-1 text-sm leading-relaxed",
+      "flex flex-wrap items-center justify-end gap-2 border-t border-[var(--sh-border)] px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
+    title: "text-base font-semibold tracking-[-0.02em] text-[var(--sh-text-primary)]",
+    description: "mt-1 text-sm leading-relaxed text-[var(--sh-text-muted)]",
     close: [
-      "grid size-8 shrink-0 place-items-center rounded-full border",
+      "grid size-8 shrink-0 place-items-center rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)]",
       mobileTouchTarget,
-      "cursor-pointer text-current/70 hover:text-current",
+      "cursor-pointer text-current/70 hover:bg-[var(--sh-interactive-surface-hover)] hover:text-current",
       focusRing,
       transitionSurface,
     ],
@@ -70,20 +74,10 @@ export const seiDrawerStyles = tv({
     },
     tone: {
       dark: {
-        popup: "border-white/10 bg-[#07080c] text-white",
-        header: "border-white/10",
-        footer: "border-white/10",
-        title: "text-white",
-        description: "text-[var(--sh-color-mist)]",
-        close: "border-white/12 bg-white/[0.05] hover:bg-white/10",
+        popup: seiPopupSurfaceVariants({ tone: "dark" }),
       },
       light: {
-        popup: "border-black/10 bg-white text-[#111318]",
-        header: "border-black/10",
-        footer: "border-black/10",
-        title: "text-[#111318]",
-        description: "text-[#4b4f58]",
-        close: "border-black/10 bg-black/[0.04] hover:bg-black/[0.08]",
+        popup: seiPopupSurfaceVariants({ tone: "light" }),
       },
     },
   },

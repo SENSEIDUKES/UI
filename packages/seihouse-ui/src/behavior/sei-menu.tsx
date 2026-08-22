@@ -187,7 +187,7 @@ export function SEIMenuSeparator({ className, ...props }: SEIMenuSeparatorProps)
   return (
     <div
       role="separator"
-      className={cn("my-1 h-px bg-white/10", transitionSurface, className)}
+      className={cn("my-1 h-px bg-[var(--sh-border)]", transitionSurface, className)}
       {...props}
     />
   );

@@ -14,7 +14,13 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { focusRing, mobileTouchTarget, seiInteractiveItemVariants } from "../styles/variants";
+import { seiLayer, seiLayerImportant } from "../styles/layering";
+import {
+  focusRing,
+  mobileTouchTarget,
+  seiInteractiveItemVariants,
+  seiPopupSurfaceVariants,
+} from "../styles/variants";
 import type { MultiSelectOption } from "../types/behavior";
 
 /**
@@ -167,7 +173,16 @@ export function SEIMultiSelectCombobox({
           />
         </div>
 
-        <Popover className="w-[var(--trigger-width)] rounded-2xl border border-white/12 bg-[rgba(18,20,26,0.98)] p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+        <Popover
+          className={cn(
+            seiPopupSurfaceVariants({ tone: "default" }),
+            seiLayer.dropdown,
+            // React Aria's default inline z-index is intentionally very high;
+            // keep this popup in the shared dropdown layer instead.
+            seiLayerImportant.dropdown,
+            "w-[var(--trigger-width)] rounded-2xl p-1.5",
+          )}
+        >
           <ListBox
             className="max-h-56 overflow-y-auto outline-none"
             renderEmptyState={() => (

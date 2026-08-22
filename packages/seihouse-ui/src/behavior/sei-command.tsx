@@ -18,7 +18,11 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../styles/cn";
-import { seiCommandGroupHeader, seiInteractiveItemVariants } from "../styles/variants";
+import {
+  seiCommandGroupHeader,
+  seiInteractiveItemVariants,
+  seiPopupSurfaceVariants,
+} from "../styles/variants";
 import { fuzzyMatch } from "./fuzzy";
 
 /**
@@ -74,7 +78,8 @@ export function SEICommand({
   return (
     <div
       className={cn(
-        "w-full overflow-hidden rounded-2xl border border-white/12 bg-[rgba(14,16,22,0.96)] shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-xl",
+        seiPopupSurfaceVariants({ tone: "default" }),
+        "w-full overflow-hidden rounded-2xl",
         className,
       )}
     >
