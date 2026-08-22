@@ -14,6 +14,8 @@ import {
 } from "@/registry/component-registry";
 import { getContextById } from "@/registry/context-registry";
 import {
+  seiExperiences,
+  seiExperienceMeta,
   SEIBadge,
   SEIDrawer,
   SEIDrawerBody,
@@ -23,9 +25,11 @@ import {
   SEIDrawerTitle,
   SEIDrawerTrigger,
   cn,
+  type SEIExperience,
 } from "@seihouse/ui";
 
 import { WorkbenchNav } from "./workbench-nav";
+import { useWorkbenchExperience } from "./use-experience";
 import {
   canvasOptions,
   viewportPresets,
@@ -39,7 +43,7 @@ import {
 /* Workbench shell                                                      */
 /* Left: searchable grouped component list.                             */
 /* Center: one preview at a time on a controllable canvas.              */
-/* Right: variant / mock data / canvas / width / mode / status / notes. */
+/* Right: style / mode / variant / mock data / canvas / width / status / notes. */
 /* ------------------------------------------------------------------ */
 
 const noteFields: { key: keyof ReviewNotes; label: string; placeholder: string }[] = [
@@ -92,6 +96,77 @@ function SegButton({
     >
       {children}
     </button>
+  );
+}
+
+/**
+ * Style — the workbench experience switch.
+ *
+ * Deliberately an internal workbench control, not a public segmented control:
+ * it is built from the same tokens as everything else, keeps a 44px touch
+ * target so it works in the mobile drawer, and carries a literal identity
+ * swatch per experience so all three stay recognisable whichever one is active.
+ */
+const experienceSwatches: Record<SEIExperience, string> = {
+  default: "bg-[linear-gradient(135deg,#0068d1,#ff6b35)]",
+  sea: "bg-[linear-gradient(135deg,#1f5fe0,#ff3d7f)]",
+  sen: "bg-[linear-gradient(135deg,#d9a75c,#8f7ee0)]",
+};
+
+function StyleControl({
+  experience,
+  setExperience,
+}: {
+  experience: SEIExperience;
+  setExperience: (value: SEIExperience) => void;
+}) {
+  return (
+    <div
+      data-testid="workbench-style-control"
+      role="group"
+      aria-label="Style"
+      className="grid gap-1.5"
+    >
+      {seiExperiences.map((option) => {
+        const meta = seiExperienceMeta[option];
+        const active = experience === option;
+
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => setExperience(option)}
+            aria-pressed={active}
+            data-experience-option={option}
+            title={meta.description}
+            className={cn(
+              "flex min-h-11 w-full items-center gap-2.5 rounded-xl border px-2.5 text-left transition-colors",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sh-color-sea)]",
+              active
+                ? "border-[rgba(0,122,255,0.45)] bg-[rgba(0,122,255,0.14)]"
+                : "border-white/10 bg-white/[0.03] hover:border-white/20",
+            )}
+          >
+            <span
+              aria-hidden="true"
+              className={cn(
+                "size-5 shrink-0 rounded-full border border-white/25",
+                experienceSwatches[option],
+                active && "ring-2 ring-white/25",
+              )}
+            />
+            <span className="min-w-0 truncate text-xs">
+              <span
+                className={cn("font-bold", active ? "text-white" : "text-[var(--sh-color-cloud)]")}
+              >
+                {meta.name}
+              </span>
+              <span className="text-[var(--sh-color-mist)]"> — {meta.register}</span>
+            </span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -233,11 +308,13 @@ interface ControlsProps {
   canvas: CanvasOption;
   width: WidthOption;
   mode: ModeOption;
+  experience: SEIExperience;
   setVariant: (value: string) => void;
   setMockIndex: (value: number) => void;
   setCanvas: (value: CanvasOption) => void;
   setWidth: (value: WidthOption) => void;
   setMode: (value: ModeOption) => void;
+  setExperience: (value: SEIExperience) => void;
 }
 
 function Controls({
@@ -248,14 +325,21 @@ function Controls({
   canvas,
   width,
   mode,
+  experience,
   setVariant,
   setMockIndex,
   setCanvas,
   setWidth,
   setMode,
+  setExperience,
 }: ControlsProps) {
   return (
     <div className="space-y-5">
+      <div>
+        <ControlLabel>Style</ControlLabel>
+        <StyleControl experience={experience} setExperience={setExperience} />
+      </div>
+
       <div>
         <ControlLabel>Mode</ControlLabel>
         <div className="flex flex-wrap gap-1.5">
@@ -338,6 +422,7 @@ interface PreviewFrameProps {
   mockIndex: number;
   canvas: CanvasOption;
   width: WidthOption;
+  experience: SEIExperience;
   contextId?: string;
   title?: string;
 }
@@ -348,6 +433,7 @@ function PreviewFrame({
   mockIndex,
   canvas,
   width,
+  experience,
   contextId,
   title,
 }: PreviewFrameProps) {
@@ -359,13 +445,14 @@ function PreviewFrame({
   const src = useMemo(() => {
     const query = new URLSearchParams({
       canvas,
+      experience,
       mockIndex: String(mockIndex),
       previewId,
       variant,
     });
     if (contextId) query.set("contextId", contextId);
     return `/workbench/preview/${entry.slug}?${query.toString()}`;
-  }, [canvas, contextId, entry.slug, mockIndex, previewId, variant]);
+  }, [canvas, contextId, entry.slug, experience, mockIndex, previewId, variant]);
 
   useEffect(() => {
     setHeight(preset.minimumHeight);
@@ -431,6 +518,7 @@ function PreviewArea({
   canvas,
   width,
   mode,
+  experience,
 }: {
   entry: WorkbenchComponentEntry;
   variant: string;
@@ -438,6 +526,7 @@ function PreviewArea({
   canvas: CanvasOption;
   width: WidthOption;
   mode: ModeOption;
+  experience: SEIExperience;
 }) {
   if (mode === "context") {
     const contexts = entry.contextExamples
@@ -467,6 +556,7 @@ function PreviewArea({
                 mockIndex={mockIndex}
                 canvas={canvas}
                 width={width}
+                experience={experience}
                 contextId={ctx.id}
                 title={ctx.name}
               />
@@ -488,6 +578,7 @@ function PreviewArea({
               mockIndex={mockIndex}
               canvas={canvas}
               width={width}
+              experience={experience}
               title={v}
             />
           </section>
@@ -503,6 +594,7 @@ function PreviewArea({
       mockIndex={mockIndex}
       canvas={canvas}
       width={width}
+      experience={experience}
     />
   );
 }
@@ -516,6 +608,7 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   const [canvas, setCanvas] = useState<CanvasOption>("dark");
   const [width, setWidth] = useState<WidthOption>("desktop");
   const [mode, setMode] = useState<ModeOption>("solo");
+  const { experience, setExperience } = useWorkbenchExperience();
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
   const previewCanvasRef = useRef<HTMLDivElement>(null);
@@ -559,6 +652,7 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
   return (
     <div
       data-theme="dark"
+      data-experience={experience}
       className="min-h-screen overflow-x-hidden bg-[var(--sh-page-background)] text-[var(--sh-text-primary)]"
     >
       <WorkbenchNav current="/workbench" />
@@ -624,11 +718,13 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
                     canvas={canvas}
                     width={width}
                     mode={mode}
+                    experience={experience}
                     setVariant={setVariant}
                     setMockIndex={setMockIndex}
                     setCanvas={setCanvas}
                     setWidth={setWidth}
                     setMode={setMode}
+                    setExperience={setExperience}
                   />
                 </SEIDrawerBody>
               </SEIDrawerContent>
@@ -647,6 +743,7 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
               canvas={canvas}
               width={width}
               mode={mode}
+              experience={experience}
             />
           </div>
         </main>
@@ -663,11 +760,13 @@ export function WorkbenchShell({ activeSlug }: { activeSlug?: string }) {
             canvas={canvas}
             width={width}
             mode={mode}
+            experience={experience}
             setVariant={setVariant}
             setMockIndex={setMockIndex}
             setCanvas={setCanvas}
             setWidth={setWidth}
             setMode={setMode}
+            setExperience={setExperience}
           />
         </aside>
       </div>

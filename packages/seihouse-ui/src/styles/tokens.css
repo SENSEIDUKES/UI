@@ -88,6 +88,13 @@
   --sh-radius-2xl: 1.5rem;
   --sh-radius-full: 9999px;
 
+  /* Role-based radii. Components consume these so an experience can shift the
+     shape language without every primitive hard-coding a value. */
+  --sh-radius-control: var(--sh-radius-full);
+  --sh-radius-field: var(--sh-radius-md);
+  --sh-radius-panel: 1.35rem;
+  --sh-radius-card: 1.35rem;
+
   /* ---- Shadows ---- */
   --sh-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --sh-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -95,10 +102,27 @@
   --sh-shadow-glow-sea: 0 0 20px rgba(0, 122, 255, 0.12);
   --sh-shadow-glow-accent: 0 0 20px rgba(255, 107, 53, 0.12);
 
-  /* ---- Transitions ---- */
-  --sh-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --sh-transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --sh-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Role-based container shadows, so an experience can tune depth in one place. */
+  --sh-elevation-panel: 0 24px 70px rgba(0, 0, 0, 0.22);
+  --sh-elevation-card: 0 22px 62px rgba(0, 0, 0, 0.24);
+  --sh-elevation-hover: 0 32px 90px rgba(0, 0, 0, 0.34), 0 0 38px rgba(0, 122, 255, 0.08);
+  --sh-hover-border: rgba(0, 122, 255, 0.32);
+
+  /* ---- Transitions ----
+     Duration and easing are separate primitives so an experience can set its
+     own motion character; the composed `--sh-transition-*` shorthands keep
+     their existing values and every current consumer working. */
+  --sh-motion-fast-duration: 150ms;
+  --sh-motion-base-duration: 250ms;
+  --sh-motion-slow-duration: 400ms;
+  --sh-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  /* The surface-state transition shared by every variant (see transitionSurface). */
+  --sh-motion-surface-duration: 200ms;
+  --sh-motion-surface-ease: ease-out;
+
+  --sh-transition-fast: var(--sh-motion-fast-duration) var(--sh-motion-ease);
+  --sh-transition-base: var(--sh-motion-base-duration) var(--sh-motion-ease);
+  --sh-transition-slow: var(--sh-motion-slow-duration) var(--sh-motion-ease);
 
   /* ======================================================================
      INFRASTRUCTURE TOKENS (Phase 6) — shared foundations, not brand.
@@ -130,10 +154,38 @@
   --sh-blur-lg: 24px;
   --sh-glass-bg: rgba(255, 255, 255, 0.065);
   --sh-glass-border: rgba(255, 255, 255, 0.14);
+  /* Deep glass body used by dimensional surfaces (the glass Panel). The opaque
+     value is the fallback for browsers without backdrop-filter. */
+  --sh-glass-body: rgba(12, 14, 20, 0.62);
+  --sh-glass-body-opaque: rgba(12, 14, 20, 0.92);
+  --sh-glass-sheen: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.075),
+    rgba(255, 255, 255, 0.018) 42%
+  );
+  --sh-glass-rim:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 24px 70px rgba(0, 0, 0, 0.34);
 
   /* ---- Glow ---- */
   --sh-glow-sea: 0 0 38px rgba(0, 122, 255, 0.18);
   --sh-glow-accent: 0 0 38px rgba(255, 107, 53, 0.16);
+
+  /* ---- Atmosphere ---- (ambient background wash for page/canvas surfaces) */
+  --sh-atmosphere: radial-gradient(circle at 30% 15%, rgba(0, 104, 209, 0.09), transparent 24rem);
+
+  /* ---- Field surface ---- (text-like controls: input / textarea / select) */
+  --sh-field-surface: rgba(255, 255, 255, 0.04);
+  --sh-field-border: rgba(255, 255, 255, 0.12);
+  --sh-field-border-hover: rgba(255, 255, 255, 0.2);
+  --sh-field-border-focus: rgba(0, 122, 255, 0.45);
+
+  /* ---- Typography mood ---- (system stacks only, no remote font dependencies) */
+  --sh-font-display: var(--sh-font-sans);
+  --sh-font-reading: var(--sh-font-sans);
+  --sh-tracking-display: -0.03em;
+  --sh-leading-reading: var(--sh-leading-relaxed);
+  --sh-measure-reading: 68ch;
 
   /* ---- Scroll shadows ---- (edge fades for SEIScrollArea) */
   --sh-scroll-shadow-size: 1.75rem;
@@ -257,6 +309,427 @@
   --sh-status-accent-bg: #ffeadf;
   --sh-status-accent-border: #e4a285;
   --sh-status-accent-text: #873517;
+
+  --sh-color-ivory: var(--sh-text-primary);
+  --sh-color-cloud: var(--sh-text-muted);
+  --sh-color-mist: var(--sh-text-subtle);
+  --sh-color-sea: var(--sh-interactive-primary);
+  --sh-color-sea-deep: var(--sh-interactive-primary-hover);
+  --sh-surface-base: var(--sh-surface);
+}
+
+/* ========================================================================
+   EXPERIENCES — `data-experience="default" | "sea" | "sen"`
+
+   One UI system, three expressions. `data-theme` stays in charge of contrast
+   (dark / light); `data-experience` carries product personality (Default —
+   Modern, SEA — Music, SEN — Narrative). They compose: every experience
+   supplies both a dark-context and a light-context palette, so either theme
+   works under any experience.
+
+   How it is wired, in three parts:
+
+   1. Identity seeds. Each experience declares `--shx-*-dark` / `--shx-*-light`
+      pairs plus the theme-agnostic character tokens (atmosphere, glass, glow,
+      radius, motion, type mood). Seeds are inert on their own.
+   2. + 3. Mapping. Two shared blocks read the seeds for the surrounding theme
+      context and write the semantic `--sh-*` roles that components already
+      consume. Nothing needs an `experience` prop, and no primitive is forked.
+
+   Backward safety: the mapping only applies under `[data-experience]`, and the
+   `default` seeds are the current dark/light theme values, so pages that set no
+   experience — or set `default` — render exactly as before.
+   ======================================================================== */
+
+/* ---- 1. Identity seeds ------------------------------------------------- */
+
+/* Default — Modern: the neutral, premium SEIHouse foundation. These values
+   mirror the dark/light theme blocks above verbatim; keep them in sync. */
+[data-experience="default"] {
+  --shx-page-background-dark: #0a0a0c;
+  --shx-surface-dark: #12141a;
+  --shx-surface-elevated-dark: #1b1e26;
+  --shx-surface-raised-dark: #252933;
+  --shx-text-primary-dark: #f7f7fa;
+  --shx-text-muted-dark: #b8bbc4;
+  --shx-text-subtle-dark: #a4a8b2;
+  --shx-border-dark: rgba(255, 255, 255, 0.14);
+  --shx-border-strong-dark: rgba(255, 255, 255, 0.24);
+  --shx-focus-ring-dark: #65adff;
+  --shx-focus-offset-dark: #0a0a0c;
+  --shx-interactive-primary-dark: #0068d1;
+  --shx-interactive-primary-hover-dark: #005bb8;
+  --shx-interactive-on-primary-dark: #ffffff;
+  --shx-interactive-text-dark: #9bd0ff;
+  --shx-interactive-surface-dark: rgba(255, 255, 255, 0.055);
+  --shx-interactive-surface-hover-dark: rgba(255, 255, 255, 0.1);
+  --shx-interactive-surface-active-dark: rgba(255, 255, 255, 0.14);
+  --shx-interactive-selected-dark: #0c3157;
+  --shx-interactive-selected-hover-dark: #164675;
+  --shx-interactive-selected-border-dark: #477caf;
+  --shx-interactive-selected-text-dark: #ffffff;
+  --shx-accent-dark: #ff6b35;
+  --shx-accent-glow-dark: rgba(255, 107, 53, 0.15);
+  --shx-field-surface-dark: rgba(255, 255, 255, 0.04);
+  --shx-field-border-dark: rgba(255, 255, 255, 0.12);
+  --shx-field-border-hover-dark: rgba(255, 255, 255, 0.2);
+
+  --shx-page-background-light: #f7f6f1;
+  --shx-surface-light: #ffffff;
+  --shx-surface-elevated-light: #efeee8;
+  --shx-surface-raised-light: #e4e2db;
+  --shx-text-primary-light: #17191e;
+  --shx-text-muted-light: #555b66;
+  --shx-text-subtle-light: #535964;
+  --shx-border-light: rgba(23, 25, 30, 0.18);
+  --shx-border-strong-light: rgba(23, 25, 30, 0.32);
+  --shx-focus-ring-light: #005ebd;
+  --shx-focus-offset-light: #ffffff;
+  --shx-interactive-primary-light: #005ebd;
+  --shx-interactive-primary-hover-light: #004d9c;
+  --shx-interactive-on-primary-light: #ffffff;
+  --shx-interactive-text-light: #004f9f;
+  --shx-interactive-surface-light: rgba(23, 25, 30, 0.055);
+  --shx-interactive-surface-hover-light: rgba(23, 25, 30, 0.1);
+  --shx-interactive-surface-active-light: rgba(23, 25, 30, 0.14);
+  --shx-interactive-selected-light: #dcecff;
+  --shx-interactive-selected-hover-light: #c6e0ff;
+  --shx-interactive-selected-border-light: #77aee8;
+  --shx-interactive-selected-text-light: #003d7a;
+  --shx-accent-light: #ff6b35;
+  --shx-accent-glow-light: rgba(255, 107, 53, 0.15);
+  --shx-field-surface-light: rgba(23, 25, 30, 0.04);
+  --shx-field-border-light: rgba(23, 25, 30, 0.16);
+  --shx-field-border-hover-light: rgba(23, 25, 30, 0.28);
+
+  /* Character tokens restated at the base values, so `default` is fully
+     self-contained and resets cleanly when nested inside another experience. */
+  --sh-atmosphere: radial-gradient(circle at 30% 15%, rgba(0, 104, 209, 0.09), transparent 24rem);
+  --sh-glass-body: rgba(12, 14, 20, 0.62);
+  --sh-glass-body-opaque: rgba(12, 14, 20, 0.92);
+  --sh-glass-border: rgba(255, 255, 255, 0.14);
+  --sh-glass-bg: rgba(255, 255, 255, 0.065);
+  --sh-glass-sheen: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.075),
+    rgba(255, 255, 255, 0.018) 42%
+  );
+  --sh-glass-rim:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 24px 70px rgba(0, 0, 0, 0.34);
+  --sh-glow-sea: 0 0 38px rgba(0, 122, 255, 0.18);
+  --sh-glow-accent: 0 0 38px rgba(255, 107, 53, 0.16);
+  --sh-color-sea-glow: rgba(0, 122, 255, 0.15);
+  --sh-color-sea-subtle: rgba(0, 122, 255, 0.06);
+  --sh-shadow-glow-sea: 0 0 20px rgba(0, 122, 255, 0.12);
+  --sh-shadow-glow-accent: 0 0 20px rgba(255, 107, 53, 0.12);
+  --sh-elevation-panel: 0 24px 70px rgba(0, 0, 0, 0.22);
+  --sh-elevation-card: 0 22px 62px rgba(0, 0, 0, 0.24);
+  --sh-elevation-hover: 0 32px 90px rgba(0, 0, 0, 0.34), 0 0 38px rgba(0, 122, 255, 0.08);
+  --sh-hover-border: rgba(0, 122, 255, 0.32);
+  --sh-radius-control: var(--sh-radius-full);
+  --sh-radius-field: var(--sh-radius-md);
+  --sh-radius-panel: 1.35rem;
+  --sh-radius-card: 1.35rem;
+  --sh-motion-fast-duration: 150ms;
+  --sh-motion-base-duration: 250ms;
+  --sh-motion-slow-duration: 400ms;
+  --sh-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --sh-motion-surface-duration: 200ms;
+  --sh-motion-surface-ease: ease-out;
+  --sh-font-display: var(--sh-font-sans);
+  --sh-font-reading: var(--sh-font-sans);
+  --sh-tracking-display: -0.03em;
+  --sh-leading-reading: var(--sh-leading-relaxed);
+  --sh-measure-reading: 68ch;
+}
+
+/* SEA — Music: vivid but controlled sonic energy. Deeper blue-cast ink,
+   richer glow, artwork-like depth, slightly rounder shapes, more motion
+   presence. Energy comes from depth and glow, not from neon saturation. */
+[data-experience="sea"] {
+  --shx-page-background-dark: #07080f;
+  --shx-surface-dark: #0f1119;
+  --shx-surface-elevated-dark: #171a26;
+  --shx-surface-raised-dark: #212536;
+  --shx-text-primary-dark: #f6f7fb;
+  --shx-text-muted-dark: #bec2d4;
+  --shx-text-subtle-dark: #a8adc2;
+  --shx-border-dark: rgba(139, 157, 255, 0.16);
+  --shx-border-strong-dark: rgba(139, 157, 255, 0.3);
+  --shx-focus-ring-dark: #7cb2ff;
+  --shx-focus-offset-dark: #07080f;
+  --shx-interactive-primary-dark: #1f5fe0;
+  --shx-interactive-primary-hover-dark: #1a4fc4;
+  --shx-interactive-on-primary-dark: #ffffff;
+  --shx-interactive-text-dark: #9cc6ff;
+  --shx-interactive-surface-dark: rgba(255, 255, 255, 0.06);
+  --shx-interactive-surface-hover-dark: rgba(255, 255, 255, 0.11);
+  --shx-interactive-surface-active-dark: rgba(255, 255, 255, 0.16);
+  --shx-interactive-selected-dark: #14284f;
+  --shx-interactive-selected-hover-dark: #1b3a6d;
+  --shx-interactive-selected-border-dark: #4f86cf;
+  --shx-interactive-selected-text-dark: #ffffff;
+  --shx-accent-dark: #ff3d7f;
+  --shx-accent-glow-dark: rgba(255, 61, 127, 0.18);
+  --shx-field-surface-dark: rgba(139, 157, 255, 0.06);
+  --shx-field-border-dark: rgba(139, 157, 255, 0.18);
+  --shx-field-border-hover-dark: rgba(139, 157, 255, 0.34);
+
+  --shx-page-background-light: #f4f6fd;
+  --shx-surface-light: #ffffff;
+  --shx-surface-elevated-light: #eceff9;
+  --shx-surface-raised-light: #e0e5f4;
+  --shx-text-primary-light: #141625;
+  --shx-text-muted-light: #50566b;
+  --shx-text-subtle-light: #4e5468;
+  --shx-border-light: rgba(20, 22, 37, 0.16);
+  --shx-border-strong-light: rgba(20, 22, 37, 0.3);
+  --shx-focus-ring-light: #1550d8;
+  --shx-focus-offset-light: #ffffff;
+  --shx-interactive-primary-light: #1550d8;
+  --shx-interactive-primary-hover-light: #103fae;
+  --shx-interactive-on-primary-light: #ffffff;
+  --shx-interactive-text-light: #10409f;
+  --shx-interactive-surface-light: rgba(20, 22, 37, 0.06);
+  --shx-interactive-surface-hover-light: rgba(20, 22, 37, 0.1);
+  --shx-interactive-surface-active-light: rgba(20, 22, 37, 0.15);
+  --shx-interactive-selected-light: #dbe6ff;
+  --shx-interactive-selected-hover-light: #c4d6ff;
+  --shx-interactive-selected-border-light: #6f9ae8;
+  --shx-interactive-selected-text-light: #0b2f78;
+  --shx-accent-light: #c8175f;
+  --shx-accent-glow-light: rgba(200, 23, 95, 0.16);
+  --shx-field-surface-light: rgba(20, 22, 37, 0.04);
+  --shx-field-border-light: rgba(20, 22, 37, 0.16);
+  --shx-field-border-hover-light: rgba(20, 22, 37, 0.3);
+
+  /* Character: sonic depth — a wider spectral wash, stronger glow, rounder
+     containers, and a snappier motion curve. */
+  --sh-atmosphere:
+    radial-gradient(circle at 18% 8%, rgba(31, 95, 224, 0.22), transparent 26rem),
+    radial-gradient(circle at 88% 14%, rgba(255, 61, 127, 0.14), transparent 22rem),
+    radial-gradient(circle at 50% 108%, rgba(120, 86, 255, 0.12), transparent 28rem);
+  --sh-glass-body: rgba(11, 14, 26, 0.6);
+  --sh-glass-body-opaque: rgba(11, 14, 26, 0.92);
+  --sh-glass-border: rgba(160, 176, 255, 0.2);
+  --sh-glass-bg: rgba(150, 170, 255, 0.075);
+  --sh-glass-sheen: linear-gradient(165deg, rgba(180, 200, 255, 0.1), rgba(255, 61, 127, 0.03) 46%);
+  --sh-glass-rim:
+    inset 0 1px 0 rgba(190, 205, 255, 0.18), inset 0 0 0 1px rgba(160, 176, 255, 0.05),
+    0 26px 76px rgba(0, 0, 0, 0.42);
+  --sh-glow-sea: 0 0 44px rgba(31, 95, 224, 0.28);
+  --sh-glow-accent: 0 0 44px rgba(255, 61, 127, 0.24);
+  --sh-color-sea-glow: rgba(31, 95, 224, 0.24);
+  --sh-color-sea-subtle: rgba(31, 95, 224, 0.09);
+  --sh-shadow-glow-sea: 0 0 26px rgba(31, 95, 224, 0.2);
+  --sh-shadow-glow-accent: 0 0 26px rgba(255, 61, 127, 0.18);
+  --sh-elevation-panel: 0 26px 76px rgba(0, 0, 0, 0.34);
+  --sh-elevation-card: 0 24px 68px rgba(0, 0, 0, 0.36);
+  --sh-elevation-hover: 0 34px 96px rgba(0, 0, 0, 0.44), 0 0 44px rgba(31, 95, 224, 0.16);
+  --sh-hover-border: rgba(124, 178, 255, 0.42);
+  --sh-radius-control: var(--sh-radius-full);
+  --sh-radius-field: 0.9rem;
+  --sh-radius-panel: 1.6rem;
+  --sh-radius-card: 1.6rem;
+  --sh-motion-fast-duration: 130ms;
+  --sh-motion-base-duration: 220ms;
+  --sh-motion-slow-duration: 380ms;
+  --sh-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sh-motion-surface-duration: 190ms;
+  --sh-motion-surface-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sh-font-display: var(--sh-font-sans);
+  --sh-font-reading: var(--sh-font-sans);
+  --sh-tracking-display: -0.045em;
+  --sh-leading-reading: 1.55;
+  --sh-measure-reading: 62ch;
+}
+
+/* SEN — Narrative: reading-first and cinematic. Deep ink with a subtle
+   celestial warmth, calmer surfaces, a serif display voice for hierarchy, and
+   quieter motion. Warmth stays in the light, not in a parchment texture. */
+[data-experience="sen"] {
+  --shx-page-background-dark: #0b0a10;
+  --shx-surface-dark: #13121b;
+  --shx-surface-elevated-dark: #1c1a26;
+  --shx-surface-raised-dark: #262330;
+  --shx-text-primary-dark: #f4f1ea;
+  --shx-text-muted-dark: #c3bdb2;
+  --shx-text-subtle-dark: #ada697;
+  --shx-border-dark: rgba(236, 226, 205, 0.14);
+  --shx-border-strong-dark: rgba(236, 226, 205, 0.26);
+  --shx-focus-ring-dark: #e8c07a;
+  --shx-focus-offset-dark: #0b0a10;
+  --shx-interactive-primary-dark: #d9a75c;
+  --shx-interactive-primary-hover-dark: #c8944a;
+  --shx-interactive-on-primary-dark: #17130c;
+  --shx-interactive-text-dark: #e9c88c;
+  --shx-interactive-surface-dark: rgba(244, 241, 234, 0.05);
+  --shx-interactive-surface-hover-dark: rgba(244, 241, 234, 0.09);
+  --shx-interactive-surface-active-dark: rgba(244, 241, 234, 0.13);
+  --shx-interactive-selected-dark: #2a2318;
+  --shx-interactive-selected-hover-dark: #382f20;
+  --shx-interactive-selected-border-dark: #8a7245;
+  --shx-interactive-selected-text-dark: #f8f0df;
+  --shx-accent-dark: #8f7ee0;
+  --shx-accent-glow-dark: rgba(143, 126, 224, 0.16);
+  --shx-field-surface-dark: rgba(244, 241, 234, 0.04);
+  --shx-field-border-dark: rgba(236, 226, 205, 0.14);
+  --shx-field-border-hover-dark: rgba(236, 226, 205, 0.26);
+
+  --shx-page-background-light: #f7f5f0;
+  --shx-surface-light: #fffdf9;
+  --shx-surface-elevated-light: #efece4;
+  --shx-surface-raised-light: #e4e0d6;
+  --shx-text-primary-light: #191612;
+  --shx-text-muted-light: #57514a;
+  --shx-text-subtle-light: #565049;
+  --shx-border-light: rgba(25, 22, 18, 0.16);
+  --shx-border-strong-light: rgba(25, 22, 18, 0.3);
+  --shx-focus-ring-light: #7a5520;
+  --shx-focus-offset-light: #fffdf9;
+  --shx-interactive-primary-light: #7a5520;
+  --shx-interactive-primary-hover-light: #63441a;
+  --shx-interactive-on-primary-light: #ffffff;
+  --shx-interactive-text-light: #6b4718;
+  --shx-interactive-surface-light: rgba(25, 22, 18, 0.06);
+  --shx-interactive-surface-hover-light: rgba(25, 22, 18, 0.1);
+  --shx-interactive-surface-active-light: rgba(25, 22, 18, 0.14);
+  --shx-interactive-selected-light: #f0e4cd;
+  --shx-interactive-selected-hover-light: #e6d5b5;
+  --shx-interactive-selected-border-light: #b08e50;
+  --shx-interactive-selected-text-light: #4a3312;
+  --shx-accent-light: #5b46b8;
+  --shx-accent-glow-light: rgba(91, 70, 184, 0.14);
+  --shx-field-surface-light: rgba(25, 22, 18, 0.035);
+  --shx-field-border-light: rgba(25, 22, 18, 0.16);
+  --shx-field-border-hover-light: rgba(25, 22, 18, 0.28);
+
+  /* Character: quiet and editorial — a low celestial wash, softer depth,
+     squarer containers, slower easing, and a serif display voice. */
+  --sh-atmosphere:
+    radial-gradient(circle at 78% 4%, rgba(143, 126, 224, 0.14), transparent 30rem),
+    radial-gradient(circle at 12% 96%, rgba(217, 167, 92, 0.08), transparent 26rem);
+  --sh-glass-body: rgba(18, 16, 24, 0.66);
+  --sh-glass-body-opaque: rgba(18, 16, 24, 0.94);
+  --sh-glass-border: rgba(236, 226, 205, 0.16);
+  --sh-glass-bg: rgba(244, 241, 234, 0.055);
+  --sh-glass-sheen: linear-gradient(
+    165deg,
+    rgba(244, 241, 234, 0.06),
+    rgba(143, 126, 224, 0.02) 46%
+  );
+  --sh-glass-rim:
+    inset 0 1px 0 rgba(244, 241, 234, 0.12), inset 0 0 0 1px rgba(236, 226, 205, 0.03),
+    0 22px 64px rgba(0, 0, 0, 0.36);
+  --sh-glow-sea: 0 0 34px rgba(143, 126, 224, 0.16);
+  --sh-glow-accent: 0 0 34px rgba(217, 167, 92, 0.14);
+  --sh-color-sea-glow: rgba(143, 126, 224, 0.16);
+  --sh-color-sea-subtle: rgba(143, 126, 224, 0.06);
+  --sh-shadow-glow-sea: 0 0 20px rgba(143, 126, 224, 0.12);
+  --sh-shadow-glow-accent: 0 0 20px rgba(217, 167, 92, 0.1);
+  --sh-elevation-panel: 0 20px 58px rgba(0, 0, 0, 0.26);
+  --sh-elevation-card: 0 18px 52px rgba(0, 0, 0, 0.26);
+  --sh-elevation-hover: 0 26px 72px rgba(0, 0, 0, 0.3), 0 0 30px rgba(143, 126, 224, 0.1);
+  --sh-hover-border: rgba(217, 167, 92, 0.34);
+  --sh-radius-control: 0.7rem;
+  --sh-radius-field: 0.5rem;
+  --sh-radius-panel: 1rem;
+  --sh-radius-card: 1rem;
+  --sh-motion-fast-duration: 180ms;
+  --sh-motion-base-duration: 320ms;
+  --sh-motion-slow-duration: 520ms;
+  --sh-motion-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --sh-motion-surface-duration: 280ms;
+  --sh-motion-surface-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --sh-font-display:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sh-font-reading:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sh-tracking-display: -0.01em;
+  --sh-leading-reading: 1.75;
+  --sh-measure-reading: 74ch;
+}
+
+/* ---- 2. Semantic mapping — dark context -------------------------------- */
+/* Applies to the experience root itself unless that root is explicitly light,
+   and to any dark-themed island inside it. */
+[data-experience]:not([data-theme="light"]):not(.sh-theme-light),
+[data-experience] :is([data-theme="dark"], .sh-theme-dark) {
+  color-scheme: dark;
+
+  --sh-page-background: var(--shx-page-background-dark);
+  --sh-surface: var(--shx-surface-dark);
+  --sh-surface-elevated: var(--shx-surface-elevated-dark);
+  --sh-surface-raised: var(--shx-surface-raised-dark);
+  --sh-text-primary: var(--shx-text-primary-dark);
+  --sh-text-muted: var(--shx-text-muted-dark);
+  --sh-text-subtle: var(--shx-text-subtle-dark);
+  --sh-border: var(--shx-border-dark);
+  --sh-border-strong: var(--shx-border-strong-dark);
+  --sh-focus-ring: var(--shx-focus-ring-dark);
+  --sh-focus-offset: var(--shx-focus-offset-dark);
+  --sh-interactive-primary: var(--shx-interactive-primary-dark);
+  --sh-interactive-primary-hover: var(--shx-interactive-primary-hover-dark);
+  --sh-interactive-on-primary: var(--shx-interactive-on-primary-dark);
+  --sh-interactive-text: var(--shx-interactive-text-dark);
+  --sh-interactive-surface: var(--shx-interactive-surface-dark);
+  --sh-interactive-surface-hover: var(--shx-interactive-surface-hover-dark);
+  --sh-interactive-surface-active: var(--shx-interactive-surface-active-dark);
+  --sh-interactive-selected: var(--shx-interactive-selected-dark);
+  --sh-interactive-selected-hover: var(--shx-interactive-selected-hover-dark);
+  --sh-interactive-selected-border: var(--shx-interactive-selected-border-dark);
+  --sh-interactive-selected-text: var(--shx-interactive-selected-text-dark);
+  --sh-color-accent: var(--shx-accent-dark);
+  --sh-color-accent-glow: var(--shx-accent-glow-dark);
+  --sh-field-surface: var(--shx-field-surface-dark);
+  --sh-field-border: var(--shx-field-border-dark);
+  --sh-field-border-hover: var(--shx-field-border-hover-dark);
+  --sh-field-border-focus: var(--shx-interactive-selected-border-dark);
+
+  /* Compatibility aliases are re-resolved here so they follow the experience
+     even on elements that carry no `data-theme` of their own. */
+  --sh-color-ivory: var(--sh-text-primary);
+  --sh-color-cloud: var(--sh-text-muted);
+  --sh-color-mist: var(--sh-text-subtle);
+  --sh-color-sea: var(--sh-interactive-primary);
+  --sh-color-sea-deep: var(--sh-interactive-primary-hover);
+  --sh-surface-base: var(--sh-surface);
+}
+
+/* ---- 3. Semantic mapping — light context ------------------------------- */
+[data-experience]:is([data-theme="light"], .sh-theme-light),
+[data-experience] :is([data-theme="light"], .sh-theme-light) {
+  color-scheme: light;
+
+  --sh-page-background: var(--shx-page-background-light);
+  --sh-surface: var(--shx-surface-light);
+  --sh-surface-elevated: var(--shx-surface-elevated-light);
+  --sh-surface-raised: var(--shx-surface-raised-light);
+  --sh-text-primary: var(--shx-text-primary-light);
+  --sh-text-muted: var(--shx-text-muted-light);
+  --sh-text-subtle: var(--shx-text-subtle-light);
+  --sh-border: var(--shx-border-light);
+  --sh-border-strong: var(--shx-border-strong-light);
+  --sh-focus-ring: var(--shx-focus-ring-light);
+  --sh-focus-offset: var(--shx-focus-offset-light);
+  --sh-interactive-primary: var(--shx-interactive-primary-light);
+  --sh-interactive-primary-hover: var(--shx-interactive-primary-hover-light);
+  --sh-interactive-on-primary: var(--shx-interactive-on-primary-light);
+  --sh-interactive-text: var(--shx-interactive-text-light);
+  --sh-interactive-surface: var(--shx-interactive-surface-light);
+  --sh-interactive-surface-hover: var(--shx-interactive-surface-hover-light);
+  --sh-interactive-surface-active: var(--shx-interactive-surface-active-light);
+  --sh-interactive-selected: var(--shx-interactive-selected-light);
+  --sh-interactive-selected-hover: var(--shx-interactive-selected-hover-light);
+  --sh-interactive-selected-border: var(--shx-interactive-selected-border-light);
+  --sh-interactive-selected-text: var(--shx-interactive-selected-text-light);
+  --sh-color-accent: var(--shx-accent-light);
+  --sh-color-accent-glow: var(--shx-accent-glow-light);
+  --sh-field-surface: var(--shx-field-surface-light);
+  --sh-field-border: var(--shx-field-border-light);
+  --sh-field-border-hover: var(--shx-field-border-hover-light);
+  --sh-field-border-focus: var(--shx-interactive-selected-border-light);
 
   --sh-color-ivory: var(--sh-text-primary);
   --sh-color-cloud: var(--sh-text-muted);

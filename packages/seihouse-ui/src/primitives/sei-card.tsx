@@ -161,7 +161,9 @@ export function SEICardTitle({ as = "h3", className, ...props }: SEICardTitlePro
     <Component
       data-slot="card-title"
       className={cn(
-        "min-w-0 wrap-anywhere text-lg font-semibold leading-tight tracking-[-0.03em] text-current",
+        // Display voice and tracking come from tokens so an experience can set
+        // the type mood (SEN reads as editorial serif) without a new prop.
+        "min-w-0 wrap-anywhere font-[family-name:var(--sh-font-display)] text-lg font-semibold leading-tight tracking-[var(--sh-tracking-display)] text-current",
         className,
       )}
       {...props}
@@ -180,7 +182,10 @@ export function SEICardDescription({ as = "p", className, ...props }: SEICardDes
   return (
     <Component
       data-slot="card-description"
-      className={cn("wrap-anywhere text-sm leading-relaxed text-[var(--sh-text-muted)]", className)}
+      className={cn(
+        "wrap-anywhere text-sm leading-[var(--sh-leading-reading)] text-[var(--sh-text-muted)]",
+        className,
+      )}
       {...props}
     />
   );

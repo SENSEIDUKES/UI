@@ -2,7 +2,7 @@
 
 import { useEffect, type ReactNode } from "react";
 
-import { cn } from "@seihouse/ui";
+import { cn, type SEIExperience } from "@seihouse/ui";
 import { getComponentBySlug } from "@/registry/component-registry";
 import { getContextById } from "@/registry/context-registry";
 
@@ -11,6 +11,7 @@ import { canvasStyles, canvasTheme, type CanvasOption } from "./preview-config";
 interface PreviewDocumentProps {
   previewId: string;
   canvas: CanvasOption;
+  experience: SEIExperience;
   children: ReactNode;
 }
 
@@ -19,6 +20,7 @@ interface IsolatedPreviewProps {
   variant: string;
   mockIndex: number;
   canvas: CanvasOption;
+  experience: SEIExperience;
   previewId: string;
   contextId?: string;
 }
@@ -28,6 +30,7 @@ export function IsolatedPreview({
   variant,
   mockIndex,
   canvas,
+  experience,
   previewId,
   contextId,
 }: IsolatedPreviewProps) {
@@ -39,7 +42,7 @@ export function IsolatedPreview({
     if (!context || !entry.contextExamples.includes(context.id)) return null;
     const Context = context.component;
     return (
-      <PreviewDocument previewId={previewId} canvas={canvas}>
+      <PreviewDocument previewId={previewId} canvas={canvas} experience={experience}>
         <Context />
       </PreviewDocument>
     );
@@ -47,7 +50,7 @@ export function IsolatedPreview({
 
   const Preview = entry.preview;
   return (
-    <PreviewDocument previewId={previewId} canvas={canvas}>
+    <PreviewDocument previewId={previewId} canvas={canvas} experience={experience}>
       <Preview variant={variant} mockIndex={mockIndex} />
     </PreviewDocument>
   );
@@ -55,16 +58,22 @@ export function IsolatedPreview({
 
 /**
  * The root of the isolated preview document. The iframe supplies the viewport;
- * this component only supplies the selected canvas and reports content growth
- * so the workbench never hides overflow below a fixed frame height.
+ * this component supplies the selected canvas and experience, and reports
+ * content growth so the workbench never hides overflow below a fixed frame
+ * height.
  */
-export function PreviewDocument({ previewId, canvas, children }: PreviewDocumentProps) {
+export function PreviewDocument({ previewId, canvas, experience, children }: PreviewDocumentProps) {
   const theme = canvasTheme(canvas);
 
+  // Both attributes land on the preview document root, so the component under
+  // review — and anything it portals to this document's <body> — resolves the
+  // same contrast theme and experience tokens.
   useEffect(() => {
     const root = document.documentElement;
     const previousTheme = root.dataset.theme;
+    const previousExperience = root.dataset.experience;
     root.dataset.theme = theme;
+    root.dataset.experience = experience;
 
     return () => {
       if (previousTheme) {
@@ -72,8 +81,14 @@ export function PreviewDocument({ previewId, canvas, children }: PreviewDocument
       } else {
         delete root.dataset.theme;
       }
+
+      if (previousExperience) {
+        root.dataset.experience = previousExperience;
+      } else {
+        delete root.dataset.experience;
+      }
     };
-  }, [theme]);
+  }, [experience, theme]);
 
   useEffect(() => {
     let animationFrame = 0;
@@ -118,6 +133,7 @@ export function PreviewDocument({ previewId, canvas, children }: PreviewDocument
     <main
       data-testid="isolated-preview-document"
       data-theme={theme}
+      data-experience={experience}
       className={cn(
         "flex min-h-[40rem] w-full items-center justify-center p-4 text-[var(--sh-text-primary)] sm:p-8",
         canvasStyles[canvas],

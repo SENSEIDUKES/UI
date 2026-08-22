@@ -5,8 +5,16 @@ import { seiLayer } from "./layering";
 export const focusRing =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-transparent focus-visible:ring-2 focus-visible:ring-[var(--sh-focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sh-focus-offset)]";
 
+/**
+ * Shared transition for surface-level state changes.
+ *
+ * Duration and easing come from `--sh-transition-base`, so an experience
+ * (`data-experience`) can set its own motion character — snappier for SEA,
+ * calmer for SEN — without any component opting in. The reduced-motion block
+ * in tokens.css still collapses the duration globally.
+ */
 export const transitionSurface =
-  "transition-[background,border-color,box-shadow,color,opacity,transform] duration-200 ease-out";
+  "transition-[background,border-color,box-shadow,color,opacity,transform] [transition-duration:var(--sh-motion-surface-duration)] [transition-timing-function:var(--sh-motion-surface-ease)]";
 
 /**
  * Keep compact visuals while giving primary controls a 44px mobile hit area.
@@ -34,7 +42,7 @@ export const interactionStates = [
 
 export const seiButtonVariants = tv({
   base: [
-    "inline-flex touch-manipulation items-center justify-center gap-2 whitespace-nowrap rounded-full",
+    "inline-flex touch-manipulation items-center justify-center gap-2 whitespace-nowrap rounded-[var(--sh-radius-control)]",
     mobileTouchTarget,
     "font-semibold leading-none tracking-[-0.01em]",
     "disabled:pointer-events-none disabled:opacity-45",
@@ -126,8 +134,8 @@ export const seiPanelVariants = tv({
   base: [
     // min-w-0 lets the panel shrink inside flex/grid tracks so overflow-hidden
     // contains long content instead of the panel overflowing its layout.
-    "relative min-w-0 overflow-hidden rounded-[1.35rem] border",
-    "shadow-[0_24px_70px_rgba(0,0,0,0.22)]",
+    "relative min-w-0 overflow-hidden rounded-[var(--sh-radius-panel)] border",
+    "shadow-[var(--sh-elevation-panel)]",
     transitionSurface,
   ],
   variants: {
@@ -145,14 +153,14 @@ export const seiPanelVariants = tv({
         "sh-theme-dark border-[var(--sh-glass-border)] text-[var(--sh-text-primary)]",
         // Sheen gradient is an explicit background-image: a `bg-[gradient,color]`
         // list would compile to an invalid `background-color` and be dropped.
-        "[background-image:linear-gradient(165deg,rgba(255,255,255,0.075),rgba(255,255,255,0.018)_42%)]",
+        "[background-image:var(--sh-glass-sheen)]",
         // Base stays opaque enough for browsers without backdrop-filter support;
         // the translucent body is layered on behind a supports() guard.
-        "bg-[rgba(12,14,20,0.92)] supports-[backdrop-filter]:bg-[rgba(12,14,20,0.62)]",
+        "bg-[var(--sh-glass-body-opaque)] supports-[backdrop-filter]:bg-[var(--sh-glass-body)]",
         // Lighter blur on small screens, where high-DPR mobile GPUs pay the
         // most for backdrop sampling; full blur from sm up.
         "backdrop-blur-[var(--sh-blur-sm)] backdrop-saturate-150 sm:backdrop-blur-[var(--sh-blur-md)]",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),inset_0_0_0_1px_rgba(255,255,255,0.03),0_24px_70px_rgba(0,0,0,0.34)]",
+        "shadow-[var(--sh-glass-rim)]",
       ].join(" "),
       "glass-test":
         "sh-theme-dark border-[var(--sh-border)] bg-[rgba(18,20,26,0.84)] text-[var(--sh-text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl",
@@ -166,7 +174,7 @@ export const seiPanelVariants = tv({
       lg: "p-6 sm:p-8",
     },
     interactive: {
-      true: "hover:-translate-y-1 hover:border-[rgba(0,122,255,0.32)] hover:shadow-[0_32px_90px_rgba(0,0,0,0.34),0_0_38px_rgba(0,122,255,0.08)] motion-reduce:hover:translate-y-0",
+      true: "hover:-translate-y-1 hover:border-[var(--sh-hover-border)] hover:shadow-[var(--sh-elevation-hover)] motion-reduce:hover:translate-y-0",
       false: "",
     },
     /** Optional gentle rim light — pairs with the glass variant. */
@@ -188,8 +196,8 @@ export const seiCardVariants = tv({
     // flex-col lets stretched cards (equal-height grid rows) keep media on top
     // and grow the content region so trailing actions/footers can anchor with
     // mt-auto instead of pooling dead space at the bottom.
-    "group relative flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border",
-    "shadow-[0_22px_62px_rgba(0,0,0,0.24)]",
+    "group relative flex min-w-0 flex-col overflow-hidden rounded-[var(--sh-radius-card)] border",
+    "shadow-[var(--sh-elevation-card)]",
     transitionSurface,
   ],
   variants: {
@@ -219,7 +227,7 @@ export const seiCardVariants = tv({
       lg: "p-6",
     },
     elevateOnHover: {
-      true: "hover:-translate-y-1 hover:border-[var(--sh-card-accent-border,rgba(0,122,255,0.3))] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34),0_0_34px_var(--sh-card-accent-glow,transparent)] motion-reduce:hover:translate-y-0",
+      true: "hover:-translate-y-1 hover:border-[var(--sh-card-accent-border,var(--sh-hover-border))] hover:shadow-[0_30px_84px_rgba(0,0,0,0.34),0_0_34px_var(--sh-card-accent-glow,transparent)] motion-reduce:hover:translate-y-0",
       false: "",
     },
   },
