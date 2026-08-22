@@ -2,19 +2,20 @@
 
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
-import { X } from "lucide-react";
 import { Drawer } from "vaul";
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cn } from "../styles/cn";
-import { seiLayer } from "../styles/layering";
 import {
-  focusRing,
-  mobileTouchTarget,
-  seiOverlayVariants,
-  seiPopupSurfaceVariants,
-  transitionSurface,
-} from "../styles/variants";
+  drawerFamilySideClasses,
+  drawerFamilySizeClasses,
+  drawerFamilySlots,
+  drawerFamilyToneClasses,
+  DrawerFamilyBodyFrame,
+  DrawerFamilyCloseIcon,
+  DrawerFamilyFooterFrame,
+  DrawerFamilyHeaderFrame,
+} from "./sei-drawer-family";
 
 /**
  * SEINativeDrawer — native-feeling drawer powered by `vaul`.
@@ -31,50 +32,49 @@ import {
 
 export const seiNativeDrawerStyles = tv({
   slots: {
-    overlay: seiOverlayVariants(),
-    content: ["fixed flex flex-col outline-none", seiLayer.modal, focusRing],
+    overlay: drawerFamilySlots.overlay,
+    content: [...drawerFamilySlots.surface, "outline-none"],
     handle: "mx-auto mt-3 h-1.5 w-12 shrink-0 rounded-full bg-[var(--sh-border-strong)]",
-    header: "flex items-start justify-between gap-4 border-b border-[var(--sh-border)] px-5 py-4",
-    body: "min-h-0 flex-1 overflow-y-auto px-5 py-2 text-sm leading-relaxed text-[var(--sh-text-muted)]",
-    footer:
-      "flex flex-wrap items-center justify-end gap-2 border-t border-[var(--sh-border)] px-5 py-4 pb-[max(1rem,var(--sh-safe-bottom))]",
-    title: "text-base font-semibold tracking-[-0.02em] text-[var(--sh-text-primary)]",
-    description: "mt-1 text-sm leading-relaxed text-[var(--sh-text-muted)]",
-    close: [
-      "grid size-8 shrink-0 place-items-center rounded-full border border-[var(--sh-border)] bg-[var(--sh-interactive-surface)]",
-      mobileTouchTarget,
-      "cursor-pointer text-current/70 hover:bg-[var(--sh-interactive-surface-hover)] hover:text-current",
-      focusRing,
-      transitionSurface,
-    ],
+    header: drawerFamilySlots.header,
+    body: drawerFamilySlots.body,
+    footer: drawerFamilySlots.footer,
+    title: drawerFamilySlots.title,
+    description: drawerFamilySlots.description,
+    close: drawerFamilySlots.close,
   },
   variants: {
     side: {
       bottom: {
-        content: "inset-x-0 bottom-0 mt-24 max-h-[92vh] rounded-t-[1.5rem] border-t",
+        content: [drawerFamilySideClasses.bottom.surface, "mt-24 max-h-[92vh]"],
+        header: drawerFamilySideClasses.bottom.header,
+        body: drawerFamilySideClasses.bottom.body,
       },
       left: {
-        content: "inset-y-0 left-0 h-full w-full rounded-r-[1.35rem] border-r",
+        content: drawerFamilySideClasses.left.surface,
+        header: drawerFamilySideClasses.left.header,
+        body: drawerFamilySideClasses.left.body,
       },
       right: {
-        content: "inset-y-0 right-0 h-full w-full rounded-l-[1.35rem] border-l",
+        content: drawerFamilySideClasses.right.surface,
+        header: drawerFamilySideClasses.right.header,
+        body: drawerFamilySideClasses.right.body,
       },
     },
     tone: {
       default: {
-        content: seiPopupSurfaceVariants({ tone: "default" }),
+        content: drawerFamilyToneClasses.default,
       },
       soft: {
-        content: seiPopupSurfaceVariants({ tone: "soft" }),
+        content: drawerFamilyToneClasses.soft,
       },
       dark: {
-        content: seiPopupSurfaceVariants({ tone: "dark" }),
+        content: drawerFamilyToneClasses.dark,
       },
       light: {
-        content: seiPopupSurfaceVariants({ tone: "light" }),
+        content: drawerFamilyToneClasses.light,
       },
       "glass-test": {
-        content: seiPopupSurfaceVariants({ tone: "glass-test" }),
+        content: drawerFamilyToneClasses["glass-test"],
       },
     },
     size: {
@@ -84,9 +84,21 @@ export const seiNativeDrawerStyles = tv({
     },
   },
   compoundVariants: [
-    { side: ["left", "right"], size: "compact", class: { content: "sm:max-w-xs" } },
-    { side: ["left", "right"], size: "default", class: { content: "sm:max-w-md" } },
-    { side: ["left", "right"], size: "wide", class: { content: "sm:max-w-xl" } },
+    {
+      side: ["left", "right"],
+      size: "compact",
+      class: { content: drawerFamilySizeClasses.compact },
+    },
+    {
+      side: ["left", "right"],
+      size: "default",
+      class: { content: drawerFamilySizeClasses.default },
+    },
+    {
+      side: ["left", "right"],
+      size: "wide",
+      class: { content: drawerFamilySizeClasses.wide },
+    },
   ],
   defaultVariants: { side: "bottom", tone: "default", size: "default" },
 });
@@ -192,14 +204,18 @@ export function SEINativeDrawerHeader({
 }: SEINativeDrawerHeaderProps) {
   const styles = useNativeDrawerStyles();
   return (
-    <div className={cn(styles.header(), className)}>
-      <div className="min-w-0">{children}</div>
-      {showClose ? (
-        <Drawer.Close className={styles.close()} aria-label="Close drawer">
-          <X aria-hidden="true" className="size-4" />
-        </Drawer.Close>
-      ) : null}
-    </div>
+    <DrawerFamilyHeaderFrame
+      className={cn(styles.header(), className)}
+      closeControl={
+        showClose ? (
+          <Drawer.Close className={styles.close()} aria-label="Close drawer">
+            <DrawerFamilyCloseIcon />
+          </Drawer.Close>
+        ) : null
+      }
+    >
+      {children}
+    </DrawerFamilyHeaderFrame>
   );
 }
 
@@ -211,7 +227,11 @@ export function SEINativeDrawerBody({
   children?: ReactNode;
 }) {
   const styles = useNativeDrawerStyles();
-  return <div className={cn(styles.body(), className)}>{children}</div>;
+  return (
+    <DrawerFamilyBodyFrame className={cn(styles.body(), className)}>
+      {children}
+    </DrawerFamilyBodyFrame>
+  );
 }
 
 export function SEINativeDrawerFooter({
@@ -222,7 +242,11 @@ export function SEINativeDrawerFooter({
   children?: ReactNode;
 }) {
   const styles = useNativeDrawerStyles();
-  return <div className={cn(styles.footer(), className)}>{children}</div>;
+  return (
+    <DrawerFamilyFooterFrame className={cn(styles.footer(), className)}>
+      {children}
+    </DrawerFamilyFooterFrame>
+  );
 }
 
 export interface SEINativeDrawerTitleProps extends Omit<
