@@ -76,12 +76,7 @@ export function WorkbenchNav({ current }: { current?: string }) {
                 </span>
               ) : null}
             </SEIDrawerTrigger>
-            <SEIDrawerContent
-              side="right"
-              size="compact"
-              tone="dark"
-              className="pt-[var(--sh-safe-top)] pr-[var(--sh-safe-right)] pl-[var(--sh-safe-left)]"
-            >
+            <SEIDrawerContent side="right" size="compact" tone="dark">
               <SEIDrawerHeader>
                 <SEIDrawerTitle>Workbench navigation</SEIDrawerTitle>
                 <SEIDrawerDescription>Choose a destination.</SEIDrawerDescription>
