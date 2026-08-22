@@ -277,6 +277,10 @@ export function CardPreview({ variant }: ComponentPreviewProps) {
 }
 
 export function PanelPreview({ variant }: ComponentPreviewProps) {
+  if (variant === "glass" || variant === "glass-glow") {
+    return <PanelGlassPreview glow={variant === "glass-glow"} />;
+  }
+
   return (
     <SEIPanel
       variant={variant as React.ComponentProps<typeof SEIPanel>["variant"]}
@@ -294,8 +298,7 @@ export function PanelPreview({ variant }: ComponentPreviewProps) {
   );
 }
 
-export function GlassPanelPreview({ variant }: ComponentPreviewProps) {
-  const glow = variant === "glow";
+function PanelGlassPreview({ glow }: { glow: boolean }) {
   return (
     <div className="relative w-full max-w-2xl">
       {/* Decorative backdrop so the translucency and blur read clearly. */}
